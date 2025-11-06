@@ -1,18 +1,17 @@
 package com.arqui.accountservice.dto.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.Date;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-public class AccountResponseDTO {
+public class RechargeResultDTO {
     private Date createdAt;
-    private Boolean isPremium;
-    private Integer credits;
+    private Integer amount;
+    private boolean charged;
+    private String info;
 }

@@ -12,9 +12,8 @@ import java.util.Date;
 @Getter
 @Setter
 public class AccountRequestDTO {
-    private Long id;
     private Date createdAt;
-    private boolean isPremium;
+    private Boolean isPremium;
     private Integer credits;
-    private String paymentAccountId;
+    private Integer paymentAccountId;
 }

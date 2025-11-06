@@ -1,8 +1,11 @@
 package com.arqui.accountservice.service;
 
 import com.arqui.accountservice.dto.request.AccountRequestDTO;
+import com.arqui.accountservice.dto.request.RechargeRequestDTO;
 import com.arqui.accountservice.dto.response.AccountResponseDTO;
+import com.arqui.accountservice.dto.response.RechargeResultDTO;
 import com.arqui.accountservice.entity.Account;
+import com.arqui.accountservice.feignClients.PaymentFeignClient;
 import com.arqui.accountservice.mapper.AccountMapper;
 import com.arqui.accountservice.repository.AccountRepository;
 import org.springframework.stereotype.Service;
@@ -10,18 +13,33 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
+    private final PaymentFeignClient paymentClient;
     private final AccountMapper accountMapper;
 
-    public AccountService(AccountRepository accountRepository, AccountMapper accountMapper) {
+    public AccountService(AccountRepository accountRepository, AccountMapper accountMapper, PaymentFeignClient paymentClient) {
         this.accountRepository = accountRepository;
         this.accountMapper = accountMapper;
+        this.paymentClient = paymentClient;
     }
 
-    public AccountResponseDTO save (AccountRequestDTO accountRequestDTO) {
-        Account ac = new Account();
+    public AccountResponseDTO save (AccountRequestDTO req) {
+        Account ac = new Account(null, req.getCreatedAt(), req.getIsPremium(), 0, null, req.getPaymentAccountId());
         accountRepository.save(ac);
         AccountResponseDTO accountResponseDTO = new AccountResponseDTO();
         return accountMapper.convertFromEntity(ac);
+    }
+
+
+    public RechargeResultDTO recharge (Integer id, RechargeRequestDTO req) {
+        Account ac = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
+        RechargeResultDTO res = paymentClient.charge(ac.getPaymentAccountId(), req);
+
+        if(res.isCharged()){
+            ac.setCredits(ac.getCredits() + res.getAmount());
+            accountRepository.save(ac);
+        }
+
+        return res;
     }
 
     public AccountResponseDTO findById(Integer id) {

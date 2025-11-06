@@ -17,7 +17,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date createdAt;
-    private boolean isPremium;
+    private Boolean isPremium;
     private Integer credits;
 
     @ManyToMany
@@ -29,5 +29,5 @@ public class Account {
     )
     private Set<User> users;
 
-    private String paymentAccountId;
+    private Integer paymentAccountId;
 }

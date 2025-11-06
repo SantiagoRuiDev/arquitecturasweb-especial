@@ -15,6 +15,7 @@ public class PaymentMethod {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name; // Por ejemplo "MercadoPago"
+    private Integer owner_document; // Datos del dueño
     private String owner_firstname; // Datos del dueño
     private String owner_lastname; // Datos del dueño
     private boolean active; // El estado de la cuenta y/o metodo de pago agregado
