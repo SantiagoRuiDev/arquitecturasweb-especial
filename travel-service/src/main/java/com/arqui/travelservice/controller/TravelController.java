@@ -2,6 +2,11 @@ package com.arqui.travelservice.controller;
 
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import com.arqui.travelservice.service.TravelService;
+import com.arqui.travelservice.dto.request.TravelRequestDTO;
+import com.arqui.travelservice.dto.request.TravelEndRequestDTO;
+import com.arqui.travelservice.dto.response.TravelResponseDTO;
+import com.arqui.travelservice.dto.TravelSummaryDTO;
 
 @RestController
 @RequestMapping("/api/travels")
@@ -32,7 +37,7 @@ public class TravelController {
         return travelService.getTravelById(id);
     }
 
-    // Get all travels - resumen de estos
+    // Get all travels - resumen de estos - Entity = TravelSummaryDTO
     @GetMapping
     public List<TravelSummaryDTO> getAll() {
         return travelService.getAllTravels();
