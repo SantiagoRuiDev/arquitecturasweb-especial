@@ -23,7 +23,7 @@ public class Travel {
     private LocalDateTime endTime;
 
     private Double distanceKm;
-    private Double cost;
+    private Double cost; // Costo del viaje
 
     @Enumerated(EnumType.STRING)
     private TravelStatus status;

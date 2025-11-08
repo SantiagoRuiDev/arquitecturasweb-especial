@@ -8,7 +8,6 @@ import com.arqui.travelservice.dto.TravelSummaryDTO;
 import com.arqui.travelservice.domain.model.Travel;
 import com.arqui.travelservice.domain.model.TravelStatus;
 import com.arqui.travelservice.domain.repository.TravelRepository;
-
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -43,11 +42,12 @@ public class TravelServiceImpl implements TravelService {
         return TravelMapper.toDTO(travelRepository.save(travel));
     }
 
+    // Obtener un viaje por su ID
     @Override
     public TravelResponseDTO getTravelById(Long id) {
         return travelRepository.findById(id)
-                .map(TravelMapper::toDTO)
-                .orElseThrow(() -> new RuntimeException("Travel not found"));
+                .map(TravelMapper::toDTO) // Mapear a DTO
+                .orElseThrow(() -> new RuntimeException("La id proporcionada no corresponde a ningún viaje existente"));
     }
 
     @Override
