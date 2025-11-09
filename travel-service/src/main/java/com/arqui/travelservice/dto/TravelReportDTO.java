@@ -2,7 +2,7 @@ package com.arqui.travelservice.dto;
 
 import java.time.LocalDateTime;
 
-public class TravelSummaryDTO {
+public class TravelReportDTO {
     private Long id;
     private String userName;
     private String scooterCode;

@@ -1,12 +1,15 @@
 package com.arqui.travelservice.controller;
 
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import com.arqui.travelservice.service.TravelService;
 import com.arqui.travelservice.dto.request.TravelRequestDTO;
 import com.arqui.travelservice.dto.request.TravelEndRequestDTO;
 import com.arqui.travelservice.dto.response.TravelResponseDTO;
-import com.arqui.travelservice.dto.TravelSummaryDTO;
+import com.arqui.travelservice.dto.ScooterUsageDTO;
+import com.arqui.travelservice.dto.TravelReportDTO;
 
 @RestController
 @RequestMapping("/api/travels")
@@ -32,13 +35,13 @@ public class TravelController {
 
     // E - Consultar los viajes de un usuario en un cierto año
     @GetMapping("/users/{userId}/trips/{year}")
-    public List<TravelSummaryDTO> getUserTripsByYear(@PathVariable Long userId, @PathVariable int year) {
+    public List<TravelReportDTO> getUserTripsByYear(@PathVariable Long userId, @PathVariable int year) {
         return travelService.getUserTripsByYear(userId, year);
     }
 
     // D - Consultar los viajes en un cierto rango de tiempo
     @GetMapping("/trips")
-    public List<TravelSummaryDTO> getTripsByDateRange(@RequestParam LocalDateTime startDate, @RequestParam LocalDateTime endDate) {
+    public List<TravelReportDTO> getTripsByDateRange(@RequestParam LocalDateTime startDate, @RequestParam LocalDateTime endDate) {
         return travelService.getTripsByDateRange(startDate, endDate);
     }
 
@@ -65,7 +68,7 @@ public class TravelController {
 
     // Get all travels - resumen de estos - Entity = TravelSummaryDTO
     @GetMapping
-    public List<TravelSummaryDTO> getAll() {
+    public List<TravelReportDTO> getAll() {
         return travelService.getAllTravels();
     }
 }
