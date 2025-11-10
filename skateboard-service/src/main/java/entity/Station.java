@@ -8,7 +8,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Stopt {
+public class Station {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +18,8 @@ public class Stopt {
     private Double latitude;
     private Double lenght;
 
-    @OneToMany(mappedBy = "currentStop")
+    @OneToMany(mappedBy = "currentStation")
     private Set<Skateboard> Skateboards;
+
+
 }
