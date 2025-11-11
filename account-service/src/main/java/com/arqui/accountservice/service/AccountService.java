@@ -1,8 +1,10 @@
 package com.arqui.accountservice.service;
 
 import com.arqui.accountservice.dto.request.AccountRequestDTO;
+import com.arqui.accountservice.dto.request.DiscountRequestDTO;
 import com.arqui.accountservice.dto.request.RechargeRequestDTO;
 import com.arqui.accountservice.dto.response.AccountResponseDTO;
+import com.arqui.accountservice.dto.response.DiscountResultDTO;
 import com.arqui.accountservice.dto.response.RechargeResultDTO;
 import com.arqui.accountservice.entity.Account;
 import com.arqui.accountservice.feignClients.PaymentFeignClient;
@@ -40,6 +42,37 @@ public class AccountService {
             ac.setCredits(ac.getCredits() + res.getAmount());
             accountRepository.save(ac);
         }
+
+        return res;
+    }
+
+    @Transactional
+    public DiscountResultDTO discount (Integer id, DiscountRequestDTO req) {
+        Account ac = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
+        DiscountResultDTO res = new DiscountResultDTO();
+
+        if(ac.getCredits() > req.getAmount()){
+            ac.setCredits(ac.getCredits() - req.getAmount());
+            accountRepository.save(ac);
+        } else {
+            RechargeRequestDTO dto = new RechargeRequestDTO();
+            dto.setAmount(req.getAmount());
+            RechargeResultDTO recharge = paymentClient.charge(ac.getPaymentAccountId(), dto);
+
+            if(recharge.isCharged()){
+                ac.setCredits(ac.getCredits() + res.getAmount());
+                ac.setCredits(ac.getCredits() - res.getAmount());
+                accountRepository.save(ac);
+            } else {
+                res.setDiscounted(false);
+                res.setAmount(req.getAmount());
+                res.setInfo("No se pudo descontar la cantidad de creditos " + req.getAmount() + " correctamente.");
+            }
+        }
+
+        res.setDiscounted(true);
+        res.setAmount(req.getAmount());
+        res.setInfo("Se le desconto la cantidad de creditos " + req.getAmount() + " correctamente.");
 
         return res;
     }

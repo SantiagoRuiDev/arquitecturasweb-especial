@@ -1,8 +1,10 @@
 package com.arqui.accountservice.controller;
 
 import com.arqui.accountservice.dto.request.AccountRequestDTO;
+import com.arqui.accountservice.dto.request.DiscountRequestDTO;
 import com.arqui.accountservice.dto.request.RechargeRequestDTO;
 import com.arqui.accountservice.dto.response.AccountResponseDTO;
+import com.arqui.accountservice.dto.response.DiscountResultDTO;
 import com.arqui.accountservice.dto.response.RechargeResultDTO;
 import com.arqui.accountservice.dto.response.UserResponseDTO;
 import com.arqui.accountservice.service.AccountService;
@@ -28,6 +30,11 @@ public class AccountController {
     @PostMapping("/{id}/recharge")
     public ResponseEntity<RechargeResultDTO> recharge(@PathVariable Integer id, @RequestBody RechargeRequestDTO req) {
         RechargeResultDTO res =  accountService.recharge(id, req);
+        return ResponseEntity.ok().body(res);
+    }
+    @PostMapping("/{id}/discount")
+    public ResponseEntity<DiscountResultDTO> discount(@PathVariable Integer id, @RequestBody DiscountRequestDTO req) {
+        DiscountResultDTO res =  accountService.discount(id, req);
         return ResponseEntity.ok().body(res);
     }
 
