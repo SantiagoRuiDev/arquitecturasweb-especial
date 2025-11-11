@@ -29,8 +29,12 @@ public class Skateboard {
     private SkateboardStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "stop_id")
-    private Stopt currentStop;
+    @JoinColumn(name = "station_id")
+    private Station currentStation;
 
-    private LocalDateTime lastActualitation;
+    private LocalDateTime lastUpdate;
+
+    @ManyToOne
+    @JoinColumn(name = "station_id")
+    private Station station;
 }

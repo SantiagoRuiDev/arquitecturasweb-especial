@@ -15,6 +15,10 @@ public interface SkateboardRepository  extends JpaRepository<Skateboard,Long> {
 
    List<Skateboard> findByInMaintenance();
 
+   List<Skateboard> findByTotalKm(double minKm);
+
+   List<Skateboard> findById();
+
     @Query("SELECT * FROM Skateboard sk " +
             "WHERE sk.totalKm = :km ")
     List<Skateboard> findByTotalKm(@Param("km") Integer km);

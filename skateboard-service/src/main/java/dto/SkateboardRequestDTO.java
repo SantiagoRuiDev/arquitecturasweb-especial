@@ -15,6 +15,6 @@ public class SkateboardRequestDTO {
     private boolean inMaintenance;
     private Double latitude;
     private Double lenght;
-    private Long stopId;
-    private LocalDateTime lastActualitation;
+    private Long stationId;
+    private LocalDateTime lastUpdate;
 }
