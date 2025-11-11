@@ -1,7 +1,7 @@
 package com.arqui.skateboardservice.controller;
 
-import com.arqui.skateboardservice.dto.SkateboardRequestDTO;
-import com.arqui.skateboardservice.dto.SkateboardResponseDTO;
+import com.arqui.skateboardservice.dto.request.SkateboardRequestDTO;
+import com.arqui.skateboardservice.dto.response.SkateboardResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

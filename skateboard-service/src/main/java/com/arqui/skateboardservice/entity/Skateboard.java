@@ -23,7 +23,7 @@ public class Skateboard {
     private boolean inMaintenance;
 
     private Double latitude;
-    private Double lenght;
+    private Double longitude;
 
     @Enumerated(EnumType.STRING)
     private SkateboardStatus status;

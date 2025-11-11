@@ -1,4 +1,4 @@
-package com.arqui.skateboardservice.dto;
+package com.arqui.skateboardservice.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,9 +16,9 @@ public class SkateboardResponseDTO {
     private Double usedTime;
     private boolean available;
     private boolean inMaintenance;
-    private String stationName;
+    private Long stationId;
     private Double latitude;
-    private Double lenght;
+    private Double longitude;
     private String status;
     private LocalDateTime lastUpdate;
 }

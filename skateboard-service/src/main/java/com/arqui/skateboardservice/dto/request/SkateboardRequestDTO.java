@@ -1,4 +1,4 @@
-package com.arqui.skateboardservice.dto;
+package com.arqui.skateboardservice.dto.request;
 
 
 import lombok.*;
@@ -14,7 +14,7 @@ public class SkateboardRequestDTO {
     private boolean available;
     private boolean inMaintenance;
     private Double latitude;
-    private Double lenght;
+    private Double longitude;
     private Long stationId;
     private LocalDateTime lastUpdate;
 }

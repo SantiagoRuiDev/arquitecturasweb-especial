@@ -1,7 +1,7 @@
 package com.arqui.skateboardservice.mapper;
 
-import com.arqui.skateboardservice.dto.SkateboardRequestDTO;
-import com.arqui.skateboardservice.dto.SkateboardResponseDTO;
+import com.arqui.skateboardservice.dto.request.SkateboardRequestDTO;
+import com.arqui.skateboardservice.dto.response.SkateboardResponseDTO;
 import com.arqui.skateboardservice.entity.Skateboard;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +19,9 @@ public class ScooterMapper {
                 entity.getUsedTime(),
                 entity.isAvailable(),
                 entity.isInMaintenance(),
-                entity.getCurrentStation() != null ? entity.getCurrentStation().getName() : null,
+                entity.getStationId(),
                 entity.getLatitude(),
-                entity.getLenght(),
+                entity.getLongitude(),
                 entity.getStatus().name(),
                 entity.getLastUpdate()
         );
