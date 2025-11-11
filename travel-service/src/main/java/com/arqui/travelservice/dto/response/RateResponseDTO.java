@@ -1,4 +1,4 @@
-package com.arqui.rateservice.dto;
+package com.arqui.travelservice.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.arqui.rateservice.controller;
 
-import com.arqui.rateservice.dto.RateReponseDTO;
+import com.arqui.rateservice.dto.RateResponseDTO;
 import com.arqui.rateservice.service.RateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ public class RateController {
     }
 
     @GetMapping("")
-    public ResponseEntity<RateReponseDTO> fetchActualRate () {
+    public ResponseEntity<RateResponseDTO> fetchActualRate () {
         return ResponseEntity.ok(rateService.fetchActualRate());
     }
 }

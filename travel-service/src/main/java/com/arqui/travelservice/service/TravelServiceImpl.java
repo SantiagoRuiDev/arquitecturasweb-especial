@@ -3,8 +3,9 @@ package com.arqui.travelservice.service;
 import com.arqui.travelservice.dto.request.TravelRequestDTO;
 import com.arqui.travelservice.dto.request.TravelEndRequestDTO;
 import com.arqui.travelservice.dto.response.TravelResponseDTO;
+import com.arqui.travelservice.feignClient.AccountClient;
 import com.arqui.travelservice.feignClient.ScooterClient;
-import com.arqui.travelservice.feignClient.UserClient;
+import com.arqui.travelservice.feignClient.RateClient;
 import com.arqui.travelservice.mapper.TravelMapper;
 import com.arqui.travelservice.dto.ScooterUsageDTO;
 import com.arqui.travelservice.dto.TravelReportDTO;
@@ -20,13 +21,15 @@ import java.util.List;
 public class TravelServiceImpl implements TravelService {
 
     private final TravelRepository travelRepository;
-    private final UserClient userClient;
+    private final AccountClient accountClient;
     private final ScooterClient scooterClient;
+    private final RateClient rateClient;
 
-    public TravelServiceImpl(TravelRepository travelRepository, UserClient userClient, ScooterClient scooterClient) {
+    public TravelServiceImpl(TravelRepository travelRepository, AccountClient accountClient, ScooterClient scooterClient, RateClient rateClient) {
         this.travelRepository = travelRepository;
-        this.userClient = userClient;
+        this.accountClient = accountClient;
         this.scooterClient = scooterClient;
+        this.rateClient = rateClient;
     }
 
     // A - reporte de uso por KM / pausas
