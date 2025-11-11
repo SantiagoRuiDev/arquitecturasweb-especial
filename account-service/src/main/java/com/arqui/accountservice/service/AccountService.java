@@ -9,6 +9,7 @@ import com.arqui.accountservice.feignClients.PaymentFeignClient;
 import com.arqui.accountservice.mapper.AccountMapper;
 import com.arqui.accountservice.repository.AccountRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AccountService {
@@ -30,6 +31,7 @@ public class AccountService {
     }
 
 
+    @Transactional
     public RechargeResultDTO recharge (Integer id, RechargeRequestDTO req) {
         Account ac = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
         RechargeResultDTO res = paymentClient.charge(ac.getPaymentAccountId(), req);

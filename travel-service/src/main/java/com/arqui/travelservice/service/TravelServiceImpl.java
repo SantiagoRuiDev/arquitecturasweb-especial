@@ -3,8 +3,8 @@ package com.arqui.travelservice.service;
 import com.arqui.travelservice.dto.request.TravelRequestDTO;
 import com.arqui.travelservice.dto.request.TravelEndRequestDTO;
 import com.arqui.travelservice.dto.response.TravelResponseDTO;
-import com.arqui.travelservice.feingClient.ScooterClient;
-import com.arqui.travelservice.feingClient.UserClient;
+import com.arqui.travelservice.feignClient.ScooterClient;
+import com.arqui.travelservice.feignClient.UserClient;
 import com.arqui.travelservice.mapper.TravelMapper;
 import com.arqui.travelservice.dto.ScooterUsageDTO;
 import com.arqui.travelservice.dto.TravelReportDTO;
@@ -59,7 +59,7 @@ public class TravelServiceImpl implements TravelService {
 
         
         if (userId == null || year <= 0) {
-            throw new IllegalArgumentException("User ID and year must be provided");
+            throw new IllegalArgumentException("Debes proporcionar un ID de usuario o un año mayor a 0");
         }
         return travelRepository.findUserTripsByYear(userId, year);
     }
@@ -81,7 +81,7 @@ public class TravelServiceImpl implements TravelService {
     @Override
     public TravelResponseDTO endTravel(TravelEndRequestDTO request) {
         Travel travel = travelRepository.findById(request.getTravelId())
-                .orElseThrow(() -> new RuntimeException("Travel not found"));
+                .orElseThrow(() -> new RuntimeException("Viaje no encontrado"));
 
         travel.setEndStopId(request.getEndStopId());
         travel.setEndTime(request.getEndTime());
