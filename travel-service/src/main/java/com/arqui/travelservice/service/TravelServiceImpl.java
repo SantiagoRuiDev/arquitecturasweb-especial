@@ -1,7 +1,10 @@
 package com.arqui.travelservice.service;
 
 import com.arqui.travelservice.dto.request.TravelRequestDTO;
+import com.arqui.travelservice.dto.request.DiscountRequestDTO;
 import com.arqui.travelservice.dto.request.TravelEndRequestDTO;
+import com.arqui.travelservice.dto.response.DiscountResultDTO;
+import com.arqui.travelservice.dto.response.RateResponseDTO;
 import com.arqui.travelservice.dto.response.TravelResponseDTO;
 import com.arqui.travelservice.feignClient.AccountClient;
 import com.arqui.travelservice.feignClient.ScooterClient;
@@ -81,6 +84,8 @@ public class TravelServiceImpl implements TravelService {
         return TravelMapper.toDTO(travelRepository.save(travel));
     }
 
+
+    // Terminar el travel
     @Override
     public TravelResponseDTO endTravel(TravelEndRequestDTO request) {
         Travel travel = travelRepository.findById(request.getTravelId())
@@ -91,11 +96,25 @@ public class TravelServiceImpl implements TravelService {
         travel.setDistanceKm(request.getDistanceKm());
         travel.setStatus(TravelStatus.FINISHED);
 
-        // Lógica de cálculo de costo (simplificada)
-        travel.setCost(request.getDistanceKm() * 10.0);
+        // Obtener tarifa actual desde rate service usando el rate client
+        RateResponseDTO rateResponse = rateClient.fetchActualRate();
 
-        return TravelMapper.toDTO(travelRepository.save(travel));
+        // Calcular costo
+        Double travelCost = request.getDistanceKm() * rateResponse.getRate();
+        travel.setCost(travelCost);
+
+        // Descontar el costo del viaje de la cuenta del usuario usando el account client
+        DiscountRequestDTO discountReq = new DiscountRequestDTO((int)Math.ceil(travelCost));
+        DiscountResultDTO discountResult = accountClient.discount(Math.toIntExact(travel.getUserId()), discountReq);
+
+        if (discountResult == null) {
+            throw new RuntimeException("No se pudo aplicar el descuento en la cuenta del usuario.");
+        }
+
+        Travel saved = travelRepository.save(travel);
+        return TravelMapper.toDTO(saved);
     }
+
 
     // Obtener un viaje por su ID
     @Override
