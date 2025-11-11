@@ -78,7 +78,6 @@ public class SkateboardService {
                 .orElseThrow(() -> new EntityNotFoundException("Skateboard not found"));
         Station station = stationRepository.findById(stationId)
                 .orElseThrow(() -> new EntityNotFoundException("Station not found"));
-        skateboard.setStation(station);
         skateboard.setStatus(SkateboardStatus.AT_STATION);
         skateboard.setAvailable(true);
         skateboardRepository.save(skateboard);

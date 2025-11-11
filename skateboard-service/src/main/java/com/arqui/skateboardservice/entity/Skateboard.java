@@ -28,13 +28,7 @@ public class Skateboard {
     @Enumerated(EnumType.STRING)
     private SkateboardStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = "station_id")
-    private Station currentStation;
+    private Long stationId;
 
     private LocalDateTime lastUpdate;
-
-    @ManyToOne
-    @JoinColumn(name = "station_id")
-    private Station station;
 }

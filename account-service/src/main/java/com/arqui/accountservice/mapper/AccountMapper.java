@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccountMapper {
     public static Account convertFromDTO(AccountRequestDTO dto){
-        return new Account(dto.getId(), dto.getCreatedAt(), dto.getIsPremium(), dto.getCredits(), null, dto.getPaymentAccountId());
+        return new Account();
     }
 
     public AccountResponseDTO convertFromEntity(Account entity){
