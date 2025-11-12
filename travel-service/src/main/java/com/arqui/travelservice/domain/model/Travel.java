@@ -18,6 +18,8 @@ public class Travel {
     private Long scooterId;
     private Long startStopId;
     private Long endStopId;
+    private Long userType;
+
 
     private LocalDateTime startTime;
     private LocalDateTime endTime;
@@ -30,6 +32,14 @@ public class Travel {
 
     @OneToMany(mappedBy = "travel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pause> pauses = new ArrayList<>();
+
+    public Long getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Long userType) {
+        this.userType = userType;
+    }
 
     public Long getId() {
         return id;

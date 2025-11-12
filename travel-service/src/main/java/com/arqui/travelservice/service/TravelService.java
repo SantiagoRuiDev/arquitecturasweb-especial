@@ -13,12 +13,10 @@ public interface TravelService {
     TravelResponseDTO endTravel(TravelEndRequestDTO request);
     TravelResponseDTO getTravelById(Long id);
     List<TravelReportDTO> getAllTravels();
-    // A - reporte de uso por KM / pausas
-    TravelReportDTO getTravelReport(Long id);
+
     // C - Consultar los monopatines con mas de X viajes en un cierto año
     List<ScooterUsageDTO> getTopScooters(int year, int minTrips);
-    // E - Consultar los viajes de un usuario en un cierto año
-    List<TravelReportDTO> getUserTripsByYear(Long userId, int year);
-    // D - Consultar los viajes en un cierto rango de tiempo
-    List<TravelReportDTO> getTripsByDateRange(LocalDateTime startDate, LocalDateTime endDate);
+
+    // E - Ver los usuarios que más utilizan los monopatines, filtrado por período y por tipo de usuario
+    List<TravelReportDTO> getUserTripsByPeriodAndType(LocalDateTime startDate, LocalDateTime endDate, Long userType);
 }

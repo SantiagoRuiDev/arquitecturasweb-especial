@@ -35,22 +35,6 @@ public class TravelServiceImpl implements TravelService {
         this.rateClient = rateClient;
     }
 
-    // A - reporte de uso por KM / pausas
-    @Override
-    public TravelReportDTO getTravelReport(Long id) {
-        // Implementación del reporte de uso por KM / pausas
-        return travelRepository.findById(id)
-                .map(travel -> {
-                    TravelReportDTO report = new TravelReportDTO();
-                    report.setId(travel.getId());
-                    report.setDistanceKm(travel.getDistanceKm());
-                    // Hay que checkear lo de las paussas
-                    // report.setPauseCount(travel.getPauseCount());
-                    return report;
-                })
-                .orElseThrow(() -> new RuntimeException("Travel not found"));
-    }
-
     // C - Consultar los monopatines con mas de X viajes en un cierto año
     @Override
     public List<ScooterUsageDTO> getTopScooters(int year, int minTrips) {
@@ -58,29 +42,24 @@ public class TravelServiceImpl implements TravelService {
         return travelRepository.findTopScooters(year, minTrips);
     }
 
-    // E - Consultar los viajes de un usuario en un cierto año
+    // E - Ver los usuarios que más utilizan los monopatines, filtrado por período y por tipo de usuario
     @Override
-    public List<TravelReportDTO> getUserTripsByYear(Long userId, int year) {
-        // Implementación de la consulta de los viajes de un usuario en un cierto año
-
-        
-        if (userId == null || year <= 0) {
-            throw new IllegalArgumentException("Debes proporcionar un ID de usuario o un año mayor a 0");
-        }
-        return travelRepository.findUserTripsByYear(userId, year);
-    }
-
-    // D - Consultar los viajes en un cierto rango de tiempo
-    @Override
-    public List<TravelReportDTO> getTripsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
-        // Implementación de la consulta de los viajes en un cierto rango de tiempo
-        return travelRepository.findTripsByDateRange(startDate, endDate);
+    public List<TravelReportDTO> getUserTripsByPeriodAndType(LocalDateTime startDate, LocalDateTime endDate, Long userType) {
+        return travelRepository.findUserTripsByPeriodAndType(startDate, endDate, userType);
     }
 
     /* -------------------------------------------------------------------------------------------------------- */
+    
     @Override
     public TravelResponseDTO startTravel(TravelRequestDTO request) {
         Travel travel = TravelMapper.fromRequestDTO(request);
+
+        // Validar que el usuario y el scooter existen usando los clientes feign
+        if(accountClient.getUserById(travel.getUserId()) == null || scooterClient.getScooterById(travel.getScooterId()) == null) {
+            throw new RuntimeException("Usuario no encontrado en el account service");
+        }
+
+        travel.setStatus(TravelStatus.STARTED);
         return TravelMapper.toDTO(travelRepository.save(travel));
     }
 

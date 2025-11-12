@@ -21,28 +21,16 @@ public class TravelController {
         this.travelService = travelService;
     }
 
-    // A - reporte de uso por KM / pausas
-    @GetMapping("/report/{id}")
-    public TravelReportDTO getTravelReport(@PathVariable Long id) {
-        return travelService.getTravelReport(id);
-    }
-
     // C - Consultar los monopatines con mas de X viajes en un cierto año
     @GetMapping("/scooters/top/{year}/{minTrips}")
     public List<ScooterUsageDTO> getTopScooters(@PathVariable int year, @PathVariable int minTrips) {
         return travelService.getTopScooters(year, minTrips);
     }
 
-    // E - Consultar los viajes de un usuario en un cierto año
-    @GetMapping("/users/{userId}/trips/{year}")
-    public List<TravelReportDTO> getUserTripsByYear(@PathVariable Long userId, @PathVariable int year) {
-        return travelService.getUserTripsByYear(userId, year);
-    }
-
-    // D - Consultar los viajes en un cierto rango de tiempo
-    @GetMapping("/trips")
-    public List<TravelReportDTO> getTripsByDateRange(@RequestParam LocalDateTime startDate, @RequestParam LocalDateTime endDate) {
-        return travelService.getTripsByDateRange(startDate, endDate);
+    // E - Ver los usuarios que más utilizan los monopatines, filtrado por período y por tipo de usuario
+    @GetMapping("/users/{startDate}/{endDate}/{userType}")
+    public List<TravelReportDTO> getUserTripsByPeriodAndType(@PathVariable LocalDateTime startDate, @PathVariable LocalDateTime endDate, @PathVariable Long userType) {
+        return travelService.getUserTripsByPeriodAndType(startDate, endDate, userType);
     }
 
     /* -------------------------------------------------------------------------------------------------------- */

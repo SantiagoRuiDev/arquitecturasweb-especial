@@ -10,9 +10,15 @@ public class TravelRequestDTO {
     private Long scooterId;           // Monopatín escaneado por qr
     private Long startStopId;         // Parada donde se inicia el viaje (Hay q ver si se cambia)
     private LocalDateTime startTime;  // Puede asignarse automáticamente en el backend
-
+    private Long userType;          // Tipo de usuario
     // Getters y Setters
 
+    public Long getUserType() {
+        return userType;
+    }
+    public void setUserType(Long userType) {
+        this.userType = userType;
+    }
     public Long getAccountId() {
         return accountId;
     }
