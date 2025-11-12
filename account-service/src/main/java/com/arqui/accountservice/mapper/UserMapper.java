@@ -9,6 +9,7 @@ public class UserMapper {
 
     public UserResponseDTO convertFromEntity(User entity){
         UserResponseDTO dto = new UserResponseDTO();
+        dto.setUsername(entity.getUsername());
         dto.setFirstname(entity.getFirstname());
         dto.setLastname(entity.getLastname());
         dto.setEmail(entity.getEmail());

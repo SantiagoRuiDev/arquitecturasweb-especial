@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
-@FeignClient(name="station", url="http://localhost:8003/stations")
+@FeignClient(name="station-service")
 public interface StationFeignClient {
     @GetMapping("/{id}")
     StationResponseDTO findById(@PathVariable Long id);

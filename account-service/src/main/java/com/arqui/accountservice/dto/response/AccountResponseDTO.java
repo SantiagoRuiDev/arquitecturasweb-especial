@@ -1,5 +1,6 @@
 package com.arqui.accountservice.dto.response;
 
+import com.arqui.accountservice.entity.AccountType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,6 @@ import java.util.Date;
 @Setter
 public class AccountResponseDTO {
     private Date createdAt;
-    private Boolean isPremium;
+    private AccountType type;
     private Double credits;
 }

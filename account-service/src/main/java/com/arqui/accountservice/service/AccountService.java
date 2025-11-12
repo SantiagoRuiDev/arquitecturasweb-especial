@@ -3,16 +3,19 @@ package com.arqui.accountservice.service;
 import com.arqui.accountservice.dto.request.AccountRequestDTO;
 import com.arqui.accountservice.dto.request.DiscountRequestDTO;
 import com.arqui.accountservice.dto.request.RechargeRequestDTO;
+import com.arqui.accountservice.dto.request.StatusUpdateRequestDTO;
 import com.arqui.accountservice.dto.response.AccountResponseDTO;
 import com.arqui.accountservice.dto.response.DiscountResultDTO;
 import com.arqui.accountservice.dto.response.RechargeResultDTO;
 import com.arqui.accountservice.entity.Account;
+import com.arqui.accountservice.entity.AccountType;
 import com.arqui.accountservice.feignClients.PaymentFeignClient;
 import com.arqui.accountservice.mapper.AccountMapper;
 import com.arqui.accountservice.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,9 +31,21 @@ public class AccountService {
     }
 
     public AccountResponseDTO save (AccountRequestDTO req) {
-        Account ac = new Account(null, null, req.getType(), 0.00, true, null, req.getPaymentAccountId());
+        Account ac = new Account();
+
+        if(req.getPaymentMethodId() == null){
+            throw new IllegalArgumentException("El campo paymentMethodId es obligatorio");
+        }
+        if(req.getType() != AccountType.BASIC && req.getType() != AccountType.PREMIUM){
+            throw  new IllegalArgumentException("El campo type es obligatorio");
+        }
+
+        ac.setActive(true);
+        ac.setType(req.getType());
+        ac.setCredits(0.00);
+        ac.setPaymentMethodId(req.getPaymentMethodId());
+        ac.setCreatedAt(new Date());
         accountRepository.save(ac);
-        AccountResponseDTO accountResponseDTO = new AccountResponseDTO();
         return accountMapper.convertFromEntity(ac);
     }
 
@@ -38,7 +53,7 @@ public class AccountService {
     @Transactional
     public RechargeResultDTO recharge (Long id, RechargeRequestDTO req) {
         Account ac = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
-        RechargeResultDTO res = paymentClient.charge(ac.getPaymentAccountId(), req);
+        RechargeResultDTO res = paymentClient.charge(ac.getPaymentMethodId(), req);
 
         if(res.isCharged()){
             ac.setCredits(ac.getCredits() + res.getAmount());
@@ -59,7 +74,7 @@ public class AccountService {
         } else {
             RechargeRequestDTO dto = new RechargeRequestDTO();
             dto.setAmount(req.getAmount());
-            RechargeResultDTO recharge = paymentClient.charge(ac.getPaymentAccountId(), dto);
+            RechargeResultDTO recharge = paymentClient.charge(ac.getPaymentMethodId(), dto);
 
             if(recharge.isCharged()){
                 ac.setCredits(ac.getCredits() + res.getAmount());
@@ -79,9 +94,9 @@ public class AccountService {
         return res;
     }
 
-    public AccountResponseDTO setStatus(Long id, Boolean status) {
+    public AccountResponseDTO setStatus(Long id, StatusUpdateRequestDTO req) {
         Account ac = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
-        ac.setActive(status);
+        ac.setActive(req.isStatus());
         accountRepository.save(ac);
 
         return accountMapper.convertFromEntity(ac);

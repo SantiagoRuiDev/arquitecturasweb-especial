@@ -45,9 +45,13 @@ public class PaymentService {
 
         if(pm.getFunds() > 0 && req.getAmount() < pm.getFunds()) {
             pm.setFunds(pm.getFunds() - req.getAmount());
-            paymentMethodRepository.save(pm);
-            PaymentBill bill =  new PaymentBill(null, req.getAmount(), null, pm);
+            PaymentBill bill =  new PaymentBill();
+            bill.setPaymentMethod(pm);
+            bill.setTotal(req.getAmount());
+            bill.setIssueDate(new Date());
             paymentBillRepository.save(bill);
+            paymentMethodRepository.save(pm);
+            res.setCreatedAt(new Date());
             res.setCharged(true);
             res.setInfo("Cobro efectuado efectivamente a traves de " + pm.getName());
         } else {

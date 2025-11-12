@@ -14,5 +14,5 @@ import java.util.Date;
 @Setter
 public class AccountRequestDTO {
     private AccountType type;
-    private Long paymentAccountId;
+    private Long paymentMethodId;
 }

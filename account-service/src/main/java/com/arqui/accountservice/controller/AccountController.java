@@ -3,6 +3,7 @@ package com.arqui.accountservice.controller;
 import com.arqui.accountservice.dto.request.AccountRequestDTO;
 import com.arqui.accountservice.dto.request.DiscountRequestDTO;
 import com.arqui.accountservice.dto.request.RechargeRequestDTO;
+import com.arqui.accountservice.dto.request.StatusUpdateRequestDTO;
 import com.arqui.accountservice.dto.response.AccountResponseDTO;
 import com.arqui.accountservice.dto.response.DiscountResultDTO;
 import com.arqui.accountservice.dto.response.RechargeResultDTO;
@@ -52,8 +53,8 @@ public class AccountController {
     // (B) Como administrador quiero poder anular cuentas de usuarios, para inhabilitar el uso
     // momentáneo de la aplicación.
     @PutMapping("/set-status/{id}")
-    public ResponseEntity<AccountResponseDTO> setStatus(@PathVariable Long id, @RequestBody Boolean status) {
-        AccountResponseDTO res = accountService.setStatus(id, status);
+    public ResponseEntity<AccountResponseDTO> setStatus(@PathVariable Long id, @RequestBody StatusUpdateRequestDTO dto) {
+        AccountResponseDTO res = accountService.setStatus(id, dto);
         return ResponseEntity.ok().body(res);
     }
 

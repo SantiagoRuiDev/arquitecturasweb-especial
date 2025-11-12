@@ -10,7 +10,7 @@ import com.arqui.skateboardservice.service.SkateboardService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/skateboards")
+@RequestMapping("/api/skateboards")
 public class SkateboardController {
 
     @Autowired
