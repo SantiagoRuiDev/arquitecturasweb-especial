@@ -18,7 +18,7 @@ public class Account {
     private Long id;
     private Date createdAt;
     private Boolean isPremium;
-    private Integer credits;
+    private Double credits;
 
     @ManyToMany
     // Tabla intermedia
@@ -29,5 +29,5 @@ public class Account {
     )
     private Set<User> users;
 
-    private Integer paymentAccountId;
+    private Long paymentAccountId;
 }

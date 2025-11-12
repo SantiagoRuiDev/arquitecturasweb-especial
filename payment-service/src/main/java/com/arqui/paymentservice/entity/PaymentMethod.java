@@ -19,5 +19,5 @@ public class PaymentMethod {
     private String owner_firstname; // Datos del dueño
     private String owner_lastname; // Datos del dueño
     private boolean active; // El estado de la cuenta y/o metodo de pago agregado
-    private Integer funds; // Seria el saldo de la cuenta, lo usamos para simular debitos y cobros (NO SON LOS CREDITOS)
+    private Double funds; // Seria el saldo de la cuenta, lo usamos para simular debitos y cobros (NO SON LOS CREDITOS)
 }

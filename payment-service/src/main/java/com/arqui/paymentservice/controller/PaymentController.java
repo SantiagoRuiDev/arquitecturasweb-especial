@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/payment-method")
+@RequestMapping("/api/payments")
 public class PaymentController {
     @Autowired
     private PaymentService paymentService;
@@ -22,19 +22,19 @@ public class PaymentController {
     }
 
     @PostMapping("/charge/{id}")
-    public ResponseEntity<PaymentChargeResultDTO> charge (@PathVariable Integer id, @RequestBody PaymentChargeRequestDTO req) {
+    public ResponseEntity<PaymentChargeResultDTO> charge (@PathVariable Long id, @RequestBody PaymentChargeRequestDTO req) {
         PaymentChargeResultDTO res =  paymentService.charge(id, req);
         return ResponseEntity.ok(res);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PaymentMethodResponseDTO> findById (@PathVariable Integer id) {
+    public ResponseEntity<PaymentMethodResponseDTO> findById (@PathVariable Long id) {
         PaymentMethodResponseDTO res =  paymentService.findById(id);
         return ResponseEntity.ok(res);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete (@PathVariable Integer id) {
+    public ResponseEntity<Void> delete (@PathVariable Long id) {
         boolean deleted =  paymentService.delete(id);
         if(deleted){
             return ResponseEntity.noContent().build();

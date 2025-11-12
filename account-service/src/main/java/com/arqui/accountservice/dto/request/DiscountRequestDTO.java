@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DiscountRequestDTO {
-    private Integer amount;
+    private Double amount;
 }

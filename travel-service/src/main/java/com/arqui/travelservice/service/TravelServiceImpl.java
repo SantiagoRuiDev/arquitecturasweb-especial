@@ -104,8 +104,8 @@ public class TravelServiceImpl implements TravelService {
         travel.setCost(travelCost);
 
         // Descontar el costo del viaje de la cuenta del usuario usando el account client
-        DiscountRequestDTO discountReq = new DiscountRequestDTO((int)Math.ceil(travelCost));
-        DiscountResultDTO discountResult = accountClient.discount(Math.toIntExact(travel.getUserId()), discountReq);
+        DiscountRequestDTO discountReq = new DiscountRequestDTO(travelCost);
+        DiscountResultDTO discountResult = accountClient.discount(travel.getUserId(), discountReq);
 
         if (discountResult == null) {
             throw new RuntimeException("No se pudo aplicar el descuento en la cuenta del usuario.");

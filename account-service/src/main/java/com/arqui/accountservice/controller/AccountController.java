@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/account")
+@RequestMapping("/api/accounts")
 public class AccountController {
     @Autowired
     private AccountService accountService;
@@ -28,30 +28,30 @@ public class AccountController {
     }
 
     @PostMapping("/{id}/recharge")
-    public ResponseEntity<RechargeResultDTO> recharge(@PathVariable Integer id, @RequestBody RechargeRequestDTO req) {
+    public ResponseEntity<RechargeResultDTO> recharge(@PathVariable Long id, @RequestBody RechargeRequestDTO req) {
         RechargeResultDTO res =  accountService.recharge(id, req);
         return ResponseEntity.ok().body(res);
     }
     @PostMapping("/{id}/discount")
-    public ResponseEntity<DiscountResultDTO> discount(@PathVariable Integer id, @RequestBody DiscountRequestDTO req) {
+    public ResponseEntity<DiscountResultDTO> discount(@PathVariable Long id, @RequestBody DiscountRequestDTO req) {
         DiscountResultDTO res =  accountService.discount(id, req);
         return ResponseEntity.ok().body(res);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AccountResponseDTO> findById(@PathVariable Integer id) {
+    public ResponseEntity<AccountResponseDTO> findById(@PathVariable Long id) {
         AccountResponseDTO res = accountService.findById(id);
         return ResponseEntity.ok().body(res);
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<UserResponseDTO> findUserById(@PathVariable Integer id) {
+    public ResponseEntity<UserResponseDTO> findUserById(@PathVariable Long id) {
         UserResponseDTO res = userService.findById(id);
         return ResponseEntity.ok().body(res);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         boolean res = accountService.delete(id);
         if(res){
             return ResponseEntity.ok().build();

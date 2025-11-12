@@ -16,7 +16,7 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public UserResponseDTO findById(Integer id) {
+    public UserResponseDTO findById(Long id) {
         User us = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
         return userMapper.convertFromEntity(us);
     }

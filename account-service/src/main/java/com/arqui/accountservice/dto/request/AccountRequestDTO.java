@@ -14,6 +14,5 @@ import java.util.Date;
 public class AccountRequestDTO {
     private Date createdAt;
     private Boolean isPremium;
-    private Integer credits;
-    private Integer paymentAccountId;
+    private Long paymentAccountId;
 }

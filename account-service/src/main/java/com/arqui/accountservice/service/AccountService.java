@@ -26,7 +26,7 @@ public class AccountService {
     }
 
     public AccountResponseDTO save (AccountRequestDTO req) {
-        Account ac = new Account(null, req.getCreatedAt(), req.getIsPremium(), 0, null, req.getPaymentAccountId());
+        Account ac = new Account(null, req.getCreatedAt(), req.getIsPremium(), 0.00, null, req.getPaymentAccountId());
         accountRepository.save(ac);
         AccountResponseDTO accountResponseDTO = new AccountResponseDTO();
         return accountMapper.convertFromEntity(ac);
@@ -34,7 +34,7 @@ public class AccountService {
 
 
     @Transactional
-    public RechargeResultDTO recharge (Integer id, RechargeRequestDTO req) {
+    public RechargeResultDTO recharge (Long id, RechargeRequestDTO req) {
         Account ac = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
         RechargeResultDTO res = paymentClient.charge(ac.getPaymentAccountId(), req);
 
@@ -47,7 +47,7 @@ public class AccountService {
     }
 
     @Transactional
-    public DiscountResultDTO discount (Integer id, DiscountRequestDTO req) {
+    public DiscountResultDTO discount (Long id, DiscountRequestDTO req) {
         Account ac = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
         DiscountResultDTO res = new DiscountResultDTO();
 
@@ -77,12 +77,12 @@ public class AccountService {
         return res;
     }
 
-    public AccountResponseDTO findById(Integer id) {
+    public AccountResponseDTO findById(Long id) {
         Account ac = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
         return accountMapper.convertFromEntity(ac);
     }
 
-    public boolean delete(Integer id){
+    public boolean delete(Long id){
         Account e = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
         accountRepository.delete(e);
         return true;

@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class PaymentChargeResultDTO {
     private Date createdAt;
-    private Integer amount;
+    private Double amount;
     private boolean charged;
     private String info;
 }

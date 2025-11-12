@@ -6,12 +6,12 @@ import com.arqui.travelservice.dto.response.DiscountResultDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "account-service", url = "http://localhost:8080")
+@FeignClient(name = "account-service", url = "http://localhost:8080/api/accounts")
 public interface AccountClient {
 
-    @GetMapping("/accounts/users/{id}")
+    @GetMapping("/users/{id}")
     UserResponseDTO getUserById(@PathVariable Long id);
 
-    @PostMapping("/accounts/{id}/discount")
-    DiscountResultDTO discount(@PathVariable Integer id, @RequestBody DiscountRequestDTO req);
+    @PostMapping("/{id}/discount")
+    DiscountResultDTO discount(@PathVariable Long id, @RequestBody DiscountRequestDTO req);
 }

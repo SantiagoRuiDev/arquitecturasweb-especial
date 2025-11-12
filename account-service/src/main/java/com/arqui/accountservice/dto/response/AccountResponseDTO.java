@@ -14,5 +14,5 @@ import java.util.Date;
 public class AccountResponseDTO {
     private Date createdAt;
     private Boolean isPremium;
-    private Integer credits;
+    private Double credits;
 }

@@ -30,7 +30,7 @@ public class PaymentService {
     }
 
 
-    public PaymentChargeResultDTO charge (Integer identifier, PaymentChargeRequestDTO req) {
+    public PaymentChargeResultDTO charge (Long identifier, PaymentChargeRequestDTO req) {
         PaymentMethod pm = paymentRepository.findById(identifier).orElseThrow(() -> new IllegalArgumentException("No existe un metodo de pago con este identificador"));
         PaymentChargeResultDTO res =  new PaymentChargeResultDTO();
         res.setAmount(req.getAmount());
@@ -48,13 +48,13 @@ public class PaymentService {
         return res;
     }
 
-    public PaymentMethodResponseDTO findById (Integer identifier) {
+    public PaymentMethodResponseDTO findById (Long identifier) {
         PaymentMethod pm = paymentRepository.findById(identifier).orElseThrow(() -> new IllegalArgumentException("No existe un metodo de pago con este identificador"));
 
         return paymentMethodMapper.convertFromEntity(pm);
     }
 
-    public boolean delete (Integer identifier) {
+    public boolean delete (Long identifier) {
         PaymentMethod pm = paymentRepository.findById(identifier).orElseThrow(() -> new IllegalArgumentException("No existe un metodo de pago con este identificador"));
         paymentRepository.delete(pm);
         return true;

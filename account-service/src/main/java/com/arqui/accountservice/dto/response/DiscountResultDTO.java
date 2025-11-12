@@ -10,7 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DiscountResultDTO {
-    private Integer amount;
+    private Double amount;
     private boolean discounted;
     private String info;
 }

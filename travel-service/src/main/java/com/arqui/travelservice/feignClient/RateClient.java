@@ -4,10 +4,10 @@ import com.arqui.travelservice.dto.response.RateResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "rate-service", url = "http://localhost:8080")
+@FeignClient(name = "rate-service", url = "http://localhost:8083/rates")
 public interface RateClient {
 
-    @GetMapping("/rates")
+    @GetMapping("")
     RateResponseDTO fetchActualRate();
 
 }

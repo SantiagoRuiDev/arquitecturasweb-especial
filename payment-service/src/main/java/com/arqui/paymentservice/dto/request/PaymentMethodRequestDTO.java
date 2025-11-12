@@ -13,5 +13,5 @@ public class PaymentMethodRequestDTO {
     private String owner_firstname;
     private String owner_lastname;
     private Boolean active;
-    private Integer funds;
+    private Double funds;
 }
