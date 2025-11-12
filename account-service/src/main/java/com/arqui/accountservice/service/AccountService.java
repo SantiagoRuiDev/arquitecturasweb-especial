@@ -13,6 +13,8 @@ import com.arqui.accountservice.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
@@ -88,6 +90,10 @@ public class AccountService {
     public AccountResponseDTO findById(Long id) {
         Account ac = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
         return accountMapper.convertFromEntity(ac);
+    }
+
+    public List<AccountResponseDTO> findAll() {
+        return accountRepository.findAll().stream().map(accountMapper::convertFromEntity).toList();
     }
 
     public boolean delete(Long id){

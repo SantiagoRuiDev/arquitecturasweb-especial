@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 // Aqui se comunica con el servicio de Pagos (deberia crear metodos de pagos y buscar)
-@FeignClient(name="payment-service", url="http://localhost:8003/api/payments")
+@FeignClient(name="payment-service")
 public interface PaymentFeignClient {
-    @PostMapping("/charge/{id}")
+    @PostMapping("/api/payments/charge/{id}")
     RechargeResultDTO charge(@PathVariable Long id, @RequestBody RechargeRequestDTO req);
 }

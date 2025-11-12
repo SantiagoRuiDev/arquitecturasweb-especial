@@ -14,7 +14,7 @@ public class AccountMapper {
     public AccountResponseDTO convertFromEntity(Account entity){
         AccountResponseDTO dto = new AccountResponseDTO();
         dto.setCreatedAt(entity.getCreatedAt());
-        dto.setIsPremium(entity.getIsPremium());
+        dto.setIsPremium(entity.isActive());
         dto.setCredits(entity.getCredits());
 
         return dto;

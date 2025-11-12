@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/accounts")
 public class AccountController {
@@ -38,6 +40,12 @@ public class AccountController {
     @GetMapping("/{id}")
     public ResponseEntity<AccountResponseDTO> findById(@PathVariable Long id) {
         AccountResponseDTO res = accountService.findById(id);
+        return ResponseEntity.ok().body(res);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<AccountResponseDTO>> findAll() {
+        List<AccountResponseDTO> res = accountService.findAll();
         return ResponseEntity.ok().body(res);
     }
 
