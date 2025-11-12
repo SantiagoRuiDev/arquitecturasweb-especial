@@ -56,7 +56,7 @@ public class TravelController {
 
     // Get all travels - resumen de estos - Entity = TravelSummaryDTO
     @GetMapping
-    public List<TravelReportDTO> getAll() {
+    public List<TravelResponseDTO> getAll() {
         return travelService.getAllTravels();
     }
 }

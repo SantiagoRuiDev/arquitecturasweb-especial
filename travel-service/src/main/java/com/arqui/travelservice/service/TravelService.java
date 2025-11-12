@@ -12,7 +12,7 @@ public interface TravelService {
     TravelResponseDTO startTravel(TravelRequestDTO request);
     TravelResponseDTO endTravel(TravelEndRequestDTO request);
     TravelResponseDTO getTravelById(Long id);
-    List<TravelReportDTO> getAllTravels();
+    List<TravelResponseDTO> getAllTravels();
 
     // C - Consultar los monopatines con mas de X viajes en un cierto año
     List<ScooterUsageDTO> getTopScooters(int year, int minTrips);

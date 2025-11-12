@@ -104,9 +104,9 @@ public class TravelServiceImpl implements TravelService {
     }
 
     @Override
-    public List<TravelReportDTO> getAllTravels() {
+    public List<TravelResponseDTO> getAllTravels() {
         return travelRepository.findAll().stream().map(t -> {
-            TravelReportDTO dto = new TravelReportDTO();
+            TravelResponseDTO dto = new TravelResponseDTO();
             dto.setId(t.getId());
             dto.setStartTime(t.getStartTime());
             dto.setEndTime(t.getEndTime());

@@ -3,7 +3,13 @@ package com.arqui.travelservice.dto.request;
 import java.time.LocalDateTime;
 
 // DTO para la solicitud de inicio de viaje
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class TravelRequestDTO {
     private Long accountId;           // Cuenta asociada (básica o premium)
     private Long userId;              // Usuario que inicia el viaje
@@ -11,43 +17,5 @@ public class TravelRequestDTO {
     private Long startStopId;         // Parada donde se inicia el viaje (Hay q ver si se cambia)
     private LocalDateTime startTime;  // Puede asignarse automáticamente en el backend
     private Long userType;          // Tipo de usuario
-    // Getters y Setters
-
-    public Long getUserType() {
-        return userType;
-    }
-    public void setUserType(Long userType) {
-        this.userType = userType;
-    }
-    public Long getAccountId() {
-        return accountId;
-    }
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
-    }
-    public Long getUserId() {
-        return userId;
-    }
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-    public Long getScooterId() {
-        return scooterId;
-    }
-    public void setScooterId(Long scooterId) {
-        this.scooterId = scooterId;
-    }
-    public Long getStartStopId() {
-        return startStopId;
-    }
-    public void setStartStopId(Long startStopId) {
-        this.startStopId = startStopId;
-    }
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
 
 }
