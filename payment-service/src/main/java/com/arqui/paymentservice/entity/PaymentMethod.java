@@ -1,10 +1,9 @@
 package com.arqui.paymentservice.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -20,4 +19,7 @@ public class PaymentMethod {
     private String owner_lastname; // Datos del dueño
     private boolean active; // El estado de la cuenta y/o metodo de pago agregado
     private Double funds; // Seria el saldo de la cuenta, lo usamos para simular debitos y cobros (NO SON LOS CREDITOS)
+
+    @OneToMany(mappedBy = "paymentMethod", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<PaymentBill> bills;
 }

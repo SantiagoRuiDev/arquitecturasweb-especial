@@ -6,9 +6,7 @@ import com.arqui.accountservice.dto.request.RechargeRequestDTO;
 import com.arqui.accountservice.dto.response.AccountResponseDTO;
 import com.arqui.accountservice.dto.response.DiscountResultDTO;
 import com.arqui.accountservice.dto.response.RechargeResultDTO;
-import com.arqui.accountservice.dto.response.UserResponseDTO;
 import com.arqui.accountservice.service.AccountService;
-import com.arqui.accountservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
     @Autowired
     private AccountService accountService;
-    @Autowired
-    private UserService userService;
 
     @PostMapping("")
     public ResponseEntity<AccountResponseDTO> save(@RequestBody AccountRequestDTO req) {
@@ -32,6 +28,7 @@ public class AccountController {
         RechargeResultDTO res =  accountService.recharge(id, req);
         return ResponseEntity.ok().body(res);
     }
+
     @PostMapping("/{id}/discount")
     public ResponseEntity<DiscountResultDTO> discount(@PathVariable Long id, @RequestBody DiscountRequestDTO req) {
         DiscountResultDTO res =  accountService.discount(id, req);
@@ -44,12 +41,15 @@ public class AccountController {
         return ResponseEntity.ok().body(res);
     }
 
-    @GetMapping("/users/{id}")
-    public ResponseEntity<UserResponseDTO> findUserById(@PathVariable Long id) {
-        UserResponseDTO res = userService.findById(id);
+    // (B) Como administrador quiero poder anular cuentas de usuarios, para inhabilitar el uso
+    // momentáneo de la aplicación.
+    @PutMapping("/set-status/{id}")
+    public ResponseEntity<AccountResponseDTO> setStatus(@PathVariable Long id, @RequestBody Boolean status) {
+        AccountResponseDTO res = accountService.setStatus(id, status);
         return ResponseEntity.ok().body(res);
     }
 
+    // Esta anulación elimina la cuenta permanentemente
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         boolean res = accountService.delete(id);

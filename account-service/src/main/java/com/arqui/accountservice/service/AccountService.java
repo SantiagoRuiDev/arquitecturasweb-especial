@@ -26,7 +26,7 @@ public class AccountService {
     }
 
     public AccountResponseDTO save (AccountRequestDTO req) {
-        Account ac = new Account(null, req.getCreatedAt(), req.getIsPremium(), 0.00, null, req.getPaymentAccountId());
+        Account ac = new Account(null, null, req.getType(), 0.00, true, null, req.getPaymentAccountId());
         accountRepository.save(ac);
         AccountResponseDTO accountResponseDTO = new AccountResponseDTO();
         return accountMapper.convertFromEntity(ac);
@@ -75,6 +75,14 @@ public class AccountService {
         res.setInfo("Se le desconto la cantidad de creditos " + req.getAmount() + " correctamente.");
 
         return res;
+    }
+
+    public AccountResponseDTO setStatus(Long id, Boolean status) {
+        Account ac = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
+        ac.setActive(status);
+        accountRepository.save(ac);
+
+        return accountMapper.convertFromEntity(ac);
     }
 
     public AccountResponseDTO findById(Long id) {

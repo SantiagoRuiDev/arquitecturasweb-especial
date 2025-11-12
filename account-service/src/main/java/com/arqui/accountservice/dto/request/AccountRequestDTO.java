@@ -1,5 +1,6 @@
 package com.arqui.accountservice.dto.request;
 
+import com.arqui.accountservice.entity.AccountType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,6 @@ import java.util.Date;
 @Getter
 @Setter
 public class AccountRequestDTO {
-    private Date createdAt;
-    private Boolean isPremium;
+    private AccountType type;
     private Long paymentAccountId;
 }

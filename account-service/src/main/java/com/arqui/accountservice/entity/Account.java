@@ -16,9 +16,12 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdAt;
-    private Boolean isPremium;
+    private AccountType type;
     private Double credits;
+    private boolean active;
 
     @ManyToMany
     // Tabla intermedia
