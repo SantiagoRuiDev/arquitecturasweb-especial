@@ -1,5 +1,6 @@
 package com.arqui.travelservice.controller;
 
+import com.arqui.travelservice.entity.AccountType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -29,7 +30,7 @@ public class TravelController {
 
     // E - Ver los usuarios que más utilizan los monopatines, filtrado por período y por tipo de usuario
     @GetMapping("/users/{startDate}/{endDate}/{userType}")
-    public List<TravelReportDTO> getUserTripsByPeriodAndType(@PathVariable LocalDateTime startDate, @PathVariable LocalDateTime endDate, @PathVariable Long userType) {
+    public List<TravelReportDTO> getUserTripsByPeriodAndType(@PathVariable LocalDateTime startDate, @PathVariable LocalDateTime endDate, @PathVariable AccountType userType) {
         return travelService.getUserTripsByPeriodAndType(startDate, endDate, userType);
     }
 

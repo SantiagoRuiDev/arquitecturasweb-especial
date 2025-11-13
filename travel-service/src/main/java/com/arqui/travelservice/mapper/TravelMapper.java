@@ -47,6 +47,7 @@ public class TravelMapper {
         travel.setUserId(dto.getUserId());
         travel.setScooterId(dto.getScooterId());
         travel.setStartStopId(dto.getStartStopId());
+        travel.setUserType(dto.getUserType());
         if(dto.getStartTime() != null){
             travel.setStartTime(dto.getStartTime());
         } else {

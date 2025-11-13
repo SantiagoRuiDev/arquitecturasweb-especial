@@ -2,6 +2,7 @@ package com.arqui.travelservice.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.arqui.travelservice.entity.AccountType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -25,6 +26,6 @@ public interface TravelRepository extends JpaRepository<Travel, Long> {
            "WHERE t.startTime >= :startDate AND t.endTime <= :endDate AND t.userType = :userType " +
            "GROUP BY t.userId " +
            "ORDER BY COUNT(t) DESC")
-    List<TravelReportDTO> findUserTripsByPeriodAndType(LocalDateTime startDate, LocalDateTime endDate, Long userType);
+    List<TravelReportDTO> findUserTripsByPeriodAndType(LocalDateTime startDate, LocalDateTime endDate, AccountType userType);
     
 }

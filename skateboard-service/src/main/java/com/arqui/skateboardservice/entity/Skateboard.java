@@ -19,6 +19,7 @@ public class Skateboard {
     private String QrCode;
     private Double totalKm;
     private Double usedTime;
+    private Double pausedTime;
     private boolean available;
     private boolean inMaintenance;
     private Long stationId;
@@ -26,11 +27,8 @@ public class Skateboard {
     private Double longitude;
     private boolean requiresMaintenance;
 
-
     @Enumerated(EnumType.STRING)
     private SkateboardStatus status;
-
-    private Long accumulatedMinutes;
 
     private LocalDateTime lastUpdate;
 }

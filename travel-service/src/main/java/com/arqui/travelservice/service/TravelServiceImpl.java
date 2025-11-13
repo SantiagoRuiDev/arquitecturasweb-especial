@@ -1,11 +1,13 @@
 package com.arqui.travelservice.service;
 
+import com.arqui.travelservice.dto.request.ScooterUsageUpdateDTO;
 import com.arqui.travelservice.dto.request.TravelRequestDTO;
 import com.arqui.travelservice.dto.request.DiscountRequestDTO;
 import com.arqui.travelservice.dto.request.TravelEndRequestDTO;
 import com.arqui.travelservice.dto.response.DiscountResultDTO;
 import com.arqui.travelservice.dto.response.RateResponseDTO;
 import com.arqui.travelservice.dto.response.TravelResponseDTO;
+import com.arqui.travelservice.entity.AccountType;
 import com.arqui.travelservice.feignClient.AccountClient;
 import com.arqui.travelservice.feignClient.ScooterClient;
 import com.arqui.travelservice.feignClient.RateClient;
@@ -48,7 +50,7 @@ public class TravelServiceImpl implements TravelService {
 
     // E - Ver los usuarios que más utilizan los monopatines, filtrado por período y por tipo de usuario
     @Override
-    public List<TravelReportDTO> getUserTripsByPeriodAndType(LocalDateTime startDate, LocalDateTime endDate, Long userType) {
+    public List<TravelReportDTO> getUserTripsByPeriodAndType(LocalDateTime startDate, LocalDateTime endDate, AccountType userType) {
         return travelRepository.findUserTripsByPeriodAndType(startDate, endDate, userType);
     }
 
@@ -57,6 +59,7 @@ public class TravelServiceImpl implements TravelService {
     // Inicia un nuevo travel
     @Override
     public TravelResponseDTO startTravel(TravelRequestDTO request) {
+
         Travel travel = TravelMapper.fromRequestDTO(request);
 
         // Validar que el usuario y el scooter existen usando los clientes feign
@@ -157,7 +160,7 @@ public class TravelServiceImpl implements TravelService {
                 .collect(Collectors.toList());
         
         // Envia un ScooterUsageUpdateDTO al scooter service para actualizar su estado luego de q finalice el viaje
-        //ScooterUsageUpdateDTO scooterUsageUpdate = new ScooterUsageUpdateDTO(request.getDistanceKm(), pauseDTOs);
+        //ScooterUsageUpdateDTO scooterUsageUpdate = new ScooterUsageUpdateDTO(travel.getStartTime(), travel.getEndTime());
         //scooterClient.updateScooterUsage(travel.getScooterId(), scooterUsageUpdate);
 
         Travel saved = travelRepository.save(travel);

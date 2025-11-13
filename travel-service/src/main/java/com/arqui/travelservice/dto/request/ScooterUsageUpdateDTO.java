@@ -12,10 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScooterUsageUpdateDTO {
-    private Double kilometrageKm;
-    private List<PauseDTO> pauses;
-
-    //a modo de prueba
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private long pauseMinutes;

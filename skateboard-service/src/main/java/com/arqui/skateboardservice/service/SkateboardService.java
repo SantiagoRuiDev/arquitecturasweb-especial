@@ -133,31 +133,20 @@ public class SkateboardService {
         }
 
         double hoursUsed = effectiveMinutes / 60.0;
+        double hoursPaused = usageUpdate.getPauseMinutes() / 60.0;
 
         if (skateboard.getUsedTime() == null)
             skateboard.setUsedTime(0.0);
 
+        if (skateboard.getPausedTime() == null)
+            skateboard.setPausedTime(0.0);
+
         skateboard.setUsedTime(skateboard.getUsedTime() + hoursUsed);
+        skateboard.setPausedTime(skateboard.getPausedTime() + hoursPaused);
         skateboard.setLastUpdate(LocalDateTime.now());
         skateboardRepository.save(skateboard);
 
-        return toResponseDTO(skateboard);
-    }
-
-    private SkateboardResponseDTO toResponseDTO(Skateboard s) {
-        return new SkateboardResponseDTO(
-                s.getId(),
-                s.getQrCode(),
-                s.getTotalKm(),
-                s.getUsedTime(),
-                s.isAvailable(),
-                s.isInMaintenance(),
-                s.getStationId(),
-                s.getLatitude(),
-                s.getLongitude(),
-                s.getStatus().name(),
-                s.getLastUpdate()
-        );
+        return scooterMapper.convertFromEntity(skateboard);
     }
 
 }
