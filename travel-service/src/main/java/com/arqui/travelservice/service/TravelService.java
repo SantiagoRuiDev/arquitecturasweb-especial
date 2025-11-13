@@ -2,6 +2,8 @@ package com.arqui.travelservice.service;
 
 import com.arqui.travelservice.dto.request.TravelRequestDTO;
 import com.arqui.travelservice.dto.request.TravelEndRequestDTO;
+import com.arqui.travelservice.dto.request.PauseRequestDTO;
+import com.arqui.travelservice.dto.request.PauseEndRequestDTO;
 import com.arqui.travelservice.dto.response.TravelResponseDTO;
 import com.arqui.travelservice.dto.ScooterUsageDTO;
 import com.arqui.travelservice.dto.TravelReportDTO;
@@ -11,6 +13,8 @@ import java.util.List;
 public interface TravelService {
     TravelResponseDTO startTravel(TravelRequestDTO request);
     TravelResponseDTO endTravel(TravelEndRequestDTO request);
+    TravelResponseDTO pauseTravel(PauseRequestDTO request);
+    TravelResponseDTO resumePause(PauseEndRequestDTO request);
     TravelResponseDTO getTravelById(Long id);
     List<TravelResponseDTO> getAllTravels();
 
