@@ -1,4 +1,4 @@
-package com.arqui.travelservice.domain.repository;
+package com.arqui.travelservice.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.arqui.travelservice.dto.ScooterUsageDTO;
 import com.arqui.travelservice.dto.TravelReportDTO;
-import com.arqui.travelservice.domain.model.Travel;
+import com.arqui.travelservice.entity.Travel;
 
 public interface TravelRepository extends JpaRepository<Travel, Long> {
        
@@ -16,7 +16,7 @@ public interface TravelRepository extends JpaRepository<Travel, Long> {
                      "FROM Travel t " +
                      "WHERE YEAR(t.startTime) = :year " +
                      "GROUP BY t.scooterId " +
-                     "HAVING COUNT(t) > :minTrips " +
+                     "HAVING COUNT(t) >= :minTrips " +
                      "ORDER BY COUNT(t) DESC")
     List<ScooterUsageDTO> findTopScooters(int year, int minTrips);
 

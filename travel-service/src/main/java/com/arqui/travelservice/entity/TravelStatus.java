@@ -1,4 +1,4 @@
-package com.arqui.travelservice.domain.model;
+package com.arqui.travelservice.entity;
 
 public enum TravelStatus {
     STARTED,

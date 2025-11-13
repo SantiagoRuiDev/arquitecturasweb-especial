@@ -1,7 +1,9 @@
 package com.arqui.travelservice.mapper;
 
-import com.arqui.travelservice.domain.model.Travel;
-import com.arqui.travelservice.domain.model.TravelStatus;
+import com.arqui.travelservice.entity.Travel;
+import com.arqui.travelservice.entity.TravelStatus;
+
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 import com.arqui.travelservice.dto.PauseDTO;
 import com.arqui.travelservice.dto.response.TravelResponseDTO;
@@ -45,7 +47,11 @@ public class TravelMapper {
         travel.setUserId(dto.getUserId());
         travel.setScooterId(dto.getScooterId());
         travel.setStartStopId(dto.getStartStopId());
-        travel.setStartTime(dto.getStartTime());
+        if(dto.getStartTime() != null){
+            travel.setStartTime(dto.getStartTime());
+        } else {
+            travel.setStartTime(LocalDateTime.now());
+        }
         travel.setStatus(TravelStatus.STARTED);
         return travel;
     }

@@ -13,5 +13,4 @@ public class TravelEndRequestDTO {
     private Long endStopId;
     private LocalDateTime endTime;
     private Double distanceKm;
-
 }

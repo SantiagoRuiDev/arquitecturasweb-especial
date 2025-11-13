@@ -6,8 +6,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import com.arqui.travelservice.service.TravelService;
 import com.arqui.travelservice.dto.request.TravelRequestDTO;
-import com.arqui.travelservice.dto.request.PauseEndRequestDTO;
-import com.arqui.travelservice.dto.request.PauseRequestDTO;
 import com.arqui.travelservice.dto.request.TravelEndRequestDTO;
 import com.arqui.travelservice.dto.response.TravelResponseDTO;
 import com.arqui.travelservice.dto.ScooterUsageDTO;
@@ -50,15 +48,15 @@ public class TravelController {
     }
 
     // Pausar un viaje
-    @PostMapping("/pause")
-    public TravelResponseDTO pauseTravel(@RequestBody PauseRequestDTO dto) {
-        return travelService.pauseTravel(dto);
+    @PostMapping("/pause/{id}")
+    public TravelResponseDTO pauseTravel(@PathVariable Long id) {
+        return travelService.pauseTravel(id);
     }
 
     // Reanudar un viaje en pausa
-    @PostMapping("/resume")
-    public TravelResponseDTO resumePause(@RequestBody PauseEndRequestDTO dto) {
-        return travelService.resumePause(dto);
+    @PostMapping("/resume/{id}")
+    public TravelResponseDTO resumePause(@PathVariable Long id) {
+        return travelService.resumePause(id);
     }
 
     // Get travel by ID

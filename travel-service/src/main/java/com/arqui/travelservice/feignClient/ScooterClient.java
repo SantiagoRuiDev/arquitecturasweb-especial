@@ -13,11 +13,11 @@ import com.arqui.travelservice.dto.request.ScooterUsageUpdateDTO;
 public interface ScooterClient {
 
     // Hace falta coordinar el metodo para obtener scooter por id
-    @GetMapping("/{id}")
+    @GetMapping("/api/skateboards/{id}")
     ScooterResponseDTO getScooterById(@PathVariable Long id);
 
     // Actualizar kilometraje y pausas del scooter
-    @PutMapping("/{id}/usage")
+    @PutMapping("/api/skateboards/{id}/usage")
     ScooterResponseDTO updateScooterUsage(@PathVariable Long id, @RequestBody ScooterUsageUpdateDTO usageUpdate);
 
 }

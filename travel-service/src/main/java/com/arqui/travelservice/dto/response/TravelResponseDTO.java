@@ -2,7 +2,7 @@ package com.arqui.travelservice.dto.response;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import com.arqui.travelservice.domain.model.TravelStatus;
+import com.arqui.travelservice.entity.TravelStatus;
 import com.arqui.travelservice.dto.PauseDTO;
 
 import lombok.AllArgsConstructor;
