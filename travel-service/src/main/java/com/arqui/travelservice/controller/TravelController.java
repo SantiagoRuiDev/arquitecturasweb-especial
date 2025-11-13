@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import com.arqui.travelservice.service.TravelService;
 import com.arqui.travelservice.dto.request.TravelRequestDTO;
+import com.arqui.travelservice.dto.request.PauseEndRequestDTO;
+import com.arqui.travelservice.dto.request.PauseRequestDTO;
 import com.arqui.travelservice.dto.request.TravelEndRequestDTO;
 import com.arqui.travelservice.dto.response.TravelResponseDTO;
 import com.arqui.travelservice.dto.ScooterUsageDTO;
@@ -35,18 +37,29 @@ public class TravelController {
 
     /* -------------------------------------------------------------------------------------------------------- */
 
-    // Start a new travel
+    // Empezar un viaje
     @PostMapping("/start")
     public TravelResponseDTO startTravel(@RequestBody TravelRequestDTO dto) {
         return travelService.startTravel(dto);
     }
 
-    // End an existing travel
+    // Terminar un viaje 
     @PostMapping("/end")
     public TravelResponseDTO endTravel(@RequestBody TravelEndRequestDTO dto) {
         return travelService.endTravel(dto);
     }
 
+    // Pausar un viaje
+    @PostMapping("/pause")
+    public TravelResponseDTO pauseTravel(@RequestBody PauseRequestDTO dto) {
+        return travelService.pauseTravel(dto);
+    }
+
+    // Reanudar un viaje en pausa
+    @PostMapping("/resume")
+    public TravelResponseDTO resumePause(@RequestBody PauseEndRequestDTO dto) {
+        return travelService.resumePause(dto);
+    }
 
     // Get travel by ID
     @GetMapping("/{id}")
@@ -54,7 +67,7 @@ public class TravelController {
         return travelService.getTravelById(id);
     }
 
-    // Get all travels - resumen de estos - Entity = TravelSummaryDTO
+    // Get all travels 
     @GetMapping
     public List<TravelResponseDTO> getAll() {
         return travelService.getAllTravels();

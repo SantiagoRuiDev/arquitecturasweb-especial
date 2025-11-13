@@ -3,6 +3,9 @@ package com.arqui.travelservice.service;
 import com.arqui.travelservice.dto.request.TravelRequestDTO;
 import com.arqui.travelservice.dto.request.DiscountRequestDTO;
 import com.arqui.travelservice.dto.request.TravelEndRequestDTO;
+import com.arqui.travelservice.dto.request.ScooterUsageUpdateDTO;
+import com.arqui.travelservice.dto.request.PauseRequestDTO;
+import com.arqui.travelservice.dto.request.PauseEndRequestDTO;
 import com.arqui.travelservice.dto.response.DiscountResultDTO;
 import com.arqui.travelservice.dto.response.RateResponseDTO;
 import com.arqui.travelservice.dto.response.TravelResponseDTO;
@@ -11,14 +14,17 @@ import com.arqui.travelservice.feignClient.ScooterClient;
 import com.arqui.travelservice.feignClient.RateClient;
 import com.arqui.travelservice.mapper.TravelMapper;
 import com.arqui.travelservice.dto.ScooterUsageDTO;
+import com.arqui.travelservice.dto.PauseDTO;
 import com.arqui.travelservice.dto.TravelReportDTO;
 import com.arqui.travelservice.domain.model.Travel;
+import com.arqui.travelservice.domain.model.Pause;
 import com.arqui.travelservice.domain.model.TravelStatus;
 import com.arqui.travelservice.domain.repository.TravelRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TravelServiceImpl implements TravelService {
@@ -50,6 +56,7 @@ public class TravelServiceImpl implements TravelService {
 
     /* -------------------------------------------------------------------------------------------------------- */
     
+    // Inicia un nuevo travel
     @Override
     public TravelResponseDTO startTravel(TravelRequestDTO request) {
         Travel travel = TravelMapper.fromRequestDTO(request);
@@ -63,6 +70,52 @@ public class TravelServiceImpl implements TravelService {
         return TravelMapper.toDTO(travelRepository.save(travel));
     }
 
+    // Pausa el travel
+    @Override
+    public TravelResponseDTO pauseTravel(PauseRequestDTO request) {
+        Travel travel = travelRepository.findById(request.getTravelId())
+                .orElseThrow(() -> new RuntimeException("Viaje no encontrado"));
+
+        // Crear y guardar la pausa
+        Pause pause = new Pause();
+        pause.setStartPause(request.getStartPause());
+        pause.setTravel(travel);
+        travel.setStatus(TravelStatus.PAUSED);
+        travel.getPauses().add(pause);
+        travelRepository.save(travel);
+
+        return TravelMapper.toDTO(travel);
+    }
+
+    // Finaliza una pausa
+    @Override
+    public TravelResponseDTO resumePause(PauseEndRequestDTO request) {
+
+        Pause pause = new Pause();
+        pause.setId(request.getPauseId());
+        pause.setEndPause(request.getEndPause());
+        pause.setExceededTimeLimit(request.isExceededTimeLimit());
+        
+        // Buscar el viaje que contiene esta pausa
+        List<Travel> travels = travelRepository.findAll();
+        
+        Travel travelWithPause = travels.stream()
+            .filter(t -> t.getPauses().stream().anyMatch(p -> p.getId().equals(request.getPauseId())))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Pausa no encontrada"));
+        
+        // Actualizar la pausa
+        Pause pauseToUpdate = travelWithPause.getPauses().stream()
+            .filter(p -> p.getId().equals(request.getPauseId()))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Pausa no encontrada en el viaje"));
+        
+        pauseToUpdate.setEndPause(request.getEndPause());
+        pauseToUpdate.setExceededTimeLimit(request.isExceededTimeLimit());
+        
+        travelRepository.save(travelWithPause);
+        return TravelMapper.toDTO(travelWithPause);
+    }
 
     // Terminar el travel
     @Override
@@ -90,10 +143,18 @@ public class TravelServiceImpl implements TravelService {
             throw new RuntimeException("No se pudo aplicar el descuento en la cuenta del usuario.");
         }
 
+        // Actualizar el kilometraje y las pausas del scooter
+        List<PauseDTO> pauseDTOs = travel.getPauses().stream()
+                .map(pause -> new PauseDTO(pause.getId(), pause.getStartPause(), pause.getEndPause(), pause.isExceededTimeLimit()))
+                .collect(Collectors.toList());
+        
+        // Envia un ScooterUsageUpdateDTO al scooter service para actualizar su estado luego de q finalice el viaje
+        ScooterUsageUpdateDTO scooterUsageUpdate = new ScooterUsageUpdateDTO(request.getDistanceKm(), pauseDTOs);
+        scooterClient.updateScooterUsage(travel.getScooterId(), scooterUsageUpdate);
+
         Travel saved = travelRepository.save(travel);
         return TravelMapper.toDTO(saved);
     }
-
 
     // Obtener un viaje por su ID
     @Override
@@ -115,5 +176,4 @@ public class TravelServiceImpl implements TravelService {
             return dto;
         }).toList();
     }
-
 }
