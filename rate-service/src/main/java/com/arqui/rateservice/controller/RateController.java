@@ -1,19 +1,26 @@
 package com.arqui.rateservice.controller;
 
+import com.arqui.rateservice.dto.RateRequestDTO;
 import com.arqui.rateservice.dto.RateResponseDTO;
 import com.arqui.rateservice.service.RateService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RestController("/rate")
+@RestController
+@RequestMapping("/api/rates")
 public class RateController {
+    @Autowired
     private RateService rateService;
 
-    public RateController(RateService rateService) {
-        this.rateService = rateService;
+    @PostMapping("")
+    public ResponseEntity<RateResponseDTO> save (@RequestBody RateRequestDTO req) {
+        return ResponseEntity.ok(rateService.save(req));
+    }
+
+    @PutMapping("")
+    public ResponseEntity<RateResponseDTO> update (@RequestBody RateRequestDTO req) {
+        return ResponseEntity.ok(rateService.update(req));
     }
 
     @GetMapping("")

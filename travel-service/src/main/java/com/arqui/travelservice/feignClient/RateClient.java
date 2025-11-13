@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(name = "rate-service")
 public interface RateClient {
 
-    @GetMapping("")
+    @GetMapping("/api/rates")
     RateResponseDTO fetchActualRate();
 
 }

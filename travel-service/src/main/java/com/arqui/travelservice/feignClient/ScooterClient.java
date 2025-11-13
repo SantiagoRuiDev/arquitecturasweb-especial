@@ -10,7 +10,7 @@ import com.arqui.travelservice.dto.response.ScooterResponseDTO;
 public interface ScooterClient {
 
     // Hace falta coordinar el metodo para obtener scooter por id
-    @GetMapping("/{id}")
+    @GetMapping("/api/skateboards/{id}")
     ScooterResponseDTO getScooterById(@PathVariable Long id);
 
     

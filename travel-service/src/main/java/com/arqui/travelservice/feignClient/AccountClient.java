@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(name = "account-service")
 public interface AccountClient {
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/api/users/{id}")
     UserResponseDTO getUserById(@PathVariable Long id);
 
-    @PostMapping("/{id}/discount")
+    @PostMapping("/api/accounts/{id}/discount")
     DiscountResultDTO discount(@PathVariable Long id, @RequestBody DiscountRequestDTO req);
 }

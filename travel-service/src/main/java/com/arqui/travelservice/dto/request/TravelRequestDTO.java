@@ -17,5 +17,4 @@ public class TravelRequestDTO {
     private Long startStopId;         // Parada donde se inicia el viaje (Hay q ver si se cambia)
     private LocalDateTime startTime;  // Puede asignarse automáticamente en el backend
     private Long userType;          // Tipo de usuario
-
 }
