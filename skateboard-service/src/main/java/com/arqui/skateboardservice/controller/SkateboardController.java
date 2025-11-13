@@ -1,11 +1,12 @@
 package com.arqui.skateboardservice.controller;
 
+import com.arqui.skateboardservice.dto.SkateboardUsageUpdateDTO;
 import com.arqui.skateboardservice.dto.request.SkateboardRequestDTO;
 import com.arqui.skateboardservice.dto.response.SkateboardResponseDTO;
+import com.arqui.skateboardservice.service.SkateboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.arqui.skateboardservice.service.SkateboardService;
 
 import java.util.List;
 
@@ -76,4 +77,14 @@ public class SkateboardController {
         List< SkateboardResponseDTO> res = skateboardService.getScootersNeedingMaintenance();
         return ResponseEntity.ok(res);
     }
+
+    @PutMapping("/{id}/usage")
+    public ResponseEntity<SkateboardResponseDTO> updateSkateboardUsage(
+            @PathVariable Long id,
+            @RequestBody SkateboardUsageUpdateDTO usageUpdate) {
+
+        SkateboardResponseDTO res = skateboardService.updateSkateboardUsage(id, usageUpdate);
+        return ResponseEntity.ok(res);
+    }
+
 }

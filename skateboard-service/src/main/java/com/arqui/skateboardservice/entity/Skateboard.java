@@ -21,14 +21,16 @@ public class Skateboard {
     private Double usedTime;
     private boolean available;
     private boolean inMaintenance;
-
+    private Long stationId;
     private Double latitude;
     private Double longitude;
+    private boolean requiresMaintenance;
+
 
     @Enumerated(EnumType.STRING)
     private SkateboardStatus status;
 
-    private Long stationId;
+    private Long accumulatedMinutes;
 
     private LocalDateTime lastUpdate;
 }

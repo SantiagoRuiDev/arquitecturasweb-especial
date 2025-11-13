@@ -1,5 +1,6 @@
 package com.arqui.skateboardservice.service;
 
+import com.arqui.skateboardservice.dto.SkateboardUsageUpdateDTO;
 import com.arqui.skateboardservice.dto.request.SkateboardRequestDTO;
 import com.arqui.skateboardservice.dto.response.SkateboardResponseDTO;
 import com.arqui.skateboardservice.dto.response.StationResponseDTO;
@@ -12,6 +13,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +31,7 @@ public class SkateboardService {
 
     @Autowired
     private StationFeignClient stationClient;
+
 
     public SkateboardResponseDTO save(SkateboardRequestDTO req) {
         Skateboard s = new Skateboard();
@@ -115,5 +119,45 @@ public class SkateboardService {
     }
 
 
+    public SkateboardResponseDTO updateSkateboardUsage(Long id, SkateboardUsageUpdateDTO usageUpdate) {
+        Skateboard skateboard = skateboardRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Skateboard not found"));
+
+        long totalMinutes = Duration.between(
+                usageUpdate.getStartTime(), usageUpdate.getEndTime()
+        ).toMinutes();
+
+        double effectiveMinutes = totalMinutes;
+        if (usageUpdate.getPauseMinutes() != null) {
+            effectiveMinutes -= usageUpdate.getPauseMinutes();
+        }
+
+        double hoursUsed = effectiveMinutes / 60.0;
+
+        if (skateboard.getUsedTime() == null)
+            skateboard.setUsedTime(0.0);
+
+        skateboard.setUsedTime(skateboard.getUsedTime() + hoursUsed);
+        skateboard.setLastUpdate(LocalDateTime.now());
+        skateboardRepository.save(skateboard);
+
+        return toResponseDTO(skateboard);
+    }
+
+    private SkateboardResponseDTO toResponseDTO(Skateboard s) {
+        return new SkateboardResponseDTO(
+                s.getId(),
+                s.getQrCode(),
+                s.getTotalKm(),
+                s.getUsedTime(),
+                s.isAvailable(),
+                s.isInMaintenance(),
+                s.getStationId(),
+                s.getLatitude(),
+                s.getLongitude(),
+                s.getStatus().name(),
+                s.getLastUpdate()
+        );
+    }
 
 }
