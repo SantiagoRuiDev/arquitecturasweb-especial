@@ -7,12 +7,14 @@ import com.arqui.accountservice.dto.request.StatusUpdateRequestDTO;
 import com.arqui.accountservice.dto.response.AccountResponseDTO;
 import com.arqui.accountservice.dto.response.DiscountResultDTO;
 import com.arqui.accountservice.dto.response.RechargeResultDTO;
+import com.arqui.accountservice.entity.AccountType;
 import com.arqui.accountservice.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -45,8 +47,8 @@ public class AccountController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<AccountResponseDTO>> findAll() {
-        List<AccountResponseDTO> res = accountService.findAll();
+    public ResponseEntity<List<AccountResponseDTO>> findAll(@RequestParam Optional<AccountType> type) {
+        List<AccountResponseDTO> res = accountService.findAll(type);
         return ResponseEntity.ok().body(res);
     }
 

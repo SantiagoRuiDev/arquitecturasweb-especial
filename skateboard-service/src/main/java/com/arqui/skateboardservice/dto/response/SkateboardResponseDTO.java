@@ -14,6 +14,7 @@ public class SkateboardResponseDTO {
     private String qrCode;
     private Double totalKm;
     private Double usedTime;
+    private Double pausedTime;
     private boolean available;
     private boolean inMaintenance;
     private Long stationId;

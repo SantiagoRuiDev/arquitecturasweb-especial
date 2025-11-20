@@ -1,6 +1,7 @@
 package com.arqui.skateboardservice.controller;
 
 import com.arqui.skateboardservice.dto.SkateboardUsageUpdateDTO;
+import com.arqui.skateboardservice.dto.request.ScooterStatusRequestDTO;
 import com.arqui.skateboardservice.dto.request.SkateboardRequestDTO;
 import com.arqui.skateboardservice.dto.response.SkateboardResponseDTO;
 import com.arqui.skateboardservice.service.SkateboardService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/skateboards")
@@ -50,6 +52,18 @@ public class SkateboardController {
         return ResponseEntity.ok(res);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<SkateboardResponseDTO> update(@PathVariable Long id, @RequestBody SkateboardRequestDTO req) {
+        SkateboardResponseDTO res = skateboardService.update(id, req);
+        return ResponseEntity.ok(res);
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<SkateboardResponseDTO> update(@PathVariable Long id, @RequestBody ScooterStatusRequestDTO req) {
+        SkateboardResponseDTO res = skateboardService.setStatus(id, req);
+        return ResponseEntity.ok(res);
+    }
+
     @PutMapping("/{id}/station/{stationId}")
     public ResponseEntity< SkateboardResponseDTO> assignToStation(@PathVariable Long id, @PathVariable Long stationId) {
         SkateboardResponseDTO res = skateboardService.assignToStation(id, stationId);
@@ -66,8 +80,8 @@ public class SkateboardController {
     }
 
     @GetMapping("/report/km")
-    public ResponseEntity<List< SkateboardResponseDTO>> reportByKm(@RequestParam double minKm) {
-        List< SkateboardResponseDTO> res = skateboardService.findScootersWithMoreThanKm(minKm);
+    public ResponseEntity<List< SkateboardResponseDTO>> reportByKm(@RequestParam double minKm, @RequestParam(defaultValue = "false") boolean includePauseTime) {
+        List< SkateboardResponseDTO> res = skateboardService.findScootersWithMoreThanKm(minKm, includePauseTime);
         return ResponseEntity.ok(res);
     }
 

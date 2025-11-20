@@ -43,7 +43,7 @@ public class PaymentService {
         PaymentChargeResultDTO res =  new PaymentChargeResultDTO();
         res.setAmount(req.getAmount());
 
-        if(pm.getFunds() > 0 && req.getAmount() < pm.getFunds()) {
+        if(pm.getFunds() > 0 && req.getAmount() <= pm.getFunds()) {
             pm.setFunds(pm.getFunds() - req.getAmount());
             PaymentBill bill =  new PaymentBill();
             bill.setPaymentMethod(pm);

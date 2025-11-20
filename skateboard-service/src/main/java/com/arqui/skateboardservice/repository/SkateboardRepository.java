@@ -12,12 +12,8 @@ import java.util.List;
 public interface SkateboardRepository  extends JpaRepository<Skateboard,Long> {
     List<Skateboard> findByAvailableTrue();
 
-   List<Skateboard> findByInMaintenanceTrue();
+    List<Skateboard> findByInMaintenanceTrue();
 
     // Buscar por kilómetros totales mayor o igual a cierto valor
     List<Skateboard> findByTotalKmGreaterThanEqual(double minKm);
-
-    // Buscar por kilómetros exactos (usando query personalizada)
-    @Query("SELECT sk FROM Skateboard sk WHERE sk.totalKm = :km")
-    List<Skateboard> findByExactTotalKm(@Param("km") double km);
 }

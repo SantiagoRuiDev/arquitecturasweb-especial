@@ -13,6 +13,7 @@ public class AccountMapper {
 
     public AccountResponseDTO convertFromEntity(Account entity){
         AccountResponseDTO dto = new AccountResponseDTO();
+        dto.setId(entity.getId());
         dto.setCreatedAt(entity.getCreatedAt());
         dto.setType(entity.getType());
         dto.setCredits(entity.getCredits());

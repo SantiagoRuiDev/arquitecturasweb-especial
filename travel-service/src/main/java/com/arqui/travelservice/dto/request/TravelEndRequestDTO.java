@@ -11,6 +11,5 @@ import lombok.NoArgsConstructor;
 public class TravelEndRequestDTO {
     private Long travelId;
     private Long endStopId;
-    private LocalDateTime endTime;
     private Double distanceKm;
 }

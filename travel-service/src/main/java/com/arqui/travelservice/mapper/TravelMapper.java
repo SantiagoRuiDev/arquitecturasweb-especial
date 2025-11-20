@@ -9,10 +9,9 @@ import com.arqui.travelservice.dto.PauseDTO;
 import com.arqui.travelservice.dto.response.TravelResponseDTO;
 import com.arqui.travelservice.dto.request.TravelRequestDTO;
 
-// Mapper class to convert between Travel entity and DTOs
 public class TravelMapper {
 
-    // Convert Travel entity to TravelResponseDTO
+    // Convertir entidad a DTO
     public static TravelResponseDTO toDTO(Travel travel) {
         TravelResponseDTO dto = new TravelResponseDTO();
         dto.setId(travel.getId());
@@ -40,19 +39,14 @@ public class TravelMapper {
         return dto;
     }
     
-    // Convert TravelRequestDTO to Travel entity
+    // Convertir request a entidad.
     public static Travel fromRequestDTO(TravelRequestDTO dto) {
         Travel travel = new Travel();
         travel.setAccountId(dto.getAccountId());
         travel.setUserId(dto.getUserId());
         travel.setScooterId(dto.getScooterId());
         travel.setStartStopId(dto.getStartStopId());
-        travel.setUserType(dto.getUserType());
-        if(dto.getStartTime() != null){
-            travel.setStartTime(dto.getStartTime());
-        } else {
-            travel.setStartTime(LocalDateTime.now());
-        }
+        travel.setStartTime(LocalDateTime.now());
         travel.setStatus(TravelStatus.STARTED);
         return travel;
     }

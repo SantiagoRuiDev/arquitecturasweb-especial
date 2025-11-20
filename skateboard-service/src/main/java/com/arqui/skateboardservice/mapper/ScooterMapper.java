@@ -17,6 +17,7 @@ public class ScooterMapper {
                 entity.getQrCode(),
                 entity.getTotalKm(),
                 entity.getUsedTime(),
+                entity.getPausedTime(),
                 entity.isAvailable(),
                 entity.isInMaintenance(),
                 entity.getStationId(),

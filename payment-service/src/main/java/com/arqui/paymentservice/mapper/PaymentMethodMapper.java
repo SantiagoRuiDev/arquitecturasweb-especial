@@ -13,6 +13,7 @@ public class PaymentMethodMapper {
 
     public PaymentMethodResponseDTO convertFromEntity(PaymentMethod entity){
         PaymentMethodResponseDTO dto = new PaymentMethodResponseDTO();
+        dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setOwner_firstname(entity.getOwner_firstname());
         dto.setOwner_lastname(entity.getOwner_lastname());

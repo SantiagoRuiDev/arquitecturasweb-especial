@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TravelReportDTO {
     private Long userId;
+    private Long accountId;
     private Long tripCount;
     private Double totalDistance;
 }

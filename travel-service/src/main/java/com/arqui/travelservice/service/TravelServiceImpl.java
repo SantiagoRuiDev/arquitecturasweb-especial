@@ -1,13 +1,8 @@
 package com.arqui.travelservice.service;
 
-import com.arqui.travelservice.dto.request.ScooterUsageUpdateDTO;
-import com.arqui.travelservice.dto.request.TravelRequestDTO;
-import com.arqui.travelservice.dto.request.DiscountRequestDTO;
-import com.arqui.travelservice.dto.request.TravelEndRequestDTO;
-import com.arqui.travelservice.dto.response.DiscountResultDTO;
-import com.arqui.travelservice.dto.response.RateResponseDTO;
-import com.arqui.travelservice.dto.response.TravelResponseDTO;
-import com.arqui.travelservice.entity.AccountType;
+import com.arqui.travelservice.dto.request.*;
+import com.arqui.travelservice.dto.response.*;
+import com.arqui.travelservice.entity.*;
 import com.arqui.travelservice.feignClient.AccountClient;
 import com.arqui.travelservice.feignClient.ScooterClient;
 import com.arqui.travelservice.feignClient.RateClient;
@@ -15,15 +10,14 @@ import com.arqui.travelservice.mapper.TravelMapper;
 import com.arqui.travelservice.dto.ScooterUsageDTO;
 import com.arqui.travelservice.dto.PauseDTO;
 import com.arqui.travelservice.dto.TravelReportDTO;
-import com.arqui.travelservice.entity.Travel;
-import com.arqui.travelservice.entity.Pause;
-import com.arqui.travelservice.entity.TravelStatus;
 import com.arqui.travelservice.repository.TravelRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,23 +45,75 @@ public class TravelServiceImpl implements TravelService {
     // E - Ver los usuarios que más utilizan los monopatines, filtrado por período y por tipo de usuario
     @Override
     public List<TravelReportDTO> getUserTripsByPeriodAndType(LocalDateTime startDate, LocalDateTime endDate, AccountType userType) {
-        return travelRepository.findUserTripsByPeriodAndType(startDate, endDate, userType);
+        List<AccountResponseDTO> accounts = accountClient.findAllByType(userType);
+        List<TravelReportDTO> travelsInPeriod = travelRepository.findTripsByPeriod(startDate, endDate);
+
+        if (accounts.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<Long> accountIds = accounts.stream()
+                .map(AccountResponseDTO::getId)
+                .toList();
+
+        travelsInPeriod.removeIf(t -> !accountIds.contains(t.getAccountId()));
+
+        return travelsInPeriod;
+    }
+
+    // H - Como usuario quiero saber cuánto he usado los monopatines en un período, y opcionalmente si otros usuarios relacionados a mi cuenta los han usado.
+    @Override
+    public List<UserScooterUsageDTO> getScootersUsageByUser(Long userId, LocalDateTime startDate, LocalDateTime endDate, boolean includeRelatedUsers) {
+        if(includeRelatedUsers){
+            UserResponseDTO user = accountClient.getUserById(userId);
+            return travelRepository.findScooterUsageByAccount(startDate, endDate, user.getAccounts());
+        } else {
+            return travelRepository.findScooterUsageByUser(startDate, endDate, userId);
+        }
     }
 
     /* -------------------------------------------------------------------------------------------------------- */
     
     // Inicia un nuevo travel
-    @Override
+    @Transactional
     public TravelResponseDTO startTravel(TravelRequestDTO request) {
-
         Travel travel = TravelMapper.fromRequestDTO(request);
-
+        ScooterRequestDTO dto = new ScooterRequestDTO();
         // Validar que el usuario y el scooter existen usando los clientes feign
-        if(accountClient.getUserById(travel.getUserId()) == null || scooterClient.getScooterById(travel.getScooterId()) == null) {
-            throw new RuntimeException("Usuario no encontrado en el account service");
+        try {
+            UserResponseDTO userFetched = accountClient.getUserById(travel.getUserId());
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+        try {
+            ScooterResponseDTO scooter = scooterClient.getScooterById(travel.getScooterId());
+            if(scooter.isInMaintenance()){
+                throw new IllegalArgumentException("El scooter se encuentra en mantenimiento.");
+            }
+            if(!scooter.getStatus().equals(SkateboardStatus.AT_STATION)){
+                throw new IllegalArgumentException("El scooter no se encuentra en una parada.");
+            }
+            if(!scooter.getStationId().equals(request.getStartStopId())){
+                throw new IllegalArgumentException("El scooter no se encuentra en la parada de inicio.");
+            }
+            // Completo el DTO para actualizar la información del monopatin
+            dto.setStationId(scooter.getStationId());
+            dto.setLatitude(scooter.getLatitude());
+            dto.setLongitude(scooter.getLongitude());
+            dto.setTotalKm(scooter.getTotalKm());
+            dto.setAvailable(scooter.isAvailable());
+            dto.setInMaintenance(scooter.isInMaintenance());
+            dto.setPausedTime(scooter.getPausedTime());
+            dto.setUsedTime(scooter.getUsedTime());
+            dto.setQr(scooter.getQrCode());
+            dto.setTotalKm(scooter.getTotalKm());
+            dto.setStatus(SkateboardStatus.USED);
+        } catch (Exception e){
+            throw new IllegalArgumentException(e.getMessage());
         }
 
         travel.setStatus(TravelStatus.STARTED);
+        scooterClient.update(travel.getScooterId(), dto);
         return TravelMapper.toDTO(travelRepository.save(travel));
     }
 
@@ -102,13 +148,13 @@ public class TravelServiceImpl implements TravelService {
         Travel travelWithPause = travels.stream()
             .filter(t -> t.getPauses().stream().anyMatch(p -> p.getId().equals(id)))
             .findFirst()
-            .orElseThrow(() -> new RuntimeException("Pausa no encontrada"));
+            .orElseThrow(() -> new IllegalArgumentException("Pausa no encontrada"));
         
         // Actualizar la pausa
         Pause pauseToUpdate = travelWithPause.getPauses().stream()
             .filter(p -> p.getId().equals(id))
             .findFirst()
-            .orElseThrow(() -> new RuntimeException("Pausa no encontrada en el viaje"));
+            .orElseThrow(() -> new IllegalArgumentException("Pausa no encontrada en el viaje"));
 
         if(!travelWithPause.getStatus().equals(TravelStatus.PAUSED)) {
             throw new IllegalArgumentException("Este viaje no se encuentra pausado");
@@ -131,11 +177,7 @@ public class TravelServiceImpl implements TravelService {
                 .orElseThrow(() -> new RuntimeException("Viaje no encontrado"));
 
         travel.setEndStopId(request.getEndStopId());
-        if(request.getEndTime() != null){
-            travel.setEndTime(request.getEndTime());
-        } else {
-            travel.setEndTime(LocalDateTime.now());
-        }
+        travel.setEndTime(LocalDateTime.now());
         travel.setDistanceKm(request.getDistanceKm());
         travel.setStatus(TravelStatus.FINISHED);
 
@@ -155,13 +197,15 @@ public class TravelServiceImpl implements TravelService {
         }
 
         // Actualizar el kilometraje y las pausas del scooter
-        List<PauseDTO> pauseDTOs = travel.getPauses().stream()
+        List<PauseDTO> pauses = travel.getPauses().stream()
                 .map(pause -> new PauseDTO(pause.getId(), pause.getStartPause(), pause.getEndPause(), pause.isExceededTimeLimit()))
                 .collect(Collectors.toList());
         
         // Envia un ScooterUsageUpdateDTO al scooter service para actualizar su estado luego de q finalice el viaje
-        //ScooterUsageUpdateDTO scooterUsageUpdate = new ScooterUsageUpdateDTO(travel.getStartTime(), travel.getEndTime());
-        //scooterClient.updateScooterUsage(travel.getScooterId(), scooterUsageUpdate);
+        ScooterUsageUpdateDTO scooterUsageUpdate = new ScooterUsageUpdateDTO(travel.getStartTime(), travel.getEndTime(), travel.getDistanceKm(), pauses);
+        scooterClient.updateScooterUsage(travel.getScooterId(), scooterUsageUpdate);
+
+        scooterClient.update(travel.getScooterId(), new ScooterStatusRequestDTO(SkateboardStatus.AT_STATION));
 
         Travel saved = travelRepository.save(travel);
         return TravelMapper.toDTO(saved);

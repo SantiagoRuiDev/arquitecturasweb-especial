@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -16,6 +18,12 @@ public class UserController {
     @PostMapping("")
     public ResponseEntity<UserResponseDTO> save(@RequestBody UserRequestDTO dto) {
         UserResponseDTO res = userService.save(dto);
+        return ResponseEntity.ok().body(res);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> update(@PathVariable Long id, @RequestBody UserRequestDTO dto) {
+        UserResponseDTO res = userService.update(id, dto);
         return ResponseEntity.ok().body(res);
     }
 
@@ -32,6 +40,12 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) {
         UserResponseDTO res = userService.findById(id);
+        return ResponseEntity.ok().body(res);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<UserResponseDTO>> findAll() {
+        List<UserResponseDTO> res = userService.findAll();
         return ResponseEntity.ok().body(res);
     }
 }

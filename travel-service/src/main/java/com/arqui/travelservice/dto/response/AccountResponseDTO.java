@@ -1,6 +1,6 @@
-package com.arqui.accountservice.dto.response;
+package com.arqui.travelservice.dto.response;
 
-import com.arqui.accountservice.entity.AccountType;
+import com.arqui.travelservice.entity.AccountType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -10,6 +10,8 @@ import com.arqui.accountservice.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -33,9 +35,30 @@ public class UserService {
             row.setEmail(req.getEmail());
             row.setPhone(req.getPhone());
             acc.getUsers().add(row);
-            userRepository.save(row);
+            row = userRepository.save(row);
+
+            acc.getUsers().add(row);
+            row.getAccounts().add(acc);
+
             accountRepository.save(acc);
+
             return userMapper.convertFromEntity(row);
+        } else {
+            throw new IllegalArgumentException("Esta cuenta no esta habilitada");
+        }
+    }
+
+    public UserResponseDTO update(Long id, UserRequestDTO req) {
+        Account acc = accountRepository.findById(req.getAccountId()).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
+        if(acc.isActive()){
+            User uss = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe un usuario con este identificador"));
+            uss.setUsername(req.getUsername());
+            uss.setFirstname(req.getFirstname());
+            uss.setLastname(req.getLastname());
+            uss.setEmail(req.getEmail());
+            uss.setPhone(req.getPhone());
+            userRepository.save(uss);
+            return userMapper.convertFromEntity(uss);
         } else {
             throw new IllegalArgumentException("Esta cuenta no esta habilitada");
         }
@@ -50,5 +73,9 @@ public class UserService {
     public UserResponseDTO findById(Long id) {
         User us = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe un usuario con este identificador"));
         return userMapper.convertFromEntity(us);
+    }
+
+    public List<UserResponseDTO> findAll() {
+        return userRepository.findAll().stream().map(userMapper::convertFromEntity).toList();
     }
 }

@@ -1,14 +1,13 @@
-package com.arqui.skateboardservice.dto.request;
+package com.arqui.travelservice.dto.request;
 
 
-import com.arqui.skateboardservice.entity.SkateboardStatus;
+import com.arqui.travelservice.entity.SkateboardStatus;
 import lombok.*;
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SkateboardRequestDTO {
+public class ScooterRequestDTO {
     private String qr;
     private Double totalKm;
     private Double usedTime;

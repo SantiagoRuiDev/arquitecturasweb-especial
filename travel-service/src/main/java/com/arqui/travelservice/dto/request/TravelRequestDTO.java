@@ -16,6 +16,4 @@ public class TravelRequestDTO {
     private Long userId;              // Usuario que inicia el viaje
     private Long scooterId;           // Monopatín escaneado por qr
     private Long startStopId;         // Parada donde se inicia el viaje (Hay q ver si se cambia)
-    private LocalDateTime startTime;
-    private AccountType userType;          // Tipo de usuario
 }

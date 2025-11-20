@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountService {
@@ -68,7 +69,7 @@ public class AccountService {
         Account ac = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
         DiscountResultDTO res = new DiscountResultDTO();
 
-        if(ac.getCredits() > req.getAmount()){
+        if(ac.getCredits() >= req.getAmount()){
             ac.setCredits(ac.getCredits() - req.getAmount());
             accountRepository.save(ac);
         } else {
@@ -107,7 +108,10 @@ public class AccountService {
         return accountMapper.convertFromEntity(ac);
     }
 
-    public List<AccountResponseDTO> findAll() {
+    public List<AccountResponseDTO> findAll(Optional<AccountType> type) {
+        if(type.isPresent()) {
+            return accountRepository.findAllByType(type.get()).stream().map(accountMapper::convertFromEntity).toList();
+        }
         return accountRepository.findAll().stream().map(accountMapper::convertFromEntity).toList();
     }
 

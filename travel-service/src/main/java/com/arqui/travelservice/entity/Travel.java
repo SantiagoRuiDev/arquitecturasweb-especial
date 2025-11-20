@@ -24,8 +24,6 @@ public class Travel {
     private Long scooterId;
     private Long startStopId;
     private Long endStopId;
-    private AccountType userType;
-
 
     private LocalDateTime startTime;
     private LocalDateTime endTime;

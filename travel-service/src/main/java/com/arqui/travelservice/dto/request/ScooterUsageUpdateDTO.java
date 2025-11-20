@@ -14,5 +14,6 @@ import java.util.List;
 public class ScooterUsageUpdateDTO {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private long pauseMinutes;
+    private Double km;
+    private List<PauseDTO> pauses;
 }
