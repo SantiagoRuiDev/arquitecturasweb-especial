@@ -42,4 +42,33 @@ public class AuthService {
 
         return tokenProvider.createToken(authentication);
     }
+
+
+    public String register(String username, String password) {
+        Credential row = credentialRepository.findByUsername(username);
+        System.out.println("0");
+
+        if (row != null) {
+            throw new RuntimeException("Este usuario ya existe");
+        }
+
+        System.out.println("1");
+
+        Credential newRow = new Credential();
+        newRow.setUsername(username);
+        newRow.setPassword(passwordEncoder.encode(password));
+        newRow.setRole("RIDER");
+        credentialRepository.save(newRow);
+
+        UserDetails userDetails = User.builder()
+                .username(username)
+                .password("") // no importa, no se usa
+                .authorities(newRow.getRole()) // por ejemplo "ROLE_ADMIN"
+                .build();
+
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+        return tokenProvider.createToken(authentication);
+    }
 }

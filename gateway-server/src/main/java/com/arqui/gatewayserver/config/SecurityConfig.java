@@ -2,16 +2,16 @@ package com.arqui.gatewayserver.config;
 
 import com.arqui.gatewayserver.security.jwt.JwtFilter;
 import com.arqui.gatewayserver.security.jwt.TokenProvider;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -24,6 +24,12 @@ public class SecurityConfig {
     }
 
     @Bean
+    @LoadBalanced
+    public WebClient.Builder loadBalancedWebClientBuilder() {
+        return WebClient.builder();
+    }
+
+    @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
 
         http.csrf(ServerHttpSecurity.CsrfSpec::disable);
@@ -32,7 +38,8 @@ public class SecurityConfig {
 
         http
                 .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers(HttpMethod.POST, "/api/authenticate").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/authenticate/sign-in").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/authenticate/sign-up").permitAll()
                         .pathMatchers("/api/accounts/**").hasAuthority("RIDER")
                         .pathMatchers("/api/skateboards/**").hasAuthority("RIDER")
                         .pathMatchers("/api/payments/**").hasAuthority("RIDER")

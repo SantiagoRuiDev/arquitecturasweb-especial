@@ -16,10 +16,18 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping("/authenticate")
+    @PostMapping("/sign-in")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO req) {
 
         String token = authService.authenticate(req.getUsername(), req.getPassword());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
+    }
+
+    @PostMapping("/sign-up")
+    public ResponseEntity<LoginResponseDTO> register(@RequestBody LoginRequestDTO req) {
+
+        String token = authService.register(req.getUsername(), req.getPassword());
 
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }

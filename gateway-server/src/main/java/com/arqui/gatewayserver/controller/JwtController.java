@@ -1,7 +1,6 @@
 package com.arqui.gatewayserver.controller;
 
 import com.arqui.gatewayserver.dto.request.LoginRequestDTO;
-import com.arqui.gatewayserver.dto.response.LoginResponseDTO;
 import com.arqui.gatewayserver.webclient.AuthClient;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.RequiredArgsConstructor;
@@ -19,16 +18,32 @@ public class JwtController {
     @Autowired
     private final AuthClient authClient;
 
-    @PostMapping
-    public ResponseEntity<JWTToken> authenticate(@RequestBody LoginRequestDTO request) {
-        Mono<LoginResponseDTO> loginResponse = authClient.authenticate(request);
+    @PostMapping("/sign-in")
+    public Mono<ResponseEntity<JWTToken>> authenticate(@RequestBody LoginRequestDTO request) {
 
-        String jwt = loginResponse.toString();
+        return authClient.authenticate(request)
+                .map(loginResponse -> {
+                    String jwt = loginResponse.getToken();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + jwt);
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.add("Authorization", "Bearer " + jwt);
 
-        return new ResponseEntity<>(new JWTToken(jwt), headers, HttpStatus.OK);
+                    return new ResponseEntity<>(new JWTToken(jwt), headers, HttpStatus.OK);
+                });
+    }
+
+    @PostMapping("/sign-up")
+    public Mono<ResponseEntity<JWTToken>> register(@RequestBody LoginRequestDTO request) {
+
+        return authClient.register(request)
+                .map(registerResponse -> {
+                    String jwt = registerResponse.getToken();
+
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.add("Authorization", "Bearer " + jwt);
+
+                    return new ResponseEntity<>(new JWTToken(jwt), headers, HttpStatus.OK);
+                });
     }
 
     static class JWTToken {
