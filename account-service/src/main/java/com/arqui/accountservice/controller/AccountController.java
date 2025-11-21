@@ -1,9 +1,6 @@
 package com.arqui.accountservice.controller;
 
-import com.arqui.accountservice.dto.request.AccountRequestDTO;
-import com.arqui.accountservice.dto.request.DiscountRequestDTO;
-import com.arqui.accountservice.dto.request.RechargeRequestDTO;
-import com.arqui.accountservice.dto.request.StatusUpdateRequestDTO;
+import com.arqui.accountservice.dto.request.*;
 import com.arqui.accountservice.dto.response.AccountResponseDTO;
 import com.arqui.accountservice.dto.response.DiscountResultDTO;
 import com.arqui.accountservice.dto.response.RechargeResultDTO;
