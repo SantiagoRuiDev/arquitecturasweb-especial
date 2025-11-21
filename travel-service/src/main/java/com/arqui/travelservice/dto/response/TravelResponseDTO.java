@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TravelResponseDTO {
-    private Long id;
+    private String id;
     private Long accountId;
     private Long userId;
     private Long scooterId;

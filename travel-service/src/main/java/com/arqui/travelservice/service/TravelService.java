@@ -15,9 +15,9 @@ import java.util.Optional;
 public interface TravelService {
     TravelResponseDTO startTravel(TravelRequestDTO request);
     TravelResponseDTO endTravel(TravelEndRequestDTO request);
-    TravelResponseDTO pauseTravel(Long id);
-    TravelResponseDTO resumePause(Long id);
-    TravelResponseDTO getTravelById(Long id);
+    TravelResponseDTO pauseTravel(String id);
+    TravelResponseDTO resumePause(String id);
+    TravelResponseDTO getTravelById(String id);
     List<TravelResponseDTO> getAllTravels();
 
     // C - Consultar los monopatines con mas de X viajes en un cierto año

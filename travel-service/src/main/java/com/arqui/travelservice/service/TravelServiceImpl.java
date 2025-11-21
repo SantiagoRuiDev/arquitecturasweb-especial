@@ -11,13 +11,12 @@ import com.arqui.travelservice.dto.ScooterUsageDTO;
 import com.arqui.travelservice.dto.PauseDTO;
 import com.arqui.travelservice.dto.TravelReportDTO;
 import com.arqui.travelservice.repository.TravelRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,14 +38,14 @@ public class TravelServiceImpl implements TravelService {
     @Override
     public List<ScooterUsageDTO> getTopScooters(int year, int minTrips) {
         // Implementación de la consulta de los monopatines con más de X viajes en un cierto año
-        return travelRepository.findTopScooters(year, minTrips);
+        return null;//travelRepository.findTopScooters(year, minTrips);
     }
 
     // E - Ver los usuarios que más utilizan los monopatines, filtrado por período y por tipo de usuario
     @Override
     public List<TravelReportDTO> getUserTripsByPeriodAndType(LocalDateTime startDate, LocalDateTime endDate, AccountType userType) {
         List<AccountResponseDTO> accounts = accountClient.findAllByType(userType);
-        List<TravelReportDTO> travelsInPeriod = travelRepository.findTripsByPeriod(startDate, endDate);
+        List<TravelReportDTO> travelsInPeriod = null;//travelRepository.findTripsByPeriod(startDate, endDate);
 
         if (accounts.isEmpty()) {
             return new ArrayList<>();
@@ -66,16 +65,15 @@ public class TravelServiceImpl implements TravelService {
     public List<UserScooterUsageDTO> getScootersUsageByUser(Long userId, LocalDateTime startDate, LocalDateTime endDate, boolean includeRelatedUsers) {
         if(includeRelatedUsers){
             UserResponseDTO user = accountClient.getUserById(userId);
-            return travelRepository.findScooterUsageByAccount(startDate, endDate, user.getAccounts());
+            return null;//travelRepository.findScooterUsageByAccount(startDate, endDate, user.getAccounts());
         } else {
-            return travelRepository.findScooterUsageByUser(startDate, endDate, userId);
+            return null;//.findScooterUsageByUser(startDate, endDate, userId);
         }
     }
 
     /* -------------------------------------------------------------------------------------------------------- */
     
     // Inicia un nuevo travel
-    @Transactional
     public TravelResponseDTO startTravel(TravelRequestDTO request) {
         Travel travel = TravelMapper.fromRequestDTO(request);
         ScooterRequestDTO dto = new ScooterRequestDTO();
@@ -118,15 +116,14 @@ public class TravelServiceImpl implements TravelService {
     }
 
     // Pausa el travel
-    @Override
-    public TravelResponseDTO pauseTravel(Long id) {
+    public TravelResponseDTO pauseTravel(String id) {
         Travel travel = travelRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Viaje no encontrado"));
 
         // Crear y guardar la pausa
         Pause pause = new Pause();
+        pause.setId(UUID.randomUUID().toString());
         pause.setStartPause(LocalDateTime.now());
-        pause.setTravel(travel);
         travel.setStatus(TravelStatus.PAUSED);
         travel.getPauses().add(pause);
         travelRepository.save(travel);
@@ -135,8 +132,7 @@ public class TravelServiceImpl implements TravelService {
     }
 
     // Finaliza una pausa
-    @Override
-    public TravelResponseDTO resumePause(Long id) {
+    public TravelResponseDTO resumePause(String id) {
         Pause pause = new Pause();
         pause.setId(id);
         pause.setEndPause(LocalDateTime.now());
@@ -171,7 +167,6 @@ public class TravelServiceImpl implements TravelService {
 
     // Terminar el travel
     @Override
-    @Transactional
     public TravelResponseDTO endTravel(TravelEndRequestDTO request) {
         Travel travel = travelRepository.findById(request.getTravelId())
                 .orElseThrow(() -> new RuntimeException("Viaje no encontrado"));
@@ -212,8 +207,7 @@ public class TravelServiceImpl implements TravelService {
     }
 
     // Obtener un viaje por su ID
-    @Override
-    public TravelResponseDTO getTravelById(Long id) {
+    public TravelResponseDTO getTravelById(String id) {
         return travelRepository.findById(id)
                 .map(TravelMapper::toDTO) // Mapear a DTO
                 .orElseThrow(() -> new RuntimeException("La id proporcionada no corresponde a ningún viaje existente"));

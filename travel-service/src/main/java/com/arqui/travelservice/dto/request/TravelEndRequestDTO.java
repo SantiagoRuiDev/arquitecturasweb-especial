@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TravelEndRequestDTO {
-    private Long travelId;
+    private String travelId;
     private Long endStopId;
     private Double distanceKm;
 }

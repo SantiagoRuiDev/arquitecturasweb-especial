@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PauseDTO {
-    private Long id;
+    private String id;
     private LocalDateTime startPause;
     private LocalDateTime endPause;
     private boolean exceededTimeLimit;

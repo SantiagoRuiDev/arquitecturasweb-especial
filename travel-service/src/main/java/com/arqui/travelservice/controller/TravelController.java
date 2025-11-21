@@ -59,19 +59,19 @@ public class TravelController {
 
     // Pausar un viaje
     @PostMapping("/pause/{id}")
-    public TravelResponseDTO pauseTravel(@PathVariable Long id) {
+    public TravelResponseDTO pauseTravel(@PathVariable String id) {
         return travelService.pauseTravel(id);
     }
 
     // Reanudar un viaje en pausa
     @PostMapping("/resume/{id}")
-    public TravelResponseDTO resumePause(@PathVariable Long id) {
+    public TravelResponseDTO resumePause(@PathVariable String id) {
         return travelService.resumePause(id);
     }
 
     // Get travel by ID
     @GetMapping("/{id}")
-    public TravelResponseDTO getById(@PathVariable Long id) {
+    public TravelResponseDTO getById(@PathVariable String id) {
         return travelService.getTravelById(id);
     }
 

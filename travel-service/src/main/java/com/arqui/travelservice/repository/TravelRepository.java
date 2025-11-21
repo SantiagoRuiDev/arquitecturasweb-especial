@@ -1,18 +1,9 @@
 package com.arqui.travelservice.repository;
-import java.time.LocalDateTime;
-import java.util.List;
-
-import com.arqui.travelservice.dto.response.UserScooterUsageDTO;
-import com.arqui.travelservice.entity.AccountType;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
-import com.arqui.travelservice.dto.ScooterUsageDTO;
-import com.arqui.travelservice.dto.TravelReportDTO;
 import com.arqui.travelservice.entity.Travel;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface TravelRepository extends JpaRepository<Travel, Long> {
-       @Query("SELECT new com.arqui.travelservice.dto.ScooterUsageDTO(t.scooterId, COUNT(t)) " +
+public interface TravelRepository extends MongoRepository<Travel, String> {
+    /*   @Query("SELECT new com.arqui.travelservice.dto.ScooterUsageDTO(t.scooterId, COUNT(t)) " +
                      "FROM Travel t " +
                      "WHERE YEAR(t.startTime) = :year " +
                      "GROUP BY t.scooterId " +
@@ -67,5 +58,5 @@ public interface TravelRepository extends JpaRepository<Travel, Long> {
     List<UserScooterUsageDTO> findScooterUsageByAccount(
             LocalDateTime startDate,
             LocalDateTime endDate,
-            List<Long> accounts);
+            List<Long> accounts);*/
 }
