@@ -38,15 +38,13 @@ public class TravelServiceImpl implements TravelService {
     @Override
     public List<ScooterUsageDTO> getTopScooters(int year, int minTrips) {
         // Implementación de la consulta de los monopatines con más de X viajes en un cierto año
-        return null;//travelRepository.findTopScooters(year, minTrips);
+        return travelRepository.findTopScooters(year, minTrips);
     }
 
     // E - Ver los usuarios que más utilizan los monopatines, filtrado por período y por tipo de usuario
     @Override
     public List<TravelReportDTO> getUserTripsByPeriodAndType(LocalDateTime startDate, LocalDateTime endDate, AccountType userType) {
-        List<AccountResponseDTO> accounts = accountClient.findAllByType(userType);
-        List<TravelReportDTO> travelsInPeriod = null;//travelRepository.findTripsByPeriod(startDate, endDate);
-
+        List<AccountResponseDTO> accounts = accountClient.findAllByType(userType);        
         if (accounts.isEmpty()) {
             return new ArrayList<>();
         }
@@ -55,9 +53,11 @@ public class TravelServiceImpl implements TravelService {
                 .map(AccountResponseDTO::getId)
                 .toList();
 
-        travelsInPeriod.removeIf(t -> !accountIds.contains(t.getAccountId()));
+        List<TravelReportDTO> travelsInPeriod = travelRepository.findTripsByPeriod(startDate, endDate);
 
-        return travelsInPeriod;
+        return travelsInPeriod.stream()
+            .filter(t -> accountIds.contains(t.getAccountId()))
+            .toList();
     }
 
     // H - Como usuario quiero saber cuánto he usado los monopatines en un período, y opcionalmente si otros usuarios relacionados a mi cuenta los han usado.
@@ -65,9 +65,9 @@ public class TravelServiceImpl implements TravelService {
     public List<UserScooterUsageDTO> getScootersUsageByUser(Long userId, LocalDateTime startDate, LocalDateTime endDate, boolean includeRelatedUsers) {
         if(includeRelatedUsers){
             UserResponseDTO user = accountClient.getUserById(userId);
-            return null;//travelRepository.findScooterUsageByAccount(startDate, endDate, user.getAccounts());
+            return travelRepository.findScooterUsageByAccount(startDate, endDate, user.getAccounts());
         } else {
-            return null;//.findScooterUsageByUser(startDate, endDate, userId);
+            return travelRepository.findScooterUsageByUser(startDate, endDate, userId);
         }
     }
 

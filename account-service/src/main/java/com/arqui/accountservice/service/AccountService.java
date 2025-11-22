@@ -65,35 +65,59 @@ public class AccountService {
     }
 
     @Transactional
-    public DiscountResultDTO discount (Long id, DiscountRequestDTO req) {
-        Account ac = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
+    public DiscountResultDTO discount(Long id, DiscountRequestDTO req) {
+
+        Account ac = accountRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
+
         DiscountResultDTO res = new DiscountResultDTO();
+        double amount = req.getAmount();
 
-        if(ac.getCredits() >= req.getAmount()){
-            ac.setCredits(ac.getCredits() - req.getAmount());
+        // Caso 1: El usuario tiene créditos suficientes
+        if (ac.getCredits() >= amount) {
+
+            ac.setCredits(ac.getCredits() - amount);
             accountRepository.save(ac);
-        } else {
-            RechargeRequestDTO dto = new RechargeRequestDTO();
-            dto.setAmount(req.getAmount());
-            RechargeResultDTO recharge = paymentClient.charge(ac.getPaymentMethodId(), dto);
 
-            if(recharge.isCharged()){
-                ac.setCredits(ac.getCredits() + res.getAmount());
-                ac.setCredits(ac.getCredits() - res.getAmount());
-                accountRepository.save(ac);
-            } else {
-                res.setDiscounted(false);
-                res.setAmount(req.getAmount());
-                res.setInfo("No se pudo descontar la cantidad de creditos " + req.getAmount() + " correctamente.");
-            }
+            res.setDiscounted(true);
+            res.setAmount(amount);
+            res.setInfo("Se descontaron " + amount + " créditos correctamente.");
+            return res;
         }
 
-        res.setDiscounted(true);
-        res.setAmount(req.getAmount());
-        res.setInfo("Se le desconto la cantidad de creditos " + req.getAmount() + " correctamente.");
+        // Caso 2: NO tiene créditos -> se intenta recargar y luego descontar
+        RechargeRequestDTO dto = new RechargeRequestDTO();
+        dto.setAmount(amount);
 
+        RechargeResultDTO recharge;
+        try {
+            recharge = paymentClient.charge(ac.getPaymentMethodId(), dto);
+        } catch (Exception e) {
+            res.setDiscounted(false);
+            res.setAmount(amount);
+            res.setInfo("Error al contactar servicio de pago: " + e.getMessage());
+            return res;
+        }
+
+        if (!recharge.isCharged()) {
+            res.setDiscounted(false);
+            res.setAmount(amount);
+            res.setInfo("No se pudo realizar el cobro externo.");
+            return res;
+        }
+
+        // Recarga exitosa: se suman créditos y luego se descuenta
+        ac.setCredits(ac.getCredits() + amount);
+        ac.setCredits(ac.getCredits() - amount); // jeje
+
+        accountRepository.save(ac);
+
+        res.setDiscounted(true);
+        res.setAmount(amount);
+        res.setInfo("Se realizó un cobro externo y se descontaron los créditos correctamente.");
         return res;
     }
+
 
     public AccountResponseDTO setStatus(Long id, StatusUpdateRequestDTO req) {
         Account ac = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));

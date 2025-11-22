@@ -3,60 +3,54 @@ import com.arqui.travelservice.entity.Travel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface TravelRepository extends MongoRepository<Travel, String> {
-    /*   @Query("SELECT new com.arqui.travelservice.dto.ScooterUsageDTO(t.scooterId, COUNT(t)) " +
-                     "FROM Travel t " +
-                     "WHERE YEAR(t.startTime) = :year " +
-                     "GROUP BY t.scooterId " +
-                     "HAVING COUNT(t) >= :minTrips " +
-                     "ORDER BY COUNT(t) DESC")
+
+    // C – Scooters con más de X viajes en un año
+    @Aggregation(pipeline = {
+        "{ $match: { $expr: { $eq: [ { $year: '$startTime' }, ?0 ] } } }",
+        "{ $group: { _id: '$scooterId', totalTrips: { $count: {} } } }",
+        "{ $match: { totalTrips: { $gte: ?1 } } }",
+        "{ $sort: { totalTrips: -1 } }",
+        "{ $project: { scooterId: '$_id', totalTrips: 1, _id: 0 } }"
+    })
     List<ScooterUsageDTO> findTopScooters(int year, int minTrips);
 
-    @Query("SELECT new com.arqui.travelservice.dto.TravelReportDTO(t.userId, t.accountId, COUNT(t), SUM(t.distanceKm)) " +
-           "FROM Travel t " +
-           "WHERE t.startTime >= :startDate AND t.endTime <= :endDate " +
-           "GROUP BY t.userId " +
-           "ORDER BY COUNT(t) DESC")
+
+    // E – Usuarios que más viajan en un período
+    @Aggregation(pipeline = {
+        "{ $match: { startTime: { $gte: ?0 }, endTime: { $lte: ?1 } } }",
+        "{ $group: { _id: '$userId', accountId: { $first: '$accountId' }, " +
+            "tripCount: { $count: {} }, totalKm: { $sum: '$distanceKm' } } }",
+        "{ $sort: { tripCount: -1 } }",
+        "{ $project: { userId: '$_id', accountId: 1, tripCount: 1, totalKm: 1, _id: 0 } }"
+    })
     List<TravelReportDTO> findTripsByPeriod(LocalDateTime startDate, LocalDateTime endDate);
 
-    @Query("""
-        SELECT new com.arqui.travelservice.dto.response.UserScooterUsageDTO(
-            t.scooterId,
-            t.userId,
-            MIN(t.startTime),
-            MAX(t.endTime),
-            SUM(t.distanceKm),
-            COUNT(t)
-        )
-        FROM Travel t
-        WHERE t.startTime >= :startDate
-          AND t.endTime <= :endDate
-          AND t.userId = :userId
-        GROUP BY t.scooterId, t.userId
-        ORDER BY COUNT(t) DESC
-        """)
+
+    // H – Uso de un usuario
+    @Aggregation(pipeline = {
+        "{ $match: { startTime: { $gte: ?0 }, endTime: { $lte: ?1 }, userId: ?2 } }",
+        "{ $group: { _id: { scooterId: '$scooterId', userId: '$userId' }, " +
+            "firstUse: { $min: '$startTime' }, lastUse: { $max: '$endTime' }, " +
+            "totalKm: { $sum: '$distanceKm' }, totalTrips: { $count: {} } } }",
+        "{ $sort: { totalTrips: -1 } }",
+        "{ $project: { scooterId: '$_id.scooterId', userId: '$_id.userId', firstUse: 1, lastUse: 1, totalKm: 1, totalTrips: 1, _id: 0 } }"
+    })
     List<UserScooterUsageDTO> findScooterUsageByUser(
             LocalDateTime startDate,
             LocalDateTime endDate,
             Long userId);
 
-    @Query("""
-        SELECT new com.arqui.travelservice.dto.response.UserScooterUsageDTO(
-            t.scooterId,
-            t.userId,
-            MIN(t.startTime),
-            MAX(t.endTime),
-            SUM(t.distanceKm),
-            COUNT(t)
-        )
-        FROM Travel t
-        WHERE t.startTime >= :startDate
-          AND t.endTime <= :endDate
-          AND t.accountId IN :accounts
-        GROUP BY t.scooterId, t.userId
-        ORDER BY COUNT(t) DESC
-        """)
+
+    @Aggregation(pipeline = {
+        "{ $match: { startTime: { $gte: ?0 }, endTime: { $lte: ?1 }, accountId: { $in: ?2 } } }",
+        "{ $group: { _id: { scooterId: '$scooterId', userId: '$userId' }, " +
+            "firstUse: { $min: '$startTime' }, lastUse: { $max: '$endTime' }, " +
+            "totalKm: { $sum: '$distanceKm' }, totalTrips: { $count: {} } } }",
+        "{ $sort: { totalTrips: -1 } }",
+        "{ $project: { scooterId: '$_id.scooterId', userId: '$_id.userId', firstUse: 1, lastUse: 1, totalKm: 1, totalTrips: 1, _id: 0 } }"
+    })
     List<UserScooterUsageDTO> findScooterUsageByAccount(
             LocalDateTime startDate,
             LocalDateTime endDate,
-            List<Long> accounts);*/
+            List<Long> accounts);
 }
