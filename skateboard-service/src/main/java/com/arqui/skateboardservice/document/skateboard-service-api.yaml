@@ -1,0 +1,286 @@
+openapi: 3.0.1
+info:
+  title: Skateboard Service API
+  version: 1.0.0
+  description: API del microservicio encargado de gestionar monopatines.
+
+servers:
+  - url: http://localhost:8080/skateboards
+
+paths:
+
+  /:
+    post:
+      summary: Crear un monopatín
+      description: Crea un nuevo monopatín.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SkateboardRequestDTO"
+      responses:
+        "200":
+          description: Monopatín creado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SkateboardResponseDTO"
+
+    get:
+      summary: Listar todos los monopatines
+      description: Retorna la lista completa de monopatines.
+      responses:
+        "200":
+          description: Lista de monopatines.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SkateboardResponseDTO"
+
+  /{id}:
+    get:
+      summary: Obtener monopatín por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Monopatín encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SkateboardResponseDTO"
+
+    delete:
+      summary: Eliminar monopatín
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Eliminado correctamente
+        "404":
+          description: No encontrado
+
+    put:
+      summary: Actualizar monopatín
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SkateboardRequestDTO"
+      responses:
+        "200":
+          description: Monopatín actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SkateboardResponseDTO"
+
+  /{id}/status:
+    put:
+      summary: Actualizar estado del monopatín
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScooterStatusRequestDTO"
+      responses:
+        "200":
+          description: Estado actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SkateboardResponseDTO"
+
+  /{id}/station/{stationId}:
+    put:
+      summary: Asignar monopatín a estación
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+        - name: stationId
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Monopatín asignado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SkateboardResponseDTO"
+
+  /{id}/maintenance:
+    put:
+      summary: Registrar monopatín en mantenimiento
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Mantenimiento registrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SkateboardResponseDTO"
+
+  /nearby:
+    get:
+      summary: Buscar monopatines cercanos
+      parameters:
+        - name: lat
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: lon
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: radiusKm
+          in: query
+          required: false
+          schema:
+            type: number
+            default: 0.5
+      responses:
+        "200":
+          description: Monopatines encontrados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SkateboardResponseDTO"
+
+  /report/km:
+    get:
+      summary: Reporte por kilómetros recorridos
+      parameters:
+        - name: minKm
+          in: query
+          required: true
+          schema: { type: number }
+        - name: includePauseTime
+          in: query
+          required: false
+          schema: { type: boolean }
+          default: false
+      responses:
+        "200":
+          description: Reporte de monopatines
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SkateboardResponseDTO"
+
+  /report/maintenance:
+    get:
+      summary: Obtener monopatines en mantenimiento
+      responses:
+        "200":
+          description: Lista de monopatines en mantenimiento
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SkateboardResponseDTO"
+
+  /{id}/usage:
+    put:
+      summary: Actualizar uso del monopatín
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SkateboardUsageUpdateDTO"
+      responses:
+        "200":
+          description: Uso actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SkateboardResponseDTO"
+
+components:
+
+  schemas:
+
+    SkateboardRequestDTO:
+      type: object
+      properties:
+        model:
+          type: string
+        battery:
+          type: number
+        kmTravelled:
+          type: number
+
+    ScooterStatusRequestDTO:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [AVAILABLE, IN_USE, MAINTENANCE]
+
+    SkateboardUsageUpdateDTO:
+      type: object
+      properties:
+        km:
+          type: number
+        pauseMinutes:
+          type: number
+
+    SkateboardResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        model:
+          type: string
+        battery:
+          type: number
+        kmTravelled:
+          type: number
+        status:
+          type: string
+        stationId:
+          type: integer

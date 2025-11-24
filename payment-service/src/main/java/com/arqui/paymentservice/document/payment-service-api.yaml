@@ -1,0 +1,135 @@
+/api/payments:
+  post:
+    summary: Crear método de pago
+    description: Registra un nuevo método de pago en el sistema.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/PaymentMethodRequestDTO"
+    responses:
+      "200":
+        description: Método de pago creado correctamente.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentMethodResponseDTO"
+
+/api/payments/charge/{id}:
+  post:
+    summary: Cobrar a un método de pago
+    description: Realiza un cobro sobre un método de pago específico.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 12
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/PaymentChargeRequestDTO"
+    responses:
+      "200":
+        description: Cobro realizado correctamente.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentChargeResultDTO"
+
+/api/payments/{id}:
+  get:
+    summary: Obtener método de pago por ID
+    description: Devuelve los datos de un método de pago particular.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 5
+    responses:
+      "200":
+        description: Método de pago encontrado.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentMethodResponseDTO"
+
+  delete:
+    summary: Eliminar método de pago
+    description: Elimina un método de pago. Devuelve 204 si se elimina, o 404 si no existe.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          example: 9
+    responses:
+      "204":
+        description: Eliminado correctamente.
+      "404":
+        description: El método de pago no existe.
+
+
+components:
+  schemas:
+
+    PaymentMethodRequestDTO:
+      type: object
+      properties:
+        type:
+          type: string
+        accountNumber:
+          type: string
+        holderName:
+          type: string
+      required:
+        - type
+        - accountNumber
+        - holderName
+
+    PaymentMethodResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+        accountNumber:
+          type: string
+        holderName:
+          type: string
+      required:
+        - id
+        - type
+        - accountNumber
+        - holderName
+
+    PaymentChargeRequestDTO:
+      type: object
+      properties:
+        amount:
+          type: number
+          format: double
+        description:
+          type: string
+      required:
+        - amount
+
+    PaymentChargeResultDTO:
+      type: object
+      properties:
+        success:
+          type: boolean
+        transactionId:
+          type: string
+        message:
+          type: string
+      required:
+        - success

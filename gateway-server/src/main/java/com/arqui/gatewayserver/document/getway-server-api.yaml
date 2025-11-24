@@ -1,0 +1,78 @@
+/api/authenticate/sign-in:
+  post:
+    summary: Autenticar usuario
+    description: Autentica un usuario contra el servicio Auth y retorna un JWT.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/LoginRequestDTO"
+          example:
+            username: "grupo25"
+            password: "12345"
+    responses:
+      "200":
+        description: Autenticación exitosa. Devuelve un JWT.
+        headers:
+          Authorization:
+            description: Token JWT generado por el sistema
+            schema:
+              type: string
+              example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JWTToken"
+            example:
+              id_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+
+/api/authenticate/sign-up:
+  post:
+    summary: Registrar nuevo usuario
+    description: Registra un nuevo usuario y retorna un token JWT asociado.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/LoginRequestDTO"
+          example:
+            username: "nuevo_usuario"
+            password: "secret"
+    responses:
+      "200":
+        description: Registro exitoso. Devuelve un JWT.
+        headers:
+          Authorization:
+            description: Token JWT generado después del registro
+            schema:
+              type: string
+              example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JWTToken"
+            example:
+              id_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+
+
+  components:
+    schemas:
+
+      LoginRequestDTO:
+        type: object
+        properties:
+          username:
+            type: string
+          password:
+            type: string
+        required:
+          - username
+          - password
+
+      JWTToken:
+        type: object
+        properties:
+          id_token:
+            type: string

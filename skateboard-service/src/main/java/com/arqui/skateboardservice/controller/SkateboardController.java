@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/skateboards")
@@ -19,7 +19,7 @@ public class SkateboardController {
     @Autowired
     private SkateboardService skateboardService;
 
-    // (3) - Agregar monopatin
+
     @PostMapping("")
     public ResponseEntity<SkateboardResponseDTO> save(@RequestBody SkateboardRequestDTO req) {
         SkateboardResponseDTO res =skateboardService.save(req);

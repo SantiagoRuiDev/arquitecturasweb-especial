@@ -1,0 +1,142 @@
+/api/stations:
+  post:
+    summary: Crear estación
+    description: Crea una nueva estación donde pueden asignarse monopatines.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/StationRequestDTO"
+    responses:
+      "200":
+        description: Estación creada correctamente.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StationResponseDTO"
+
+  get:
+    summary: Listar todas las estaciones
+    description: Devuelve todas las estaciones registradas.
+    responses:
+      "200":
+        description: Lista de estaciones.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/StationResponseDTO"
+
+/api/stations/{id}:
+  get:
+    summary: Obtener estación por ID
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: integer }
+    responses:
+      "200":
+        description: Estación encontrada.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StationResponseDTO"
+
+  put:
+    summary: Actualizar estación
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: integer }
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/StationRequestDTO"
+    responses:
+      "200":
+        description: Estación actualizada correctamente.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StationResponseDTO"
+
+  delete:
+    summary: Eliminar estación
+    description: Elimina una estación por ID.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: integer }
+    responses:
+      "204":
+        description: Estación eliminada correctamente.
+      "404":
+        description: Estación no encontrada.
+
+/api/stations/active:
+  get:
+    summary: Listar estaciones activas
+    description: Devuelve todas las estaciones que están en estado activo.
+    responses:
+      "200":
+        description: Lista de estaciones activas.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/StationResponseDTO"
+
+
+  components:
+    schemas:
+      StationRequestDTO:
+        type: object
+        properties:
+          name:
+            type: string
+          latitude:
+            type: number
+            format: double
+          longitude:
+            type: number
+            format: double
+          capacity:
+            type: integer
+        required:
+          - name
+          - latitude
+          - longitude
+          - capacity
+
+      StationResponseDTO:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+          latitude:
+            type: number
+            format: double
+          longitude:
+            type: number
+            format: double
+          capacity:
+            type: integer
+          active:
+            type: boolean
+        required:
+          - id
+          - name
+          - latitude
+          - longitude
+          - capacity
+          - active

@@ -1,0 +1,129 @@
+openapi: 3.0.1
+info:
+  title: User Service API
+  version: 1.0.0
+  description: API para la gestión de usuarios del sistema.
+
+servers:
+  - url: http://localhost:8080/api/users
+
+paths:
+
+  /:
+    post:
+      summary: Crear usuario
+      description: Crea un nuevo usuario.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRequestDTO"
+      responses:
+        "200":
+          description: Usuario creado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponseDTO"
+
+    get:
+      summary: Listar usuarios
+      description: Devuelve la lista de todos los usuarios registrados.
+      responses:
+        "200":
+          description: Lista de usuarios.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserResponseDTO"
+
+  /{id}:
+    get:
+      summary: Obtener usuario por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponseDTO"
+        "404":
+          description: No existe un usuario con ese ID.
+
+    put:
+      summary: Actualizar usuario por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRequestDTO"
+      responses:
+        "200":
+          description: Usuario actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponseDTO"
+
+    delete:
+      summary: Eliminar usuario por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Usuario eliminado correctamente
+        "404":
+          description: Usuario no encontrado
+
+components:
+
+  schemas:
+
+    UserRequestDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+        birthDate:
+          type: string
+          format: date
+      required:
+        - name
+        - lastname
+        - email
+
+    UserResponseDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+        birthDate:
+          type: string
+          format: date

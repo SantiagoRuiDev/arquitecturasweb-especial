@@ -1,0 +1,236 @@
+/api/travels/scooters/top/{year}/{minTrips}:
+  get:
+    summary: Scooters con más viajes en un año
+    description: Obtiene la lista de monopatines que superan un mínimo de viajes durante un año específico.
+    parameters:
+      - name: year
+        in: path
+        required: true
+        schema: { type: integer }
+      - name: minTrips
+        in: path
+        required: true
+        schema: { type: integer }
+    responses:
+      "200":
+        description: Lista de scooters y su cantidad de viajes.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/ScooterUsageDTO"
+
+/api/travels/users/{startDate}/{endDate}/{userType}:
+  get:
+    summary: Usuarios que más utilizan los monopatines
+    description: Filtra usuarios por período y tipo de cuenta.
+    parameters:
+      - name: startDate
+        in: path
+        required: true
+        schema: { type: string, format: date-time }
+      - name: endDate
+        in: path
+        required: true
+        schema: { type: string, format: date-time }
+      - name: userType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum: [ADMIN, STANDARD, PREMIUM]   # Ajustalo si tenés otros tipos
+    responses:
+      "200":
+        description: Lista de usuarios y su uso.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/TravelReportDTO"
+
+/api/travels/usage/{userId}/{startDate}/{endDate}:
+  get:
+    summary: Uso de monopatines por usuario
+    description: Permite consultar cuántos viajes realizó un usuario (y opcionalmente sus usuarios relacionados) en un período.
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema: { type: integer }
+      - name: startDate
+        in: path
+        required: true
+        schema: { type: string, format: date-time }
+      - name: endDate
+        in: path
+        required: true
+        schema: { type: string, format: date-time }
+      - name: includeRelatedUsers
+        in: query
+        required: false
+        schema: { type: boolean, default: false }
+    responses:
+      "200":
+        description: Lista de usos del monopatín.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/UserScooterUsageDTO"
+
+/api/travels/start:
+  post:
+    summary: Iniciar un viaje
+    description: Comienza un viaje para un usuario en un monopatín.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/TravelRequestDTO"
+    responses:
+      "200":
+        description: Viaje iniciado.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TravelResponseDTO"
+
+/api/travels/end:
+  post:
+    summary: Finalizar un viaje
+    description: Termina un viaje en curso.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/TravelEndRequestDTO"
+    responses:
+      "200":
+        description: Viaje finalizado.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TravelResponseDTO"
+
+/api/travels/pause/{id}:
+  post:
+    summary: Pausar un viaje
+    description: Pausa un viaje en curso.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: string }
+    responses:
+      "200":
+        description: Viaje pausado.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TravelResponseDTO"
+
+/api/travels/resume/{id}:
+  post:
+    summary: Reanudar un viaje pausado
+    description: Reanuda un viaje que había sido pausado.
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: string }
+    responses:
+      "200":
+        description: Viaje reanudado.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TravelResponseDTO"
+
+/api/travels/{id}:
+  get:
+    summary: Obtener viaje por ID
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: string }
+    responses:
+      "200":
+        description: Detalle del viaje.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TravelResponseDTO"
+
+/api/travels:
+  get:
+    summary: Listar todos los viajes
+    description: Devuelve todos los viajes registrados.
+    responses:
+      "200":
+        description: Lista completa de viajes.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/TravelResponseDTO"
+
+
+  components:
+    schemas:
+      ScooterUsageDTO:
+        type: object
+        properties:
+          scooterId: { type: integer }
+          trips: { type: integer }
+
+      TravelReportDTO:
+        type: object
+        properties:
+          userId: { type: integer }
+          totalTrips: { type: integer }
+          totalMinutes: { type: number }
+
+      UserScooterUsageDTO:
+        type: object
+        properties:
+          scooterId: { type: integer }
+          minutesUsed: { type: number }
+
+      TravelRequestDTO:
+        type: object
+        properties:
+          userId: { type: integer }
+          scooterId: { type: integer }
+          startLocation:
+            type: object
+            properties:
+              lat: { type: number }
+              lon: { type: number }
+
+      TravelEndRequestDTO:
+        type: object
+        properties:
+          travelId: { type: string }
+          endLocation:
+            type: object
+            properties:
+              lat: { type: number }
+              lon: { type: number }
+
+      TravelResponseDTO:
+        type: object
+        properties:
+          id: { type: string }
+          userId: { type: integer }
+          scooterId: { type: integer }
+          startTime: { type: string, format: date-time }
+          endTime: { type: string, format: date-time }
+          paused: { type: boolean }
+          totalMinutes: { type: number }

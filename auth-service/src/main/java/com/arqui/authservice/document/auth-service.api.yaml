@@ -1,0 +1,72 @@
+/api/auth/sign-in:
+  post:
+    summary: User login
+    description: Autentica un usuario existente usando username y password. Devuelve un token JWT si las credenciales son válidas.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LoginRequestDTO'
+          example:
+            username: "grupo25@tudai.com"
+            password: "1234"
+    responses:
+      "200":
+        description: Login exitoso
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginResponseDTO'
+            example:
+              token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      "401":
+        description: Credenciales inválidas
+
+        /api/auth/sign-up:
+          post:
+            summary: User registration
+            description: Registra un nuevo usuario con username y password. Devuelve un token JWT al finalizar.
+            requestBody:
+              required: true
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/LoginRequestDTO'
+                  example:
+                    username: "nuevoUsuario"
+                    password: "abcd"
+            responses:
+              "200":
+                description: Registro exitoso
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/LoginResponseDTO'
+                    example:
+                      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+              "400":
+                description: El usuario ya existe o los datos son inválidos
+
+          components:
+            schemas:
+
+              LoginRequestDTO:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  password:
+                    type: string
+                required:
+                  - username
+                  - password
+
+              LoginResponseDTO:
+                type: object
+                properties:
+                  token:
+                    type: string
+                required:
+                  - token
+
