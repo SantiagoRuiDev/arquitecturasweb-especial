@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RateRequestDTO {
-    private Integer rate;
-    private Integer rate_extra_pause;
+    private double rate;
+    private double rate_extra_pause;
 }

@@ -1,82 +1,93 @@
-/api/rates:
-  post:
-    summary: Crear nueva tarifa
-    description: Crea una nueva tarifa (rate) en el sistema.
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/RateRequestDTO"
-    responses:
-      "200":
-        description: Tarifa creada correctamente.
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/RateResponseDTO"
+openapi: 3.0.1
+info:
+  title: Rate Service API
+  version: 1.0.0
+  description: API para la gestión y registro de las tarifcas de transporte.
 
-  put:
-    summary: Actualizar tarifa
-    description: Actualiza la tarifa actualmente vigente en el sistema.
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/RateRequestDTO"
-    responses:
-      "200":
-        description: Tarifa actualizada correctamente.
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/RateResponseDTO"
+servers:
+  - url: http://localhost:8080/api/rates
 
-  get:
-    summary: Obtener tarifa actual
-    description: Devuelve la tarifa vigente actualmente en el sistema.
-    responses:
-      "200":
-        description: Tarifa vigente obtenida correctamente.
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/RateResponseDTO"
+paths:
+
+    /:
+      post:
+        summary: Crear nueva tarifa
+        description: Crea una nueva tarifa (rate) en el sistema.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RateRequestDTO"
+        responses:
+          "200":
+            description: Tarifa creada correctamente.
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/RateResponseDTO"
+
+      put:
+        summary: Actualizar tarifa
+        description: Actualiza la tarifa actualmente vigente en el sistema.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RateRequestDTO"
+        responses:
+          "200":
+            description: Tarifa actualizada correctamente.
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/RateResponseDTO"
+
+      get:
+        summary: Obtener tarifa actual
+        description: Devuelve la tarifa vigente actualmente en el sistema.
+        responses:
+          "200":
+            description: Tarifa vigente obtenida correctamente.
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/RateResponseDTO"
 
 
-  components:
-    schemas:
+components:
+        schemas:
 
-      RateRequestDTO:
-        type: object
-        properties:
-          pricePerMinute:
-            type: number
-            format: double
-          pricePauseMinute:
-            type: number
-            format: double
-        required:
-          - pricePerMinute
-          - pricePauseMinute
+          RateRequestDTO:
+            type: object
+            properties:
+              pricePerMinute:
+                type: number
+                format: double
+              pricePauseMinute:
+                type: number
+                format: double
+            required:
+              - pricePerMinute
+              - pricePauseMinute
 
-      RateResponseDTO:
-        type: object
-        properties:
-          id:
-            type: integer
-          pricePerMinute:
-            type: number
-            format: double
-          pricePauseMinute:
-            type: number
-            format: double
-          startDate:
-            type: string
-            format: date-time
-        required:
-          - id
-          - pricePerMinute
-          - pricePauseMinute
-          - startDate
+          RateResponseDTO:
+            type: object
+            properties:
+              id:
+                type: integer
+              pricePerMinute:
+                type: number
+                format: double
+              pricePauseMinute:
+                type: number
+                format: double
+              startDate:
+                type: string
+                format: date-time
+            required:
+              - id
+              - pricePerMinute
+              - pricePauseMinute
+              - startDate

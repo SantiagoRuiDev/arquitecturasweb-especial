@@ -1,0 +1,62 @@
+openapi: 3.0.1
+info:
+  title: Auth Service API
+  version: 1.0.0
+  description: API para la gestión de credenciales de autenticación y generacion de JSON Web Token
+
+servers:
+  - url: http://localhost:8080/api/auth
+
+paths:
+
+  /sign-up:
+    post:
+      summary: Crear una nueva credencial
+      description: Crear credenciales para poder autenticarse.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequestDTO"
+      responses:
+        "200":
+          description: Credencial cargada correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponseDTO"
+  /sign-in:
+    post:
+      summary: Autenticarse mediante una credencial
+      description: Enviar credenciales para realizar validacion.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequestDTO"
+      responses:
+        "200":
+          description: Credencial validada correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponseDTO"
+
+components:
+
+  schemas:
+    LoginRequestDTO:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    LoginResponseDTO:
+      type: object
+      properties:
+        token:
+          type: string

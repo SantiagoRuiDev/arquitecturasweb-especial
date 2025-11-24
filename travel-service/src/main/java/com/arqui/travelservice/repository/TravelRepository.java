@@ -1,6 +1,13 @@
 package com.arqui.travelservice.repository;
+import com.arqui.travelservice.dto.ScooterUsageDTO;
+import com.arqui.travelservice.dto.TravelReportDTO;
+import com.arqui.travelservice.dto.response.UserScooterUsageDTO;
 import com.arqui.travelservice.entity.Travel;
+import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 public interface TravelRepository extends MongoRepository<Travel, String> {
 

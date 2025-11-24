@@ -1,0 +1,8 @@
+openapi: 3.0.1
+info:
+  title: API Gateway
+  version: 1.0.0
+  description: Puerta de entrada a micro-servicios.
+
+servers:
+  - url: http://localhost:8080/api

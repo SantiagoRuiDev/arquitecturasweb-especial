@@ -1,5 +1,6 @@
 package com.arqui.travelservice.controller;
 
+import com.arqui.travelservice.dto.response.EstimatedTravelResponseDTO;
 import com.arqui.travelservice.dto.response.UserScooterUsageDTO;
 import com.arqui.travelservice.entity.AccountType;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,12 @@ public class TravelController {
 
     public TravelController(TravelService travelService) {
         this.travelService = travelService;
+    }
+
+    // Consultar el precio estimado de un viaje
+    @GetMapping("/estimate/{startStation}/{endStation}")
+    public EstimatedTravelResponseDTO getEstimatedTravelPrice(@PathVariable Long startStation, @PathVariable Long endStation) {
+        return travelService.getEstimatedTravelPrice(startStation, endStation);
     }
 
     // C - Consultar los monopatines con mas de X viajes en un cierto año

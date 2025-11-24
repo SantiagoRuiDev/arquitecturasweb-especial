@@ -1,62 +1,72 @@
-/api/bills/earnings-report:
-  get:
-    summary: Obtener reporte de ganancias
-    description: Devuelve el total facturado entre un rango de meses dentro de un año determinado.
-    parameters:
-      - name: year
-        in: query
-        required: true
-        schema:
-          type: integer
-          example: 2024
-      - name: startMonth
-        in: query
-        required: true
-        schema:
-          type: integer
-          minimum: 1
-          maximum: 12
-          example: 1
-      - name: endMonth
-        in: query
-        required: true
-        schema:
-          type: integer
-          minimum: 1
-          maximum: 12
-          example: 6
-    responses:
-      "200":
-        description: Reporte de ganancias calculado correctamente.
-        content:
-          application/json:
+openapi: 3.0.1
+info:
+  title: Payment Service API
+  version: 1.0.0
+  description: API para la gestión de metodos de pagos y cobros a servicios de terceros externos.
+
+servers:
+  - url: http://localhost:8080/api/payments
+
+paths:
+    /api/bills/earnings-report:
+      get:
+        summary: Obtener reporte de ganancias
+        description: Devuelve el total facturado entre un rango de meses dentro de un año determinado.
+        parameters:
+          - name: year
+            in: query
+            required: true
             schema:
-              $ref: "#/components/schemas/BillReportResponseDTO"
-            example:
-              totalEarnings: 152340.75
-              year: 2024
-              startMonth: 1
-              endMonth: 6
+              type: integer
+              example: 2024
+          - name: startMonth
+            in: query
+            required: true
+            schema:
+              type: integer
+              minimum: 1
+              maximum: 12
+              example: 1
+          - name: endMonth
+            in: query
+            required: true
+            schema:
+              type: integer
+              minimum: 1
+              maximum: 12
+              example: 6
+        responses:
+          "200":
+            description: Reporte de ganancias calculado correctamente.
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/BillReportResponseDTO"
+                example:
+                  totalEarnings: 152340.75
+                  year: 2024
+                  startMonth: 1
+                  endMonth: 6
 
 
-              components:
-                schemas:
+                  components:
+                    schemas:
 
-                  BillReportResponseDTO:
-                    type: object
-                    properties:
-                      totalEarnings:
-                        type: number
-                        format: double
-                      year:
-                        type: integer
-                      startMonth:
-                        type: integer
-                      endMonth:
-                        type: integer
-                    required:
-                      - totalEarnings
-                      - year
-                      - startMonth
-                      - endMonth
+                      BillReportResponseDTO:
+                        type: object
+                        properties:
+                          totalEarnings:
+                            type: number
+                            format: double
+                          year:
+                            type: integer
+                          startMonth:
+                            type: integer
+                          endMonth:
+                            type: integer
+                        required:
+                          - totalEarnings
+                          - year
+                          - startMonth
+                          - endMonth
 

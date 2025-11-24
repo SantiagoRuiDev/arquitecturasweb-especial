@@ -6,11 +6,13 @@ import com.arqui.travelservice.entity.*;
 import com.arqui.travelservice.feignClient.AccountClient;
 import com.arqui.travelservice.feignClient.ScooterClient;
 import com.arqui.travelservice.feignClient.RateClient;
+import com.arqui.travelservice.feignClient.StationClient;
 import com.arqui.travelservice.mapper.TravelMapper;
 import com.arqui.travelservice.dto.ScooterUsageDTO;
 import com.arqui.travelservice.dto.PauseDTO;
 import com.arqui.travelservice.dto.TravelReportDTO;
 import com.arqui.travelservice.repository.TravelRepository;
+import com.arqui.travelservice.utils.GeoUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,15 +25,29 @@ import java.util.stream.Collectors;
 public class TravelServiceImpl implements TravelService {
 
     private final TravelRepository travelRepository;
+    private final StationClient stationClient;
     private final AccountClient accountClient;
     private final ScooterClient scooterClient;
     private final RateClient rateClient;
 
-    public TravelServiceImpl(TravelRepository travelRepository, AccountClient accountClient, ScooterClient scooterClient, RateClient rateClient) {
+    public TravelServiceImpl(TravelRepository travelRepository, StationClient stationClient, AccountClient accountClient, ScooterClient scooterClient, RateClient rateClient) {
         this.travelRepository = travelRepository;
+        this.stationClient = stationClient;
         this.accountClient = accountClient;
         this.scooterClient = scooterClient;
         this.rateClient = rateClient;
+    }
+
+    // Calcular costo estimado de viaje
+    public EstimatedTravelResponseDTO getEstimatedTravelPrice(Long startStationId, Long endStationId) {
+        StationResponseDTO pos1 = stationClient.getStationById(startStationId);
+        StationResponseDTO pos2 = stationClient.getStationById(endStationId);
+
+        double distanceBetween = GeoUtils.distanceKm(pos1.getLatitude(), pos1.getLongitude(), pos2.getLatitude(), pos2.getLongitude());
+
+        RateResponseDTO rateResponse = rateClient.fetchActualRate();
+
+        return new EstimatedTravelResponseDTO(distanceBetween * rateResponse.getRate());
     }
 
     // C - Consultar los monopatines con mas de X viajes en un cierto año

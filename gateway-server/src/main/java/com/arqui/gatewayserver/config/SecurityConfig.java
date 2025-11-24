@@ -6,6 +6,7 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -36,14 +37,28 @@ public class SecurityConfig {
 
         http.securityContextRepository(NoOpServerSecurityContextRepository.getInstance());
 
+        // Esta configuración deshabilita el popup que pide datos de ingreso. (Ideal para poder ver el Swagger)
+        http.httpBasic(ServerHttpSecurity.HttpBasicSpec::disable);
+        http.formLogin(ServerHttpSecurity.FormLoginSpec::disable);
+
         http
                 .authorizeExchange(exchanges -> exchanges
+                        .pathMatchers(
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/webjars/**",
+                                "/v3/api-docs/**",
+                                "/account-service/**",
+                                "/travel-service/**",
+                                "/auth-service/**"
+                        ).permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/authenticate/sign-in").permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/authenticate/sign-up").permitAll()
                         .pathMatchers("/api/accounts/**").hasAuthority("RIDER")
                         .pathMatchers("/api/skateboards/**").hasAuthority("RIDER")
                         .pathMatchers("/api/payments/**").hasAuthority("RIDER")
                         .pathMatchers("/api/travels/**").hasAuthority("RIDER")
+                        .pathMatchers("/api/chat/**").hasAuthority("RIDER")
                         .anyExchange().authenticated()
                 );
 
