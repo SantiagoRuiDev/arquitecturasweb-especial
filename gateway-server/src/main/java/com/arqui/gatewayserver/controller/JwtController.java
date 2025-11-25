@@ -1,6 +1,7 @@
 package com.arqui.gatewayserver.controller;
 
 import com.arqui.gatewayserver.dto.request.LoginRequestDTO;
+import com.arqui.gatewayserver.dto.response.RegisterResponseDTO;
 import com.arqui.gatewayserver.webclient.AuthClient;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.RequiredArgsConstructor;
@@ -33,17 +34,8 @@ public class JwtController {
     }
 
     @PostMapping("/sign-up")
-    public Mono<ResponseEntity<JWTToken>> register(@RequestBody LoginRequestDTO request) {
-
-        return authClient.register(request)
-                .map(registerResponse -> {
-                    String jwt = registerResponse.getToken();
-
-                    HttpHeaders headers = new HttpHeaders();
-                    headers.add("Authorization", "Bearer " + jwt);
-
-                    return new ResponseEntity<>(new JWTToken(jwt), headers, HttpStatus.OK);
-                });
+    public Mono<ResponseEntity<RegisterResponseDTO>> register(@RequestBody LoginRequestDTO request) {
+        return authClient.register(request).map(registerResponse -> {return new ResponseEntity<>(registerResponse, HttpStatus.OK);});
     }
 
     static class JWTToken {

@@ -13,10 +13,10 @@ public class ChatController {
     @Autowired
     private ChatService chatService;
 
-    @PostMapping("/{accountId}")
+    @PostMapping("")
     public ResponseEntity<ChatResponseDTO> process(
             @RequestBody ChatRequestDTO request,
-            @PathVariable Long accountId /*@RequestHeader("X-USER-ID") String userId*/) {
+            @RequestHeader("X-ACCOUNT-ID") Long accountId) {
         return ResponseEntity.ok(chatService.handleRequest(request, accountId));
     }
 }

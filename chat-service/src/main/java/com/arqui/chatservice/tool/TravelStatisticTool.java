@@ -7,15 +7,15 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TravelPriceTool implements ChatTool {
+public class TravelStatisticTool implements ChatTool {
     private final ObjectMapper mapper = new ObjectMapper();
     @Override
     public String getName() {
-        return "get_travel_estimate_price";
+        return "get_account_travel_balance";
     }
     @Override
     public String getDescription() {
-        return "Obtiene el precio estimado del viaje entre dos estaciones";
+        return "Obtiene la cantidad de viajes y creditos gastados por una cuenta en un rango de tiempo";
     }
     @Override
     public JsonNode getJsonSchema() {
@@ -24,22 +24,20 @@ public class TravelPriceTool implements ChatTool {
         ObjectNode root = mapper.createObjectNode();
         ObjectNode properties = mapper.createObjectNode();
 
-        // Definir propiedad fromStationId
-        ObjectNode fromStation = mapper.createObjectNode();
-        fromStation.put("type", "number");
-        properties.set("fromStationId", fromStation);
+        ObjectNode fromDate = mapper.createObjectNode();
+        fromDate.put("type", "string");
+        fromDate.put("format", "date");  // o "date-time" si incluye hora
+        properties.set("fromDate", fromDate);
 
-        // Definir propiedad toStationId
-        ObjectNode toStation = mapper.createObjectNode();
-        toStation.put("type", "number");
-        properties.set("toStationId", toStation);
+        ObjectNode toDate = mapper.createObjectNode();
+        toDate.put("type", "string");
+        toDate.put("format", "date");
+        properties.set("toDate", toDate);
 
-        // Required fields array
         ArrayNode required = mapper.createArrayNode();
-        required.add("fromStationId");
-        required.add("toStationId");
+        required.add("fromDate");
+        required.add("toDate");
 
-        // Construir JSON final
         root.put("type", "object");
         root.set("properties", properties);
         root.set("required", required);

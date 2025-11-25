@@ -35,6 +35,16 @@ public class JwtFilter implements WebFilter {
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
                 Authentication auth = tokenProvider.getAuthentication(jwt);
 
+                // Aquí obtenemos el accountId del token
+                Long accountId = tokenProvider.getAccountId(jwt);
+
+                if (accountId != null) {
+                    // Agregamos el header X-ACCOUNT-ID a la request
+                    exchange = exchange.mutate()
+                            .request(r -> r.header("X-ACCOUNT-ID", String.valueOf(accountId)))
+                            .build();
+                }
+
                 return chain.filter(exchange)
                         .contextWrite(ReactiveSecurityContextHolder.withAuthentication(auth));
             }
@@ -46,8 +56,8 @@ public class JwtFilter implements WebFilter {
             exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
             String body = """
-                { "message": "Token expired" }
-            """;
+            { "message": "El token ha caducado, vuelve a autenticarte" }
+        """;
 
             byte[] bytes = body.getBytes();
             return exchange.getResponse()

@@ -2,6 +2,7 @@ package com.arqui.gatewayserver.webclient;
 
 import com.arqui.gatewayserver.dto.request.LoginRequestDTO;
 import com.arqui.gatewayserver.dto.response.LoginResponseDTO;
+import com.arqui.gatewayserver.dto.response.RegisterResponseDTO;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -24,11 +25,11 @@ public class AuthClient {
                 .bodyToMono(LoginResponseDTO.class);
     }
 
-    public Mono<LoginResponseDTO> register(LoginRequestDTO req) {
+    public Mono<RegisterResponseDTO> register(LoginRequestDTO req) {
         return webClient.post()
                 .uri("/api/auth/sign-up")
                 .bodyValue(req)
                 .retrieve()
-                .bodyToMono(LoginResponseDTO.class);
+                .bodyToMono(RegisterResponseDTO.class);
     }
 }

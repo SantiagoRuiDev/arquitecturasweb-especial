@@ -2,6 +2,7 @@ package com.arqui.travelservice.service;
 
 import com.arqui.travelservice.dto.request.TravelRequestDTO;
 import com.arqui.travelservice.dto.request.TravelEndRequestDTO;
+import com.arqui.travelservice.dto.response.AccountBalanceResponseDTO;
 import com.arqui.travelservice.dto.response.EstimatedTravelResponseDTO;
 import com.arqui.travelservice.dto.response.TravelResponseDTO;
 import com.arqui.travelservice.dto.ScooterUsageDTO;
@@ -19,6 +20,7 @@ public interface TravelService {
     TravelResponseDTO resumePause(String id);
     TravelResponseDTO getTravelById(String id);
     List<TravelResponseDTO> getAllTravels();
+    AccountBalanceResponseDTO getTravelBalanceByAccount(LocalDateTime fromDate, LocalDateTime toDate, Long accountId);
     EstimatedTravelResponseDTO getEstimatedTravelPrice(Long startStationId, Long endStationId);
 
     // C - Consultar los monopatines con mas de X viajes en un cierto año

@@ -1,6 +1,8 @@
 package com.arqui.authservice.service;
 
+import com.arqui.authservice.dto.response.AccountResponseDTO;
 import com.arqui.authservice.entity.Credential;
+import com.arqui.authservice.feignClient.AccountClient;
 import com.arqui.authservice.repository.CredentialRepository;
 import com.arqui.authservice.security.jwt.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private TokenProvider tokenProvider;
+    @Autowired
+    private AccountClient accountClient;
 
     public String authenticate(String username, String password) {
         Credential row = credentialRepository.findByUsername(username);
@@ -31,6 +35,13 @@ public class AuthService {
             throw new RuntimeException("Credenciales inválidas");
         }
 
+        AccountResponseDTO relatedTo = null;
+        try {
+            relatedTo = accountClient.getAccountByAuthMethod(row.getId());
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        }
+
         UserDetails userDetails = User.builder()
                 .username(username)
                 .password("") // no importa, no se usa
@@ -40,19 +51,16 @@ public class AuthService {
         Authentication authentication =
                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
-        return tokenProvider.createToken(authentication);
+        return tokenProvider.createToken(authentication, relatedTo.getId());
     }
 
 
     public String register(String username, String password) {
         Credential row = credentialRepository.findByUsername(username);
-        System.out.println("0");
 
         if (row != null) {
             throw new RuntimeException("Este usuario ya existe");
         }
-
-        System.out.println("1");
 
         Credential newRow = new Credential();
         newRow.setUsername(username);
@@ -60,15 +68,6 @@ public class AuthService {
         newRow.setRole("RIDER");
         credentialRepository.save(newRow);
 
-        UserDetails userDetails = User.builder()
-                .username(username)
-                .password("") // no importa, no se usa
-                .authorities(newRow.getRole()) // por ejemplo "ROLE_ADMIN"
-                .build();
-
-        Authentication authentication =
-                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
-        return tokenProvider.createToken(authentication);
+        return "Metodo de autenticación registrado correctamente, para obtener un token de acceso inicia sesión";
     }
 }

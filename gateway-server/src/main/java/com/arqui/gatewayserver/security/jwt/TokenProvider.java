@@ -70,6 +70,18 @@ public class TokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
+    public Long getAccountId(String token) {
+        try {
+            Claims claims = jwtParser.parseSignedClaims(token).getPayload();
+
+            // Extrae el accountId, debe estar en el payload del JWT
+            return claims.get("accountId", Long.class);
+        } catch (Exception e) {
+            log.error("No se pudo extraer accountId del JWT", e);
+            return null;
+        }
+    }
+
     public boolean validateToken( String authToken ) {
         try {
             final var claims = Jwts.parser().verifyWith(this.key).build().parseSignedClaims(authToken);

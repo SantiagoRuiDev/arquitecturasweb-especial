@@ -7,6 +7,9 @@ import com.arqui.chatservice.dto.response.EstimatedTravelResponseDTO;
 import com.arqui.chatservice.dto.response.GroqResult;
 import com.arqui.chatservice.feignClients.GroqClient;
 import com.arqui.chatservice.feignClients.TravelClient;
+import com.arqui.chatservice.tool.GroqToolExecutor;
+import com.arqui.chatservice.tool.handler.ToolHandler;
+import com.arqui.chatservice.tool.handler.ToolHandlerRegistry;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +27,9 @@ public class ChatService {
     @Autowired
     private ToolRegistry toolRegistry;
     @Autowired
-    private TravelClient travelClient;
+    private ToolHandlerRegistry toolHandlerRegistry;
+    @Autowired
+    private GroqToolExecutor groqToolExecutor;
 
     public ChatResponseDTO handleRequest (ChatRequestDTO req, Long account_id) {
         Map<String, Object> request = new HashMap<>();
@@ -46,41 +51,20 @@ public class ChatService {
         JsonNode json = groqClient.createChatCompletion(request);
         GroqResult result = GroqResult.fromJson(json.toString());
 
-        if (result.isToolCall()) {
-            if (result.getToolName().equals("get_travel_price")) {
-
-                // 1. Obtener argumentos que Groq pidió para ejecutar la tool
-                Map<String, Object> args = result.getToolArguments();
-                Long fromStationId = Long.valueOf(args.get("fromStationId").toString());
-                Long toStationId = Long.valueOf(args.get("toStationId").toString());
-
-                // 2. Llamar a tu microservicio real
-                EstimatedTravelResponseDTO calc = travelClient.getEstimatedTravelPrice(fromStationId, toStationId);
-
-                // 3. Construir el mensaje de TOOL RESULT
-                Map<String, Object> toolMessage = Map.of(
-                        "role", "tool",
-                        "tool_call_id", result.getToolCallId(),
-                        "content", "{ \"price\": " + calc.getPrice() + " }"
-                );
-
-                // 4. Agregar este mensaje a la conversación existente
-                List<Object> followUpMessages = new ArrayList<>(messages);
-                followUpMessages.add(toolMessage);
-
-                // 5. Nueva request al modelo para que genere la respuesta final
-                Map<String, Object> followUpRequest = new HashMap<>();
-                followUpRequest.put("model", "llama-3.3-70b-versatile");
-                followUpRequest.put("messages", followUpMessages);
-
-                JsonNode json2 = groqClient.createChatCompletion(followUpRequest);
-                GroqResult finalResult = GroqResult.fromJson(json2.toString());
-
-                // 6. AHORA SÍ devolver respuesta al usuario
-                return new ChatResponseDTO(finalResult.getContent());
-            }
+        if (!result.isToolCall()) {
+            return new ChatResponseDTO(result.getContent());
         }
 
-        return new ChatResponseDTO(result.getContent());
+        ToolHandler handler = toolHandlerRegistry.getHandler(result.getToolName());
+        Map<String, Object> argsMap = result.getToolArguments();
+        // Inyectar accountId
+        argsMap.put("accountId", account_id);
+        // Actualizar el JSON de toolArguments dentro de GroqResult
+        result.setToolArguments(argsMap);
+        // Ejecutar la herramienta
+        Map<String, Object> toolResult = handler.execute(argsMap);
+        argsMap.remove("accountId");
+
+        return groqToolExecutor.resolveWithTool(result, messages, toolResult);
     }
 }

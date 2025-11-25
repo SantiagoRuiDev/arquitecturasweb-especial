@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 @Getter
@@ -22,13 +23,22 @@ public class GroqResult {
     // Devuelve los argumentos como Map
     public Map<String, Object> getToolArguments() {
         if (toolArguments == null || toolArguments.isEmpty()) {
-            return Collections.emptyMap();
+            return new HashMap<>(); // <-- ahora es mutable
         }
         try {
             ObjectMapper mapper = new ObjectMapper();
             return mapper.readValue(toolArguments, new TypeReference<Map<String, Object>>() {});
         } catch (Exception e) {
             throw new RuntimeException("Error parsing tool arguments", e);
+        }
+    }
+
+    public void setToolArguments(Map<String, Object> args) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            this.toolArguments = mapper.writeValueAsString(args);
+        } catch (Exception e) {
+            throw new RuntimeException("Error serializing tool arguments", e);
         }
     }
 

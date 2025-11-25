@@ -50,7 +50,12 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/account-service/**",
                                 "/travel-service/**",
-                                "/auth-service/**"
+                                "/auth-service/**",
+                                "/scooter-service/**",
+                                "/payment-service/**",
+                                "/rate-service/**",
+                                "/chat-service/**",
+                                "/station-service/**"
                         ).permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/authenticate/sign-in").permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/authenticate/sign-up").permitAll()

@@ -33,4 +33,5 @@ public class Account {
     private Set<User> users  = new HashSet<>();;
 
     private Long paymentMethodId;
+    private Long authMethodId;
 }

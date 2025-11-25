@@ -2,71 +2,163 @@
 	"info": {
 		"_postman_id": "7280728d-0a14-48a1-8602-51a93627d661",
 		"name": "Arquitecturas Integrador Especial",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "24657727"
 	},
 	"item": [
 		{
 			"name": "Crear nueva cuenta",
 			"request": {
-				"auth": {
-					"type": "inherit"
-				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"name": "content-type",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "<calculated when request is sent>",
+						"name": "content-length",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJhY2NvdW50SWQiOjEsImV4cCI6MTc2NDExNzg4MSwiaWF0IjoxNzY0MDMxNDgyfQ.AiQmdRLElTPYB5H1yEGs2axwIm8Fwl413hc5-bXqzkDgaBi7Lg5zATvzGF1nG__qbxqjm27GeoEHVfV7BZ4noA",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"type\": \"Basic\",\r\n    \"paymentMethodId\": \"\"\r\n}",
+					"raw": "{\r\n    \"type\": \"BASIC\",\r\n    \"paymentMethodId\": \"3\",\r\n    \"authMethodId\": \"2\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8081/api/accounts",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"accounts"
-					]
-				}
+				"url": "http://localhost:8080/api/accounts"
 			},
 			"response": []
 		},
 		{
 			"name": "Agregar metodo de pago",
 			"request": {
-				"auth": {
-					"type": "inherit"
-				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"name": "content-type",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "<calculated when request is sent>",
+						"name": "content-length",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJhY2NvdW50SWQiOjEsImV4cCI6MTc2NDExNzg4MSwiaWF0IjoxNzY0MDMxNDgyfQ.AiQmdRLElTPYB5H1yEGs2axwIm8Fwl413hc5-bXqzkDgaBi7Lg5zATvzGF1nG__qbxqjm27GeoEHVfV7BZ4noA",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Mercado Pago\",\r\n    \"owner_document\": 13038553,\r\n    \"owner_firstname\": \"Robert\",\r\n    \"owner_lastname\": \"Bruce\",\r\n    \"active\": true,\r\n    \"funds\": 5500\r\n}",
+					"raw": "{\r\n    \"name\": \"Visa Debito\",\r\n    \"owner_document\": 22048493,\r\n    \"owner_firstname\": \"Marilina\",\r\n    \"owner_lastname\": \"Monroe\",\r\n    \"active\": true,\r\n    \"funds\": 12500 // Fondos de la cuenta, importante agregar asi se puede realizar recargas de creditos\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8082/api/payments",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8082",
-					"path": [
-						"api",
-						"payments"
-					]
-				}
+				"url": "http://localhost:8080/api/payments"
 			},
 			"response": []
 		},
@@ -76,11 +168,56 @@
 				"disableBodyPruning": true
 			},
 			"request": {
-				"auth": {
-					"type": "inherit"
-				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJleHAiOjE3NjM4NDc5NDQsImlhdCI6MTc2Mzc2MTU0NH0.4rSKVF7bC9Nuodqv1olzysEouCKsbV7D_3eZ8hkB1vMKetAPJXIm_rz8onYHregA6988QCslbaZx_qE7YFLswQ",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "",
@@ -90,62 +227,153 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8081/api/accounts/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"accounts",
-						"1"
-					]
-				}
+				"url": "http://localhost:8080/api/accounts/1"
 			},
 			"response": []
 		},
 		{
 			"name": "Crear nuevo usuario relacionado a una cuenta",
 			"request": {
-				"auth": {
-					"type": "inherit"
-				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"name": "content-type",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "<calculated when request is sent>",
+						"name": "content-length",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJhY2NvdW50SWQiOjEsImV4cCI6MTc2NDExNzg4MSwiaWF0IjoxNzY0MDMxNDgyfQ.AiQmdRLElTPYB5H1yEGs2axwIm8Fwl413hc5-bXqzkDgaBi7Lg5zATvzGF1nG__qbxqjm27GeoEHVfV7BZ4noA",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"accountId\": \"1\",\r\n    \"username\": \"Usuario239\",\r\n    \"firstname\": \"Jorge\",\r\n    \"lastname\": \"Guti\",\r\n    \"email\": \"jorgeguti@gmail.com\",\r\n    \"phone\": 228374132\r\n}",
+					"raw": "{\r\n    \"accountId\": \"1\",\r\n    \"username\": \"PremiumRider69\",\r\n    \"firstname\": \"Raul\",\r\n    \"lastname\": \"Lopez\",\r\n    \"email\": \"raulito@gmail.com\",\r\n    \"phone\": 39484553\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8081/api/users",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"users"
-					]
-				}
+				"url": "http://localhost:8080/api/users"
 			},
 			"response": []
 		},
 		{
 			"name": "Anular una cuenta temporalmente",
 			"request": {
-				"auth": {
-					"type": "inherit"
-				},
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"name": "content-type",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "<calculated when request is sent>",
+						"name": "content-length",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJhY2NvdW50SWQiOjEsImV4cCI6MTc2NDExNzg4MSwiaWF0IjoxNzY0MDMxNDgyfQ.AiQmdRLElTPYB5H1yEGs2axwIm8Fwl413hc5-bXqzkDgaBi7Lg5zATvzGF1nG__qbxqjm27GeoEHVfV7BZ4noA",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"status\": false\r\n}",
@@ -155,31 +383,75 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8081/api/accounts/set-status/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"accounts",
-						"set-status",
-						"1"
-					]
-				}
+				"url": "http://localhost:8080/api/accounts/set-status/1"
 			},
 			"response": []
 		},
 		{
 			"name": "Cargarle saldo a una cuenta",
 			"request": {
-				"auth": {
-					"type": "inherit"
-				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"name": "content-type",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "<calculated when request is sent>",
+						"name": "content-length",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJhY2NvdW50SWQiOjEsImV4cCI6MTc2NDExNzg4MSwiaWF0IjoxNzY0MDMxNDgyfQ.AiQmdRLElTPYB5H1yEGs2axwIm8Fwl413hc5-bXqzkDgaBi7Lg5zATvzGF1nG__qbxqjm27GeoEHVfV7BZ4noA",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"amount\": 500\r\n}",
@@ -189,31 +461,75 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8081/api/accounts/1/recharge",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"accounts",
-						"1",
-						"recharge"
-					]
-				}
+				"url": "http://localhost:8080/api/accounts/1/recharge"
 			},
 			"response": []
 		},
 		{
 			"name": "Crear una estación de monopatines",
 			"request": {
-				"auth": {
-					"type": "inherit"
-				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"name": "content-type",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "<calculated when request is sent>",
+						"name": "content-length",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJhY2NvdW50SWQiOjEsImV4cCI6MTc2NDExNzg4MSwiaWF0IjoxNzY0MDMxNDgyfQ.AiQmdRLElTPYB5H1yEGs2axwIm8Fwl413hc5-bXqzkDgaBi7Lg5zATvzGF1nG__qbxqjm27GeoEHVfV7BZ4noA",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"name\": \"Estación Villa Aguirre\",\r\n    \"address\": \"L. Alem 983\",\r\n    \"latitude\": 53.63,\r\n    \"longitude\": 3.24,\r\n    \"capacity\": 10\r\n}",
@@ -223,50 +539,85 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8084/api/stations",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8084",
-					"path": [
-						"api",
-						"stations"
-					]
-				}
+				"url": "http://localhost:8080/api/stations"
 			},
 			"response": []
 		},
 		{
 			"name": "Crear un monopatin electrico",
 			"request": {
-				"auth": {
-					"type": "inherit"
-				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"name": "content-type",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "<calculated when request is sent>",
+						"name": "content-length",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJhY2NvdW50SWQiOjEsImV4cCI6MTc2NDExNzg4MSwiaWF0IjoxNzY0MDMxNDgyfQ.AiQmdRLElTPYB5H1yEGs2axwIm8Fwl413hc5-bXqzkDgaBi7Lg5zATvzGF1nG__qbxqjm27GeoEHVfV7BZ4noA",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"QrCode\": \"https://qrcode.com/skate1\",\r\n    \"totalKm\": 245,\r\n    \"usedTime\": 48,\r\n    \"available\": true,\r\n    \"inMaintenance\": false,\r\n    \"latitude\": 53.5,\r\n    \"longitude\": 2.6,\r\n    \"stationId\": \"1\",\r\n    \"lastUpdate\": null\r\n}",
+					"raw": "{\r\n    \"qr\": \"https://qrcode.com/skate1\",\r\n    \"totalKm\": 0,\r\n    \"usedTime\": 0,\r\n    \"pausedTime\": 0,\r\n    \"available\": true,\r\n    \"inMaintenance\": false,\r\n    \"latitude\": 53.5,\r\n    \"longitude\": 2.6,\r\n    \"stationId\": \"1\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8083/api/skateboards",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8083",
-					"path": [
-						"api",
-						"skateboards"
-					]
-				}
+				"url": "http://localhost:8080/api/skateboards"
 			},
 			"response": []
 		},
@@ -276,11 +627,56 @@
 				"disableBodyPruning": true
 			},
 			"request": {
-				"auth": {
-					"type": "inherit"
-				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJhY2NvdW50SWQiOjEsImV4cCI6MTc2NDExNzg4MSwiaWF0IjoxNzY0MDMxNDgyfQ.AiQmdRLElTPYB5H1yEGs2axwIm8Fwl413hc5-bXqzkDgaBi7Lg5zATvzGF1nG__qbxqjm27GeoEHVfV7BZ4noA",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "",
@@ -291,12 +687,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8082/api/bills/earnings-report?year=2025&startMonth=11&endMonth=12",
+					"raw": "http://localhost:8080/api/bills/earnings-report?year=2025&startMonth=11&endMonth=12",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8082",
+					"port": "8080",
 					"path": [
 						"api",
 						"bills",
@@ -323,11 +719,68 @@
 		{
 			"name": "Cargar o actualizar la tarifa",
 			"request": {
-				"auth": {
-					"type": "inherit"
-				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"name": "content-type",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "<calculated when request is sent>",
+						"name": "content-length",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJhY2NvdW50SWQiOjEsImV4cCI6MTc2NDExNzg4MSwiaWF0IjoxNzY0MDMxNDgyfQ.AiQmdRLElTPYB5H1yEGs2axwIm8Fwl413hc5-bXqzkDgaBi7Lg5zATvzGF1nG__qbxqjm27GeoEHVfV7BZ4noA",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"rate\": 10.00,\r\n    \"rate_extra_pause\": 35.00\r\n}",
@@ -337,18 +790,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8086/api/rates",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8086",
-					"path": [
-						"api",
-						"rates"
-					]
-				}
+				"url": "http://localhost:8080/api/rates"
 			},
 			"response": []
 		},
@@ -358,11 +800,56 @@
 				"disableBodyPruning": true
 			},
 			"request": {
-				"auth": {
-					"type": "inherit"
-				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJhY2NvdW50SWQiOjEsImV4cCI6MTc2NDExNzg4MSwiaWF0IjoxNzY0MDMxNDgyfQ.AiQmdRLElTPYB5H1yEGs2axwIm8Fwl413hc5-bXqzkDgaBi7Lg5zATvzGF1nG__qbxqjm27GeoEHVfV7BZ4noA",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "",
@@ -373,12 +860,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8083/api/skateboards/nearby?lat=53&lon=2&radiusKm=150",
+					"raw": "http://localhost:8080/api/skateboards/nearby?lat=53&lon=2&radiusKm=150",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8083",
+					"port": "8080",
 					"path": [
 						"api",
 						"skateboards",
@@ -406,29 +893,77 @@
 			"name": "Empezar un viaje",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"name": "content-type",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "<calculated when request is sent>",
+						"name": "content-length",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJleHAiOjE3NjM4NTEwODEsImlhdCI6MTc2Mzc2NDY4MX0.TUdk7BxZza-PQUlL_vp_22IrLbZ_V1bHuNe0QdEZwyvPnq_noeA14rfxp1aGG2q4Y6DDCvrTt0FfUjLZOI2MYg",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"accountId\": \"1\",\r\n    \"userId\": \"2\",\r\n    \"scooterId\": \"1\",\r\n    \"startStopId\": \"1\"\r\n}",
+					"raw": "{\r\n    \"accountId\": \"1\",\r\n    \"userId\": \"2\",\r\n    \"scooterId\": \"2\",\r\n    \"startStopId\": \"1\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8085/api/travels/start",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8085",
-					"path": [
-						"api",
-						"travels",
-						"start"
-					]
-				}
+				"url": "http://localhost:8080/api/travels/start"
 			},
 			"response": []
 		},
@@ -450,7 +985,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8083/api/skateboards/report/km?minKm=50",
+					"raw": "http://localhost:8083/api/skateboards/report/km?minKm=50&includePauseTime=true",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -466,6 +1001,10 @@
 						{
 							"key": "minKm",
 							"value": "50"
+						},
+						{
+							"key": "includePauseTime",
+							"value": "true"
 						}
 					]
 				}
@@ -476,29 +1015,77 @@
 			"name": "Finalizar viaje",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"name": "content-type",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "<calculated when request is sent>",
+						"name": "content-length",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJleHAiOjE3NjM4NTEwODEsImlhdCI6MTc2Mzc2NDY4MX0.TUdk7BxZza-PQUlL_vp_22IrLbZ_V1bHuNe0QdEZwyvPnq_noeA14rfxp1aGG2q4Y6DDCvrTt0FfUjLZOI2MYg",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"travelId\": \"3\",\r\n    \"endStopId\": \"2\",\r\n    \"distanceKm\": 50\r\n}",
+					"raw": "{\r\n    \"travelId\": \"6920ea80be256100be1d4754\",\r\n    \"endStopId\": \"2\",\r\n    \"distanceKm\": 50\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8085/api/travels/end",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8085",
-					"path": [
-						"api",
-						"travels",
-						"end"
-					]
-				}
+				"url": "http://localhost:8080/api/travels/end"
 			},
 			"response": []
 		},
@@ -508,11 +1095,56 @@
 				"disableBodyPruning": true
 			},
 			"request": {
-				"auth": {
-					"type": "inherit"
-				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJhY2NvdW50SWQiOjEsImV4cCI6MTc2NDExNzg4MSwiaWF0IjoxNzY0MDMxNDgyfQ.AiQmdRLElTPYB5H1yEGs2axwIm8Fwl413hc5-bXqzkDgaBi7Lg5zATvzGF1nG__qbxqjm27GeoEHVfV7BZ4noA",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "",
@@ -522,33 +1154,69 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8085/api/travels/scooters/top/2025/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8085",
-					"path": [
-						"api",
-						"travels",
-						"scooters",
-						"top",
-						"2025",
-						"1"
-					]
-				}
+				"url": "http://localhost:8080/api/travels/scooters/top/2025/1"
 			},
 			"response": []
 		},
 		{
 			"name": "Pausar un viaje",
 			"request": {
-				"auth": {
-					"type": "inherit"
-				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "0",
+						"name": "content-length",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJleHAiOjE3NjM4NTEwODEsImlhdCI6MTc2Mzc2NDY4MX0.TUdk7BxZza-PQUlL_vp_22IrLbZ_V1bHuNe0QdEZwyvPnq_noeA14rfxp1aGG2q4Y6DDCvrTt0FfUjLZOI2MYg",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "",
@@ -558,31 +1226,69 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8085/api/travels/pause/2",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8085",
-					"path": [
-						"api",
-						"travels",
-						"pause",
-						"2"
-					]
-				}
+				"url": "http://localhost:8080/api/travels/pause/6920ea80be256100be1d4754"
 			},
 			"response": []
 		},
 		{
 			"name": "Reanudar un viaje pausado",
 			"request": {
-				"auth": {
-					"type": "inherit"
-				},
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "0",
+						"name": "content-length",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJleHAiOjE3NjM4NTEwODEsImlhdCI6MTc2Mzc2NDY4MX0.TUdk7BxZza-PQUlL_vp_22IrLbZ_V1bHuNe0QdEZwyvPnq_noeA14rfxp1aGG2q4Y6DDCvrTt0FfUjLZOI2MYg",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "",
@@ -592,20 +1298,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "http://localhost:8085/api/travels/resume/2",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8085",
-					"path": [
-						"api",
-						"travels",
-						"resume",
-						"2"
-					]
-				}
+				"url": "http://localhost:8080/api/travels/resume/99958955-2cfa-4c5c-a4da-33e1e51dae1f"
 			},
 			"response": []
 		},
@@ -615,11 +1308,125 @@
 				"disableBodyPruning": true
 			},
 			"request": {
-				"auth": {
-					"type": "inherit"
-				},
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJhY2NvdW50SWQiOjEsImV4cCI6MTc2NDExNzg4MSwiaWF0IjoxNzY0MDMxNDgyfQ.AiQmdRLElTPYB5H1yEGs2axwIm8Fwl413hc5-bXqzkDgaBi7Lg5zATvzGF1nG__qbxqjm27GeoEHVfV7BZ4noA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/travels/users/2025-11-12T00:00:00/2025-11-25T23:59:59/BASIC"
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar cuentas por tipo de membresia",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJhY2NvdW50SWQiOjEsImV4cCI6MTc2NDExNzg4MSwiaWF0IjoxNzY0MDMxNDgyfQ.AiQmdRLElTPYB5H1yEGs2axwIm8Fwl413hc5-bXqzkDgaBi7Lg5zATvzGF1nG__qbxqjm27GeoEHVfV7BZ4noA",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "",
@@ -630,21 +1437,254 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8085/api/travels/users/2025-11-12T00:00:00/2025-11-15T23:59:59/BASIC",
+					"raw": "http://localhost:8080/api/accounts?type=BASIC",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8085",
+					"port": "8080",
+					"path": [
+						"api",
+						"accounts"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "BASIC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Establecer un monopatin en mantenimiento",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "0",
+						"name": "content-length",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJhY2NvdW50SWQiOjEsImV4cCI6MTc2NDExNzg4MSwiaWF0IjoxNzY0MDMxNDgyfQ.AiQmdRLElTPYB5H1yEGs2axwIm8Fwl413hc5-bXqzkDgaBi7Lg5zATvzGF1nG__qbxqjm27GeoEHVfV7BZ4noA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/skateboards/3/maintenance"
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar usuarios con viajes dentro de un periodo y el de los usuarios relacionados a la misma cuenta",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJhY2NvdW50SWQiOjEsImV4cCI6MTc2NDExNzg4MSwiaWF0IjoxNzY0MDMxNDgyfQ.AiQmdRLElTPYB5H1yEGs2axwIm8Fwl413hc5-bXqzkDgaBi7Lg5zATvzGF1nG__qbxqjm27GeoEHVfV7BZ4noA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/travels/usage/2/2025-11-12T00:00:00/2025-11-23T23:59:59?includeRelatedUsers=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
 					"path": [
 						"api",
 						"travels",
-						"users",
+						"usage",
+						"2",
 						"2025-11-12T00:00:00",
-						"2025-11-15T23:59:59",
-						"BASIC"
+						"2025-11-23T23:59:59"
+					],
+					"query": [
+						{
+							"key": "includeRelatedUsers",
+							"value": "true"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "Autenticarse y obtener token de acceso",
+			"request": {
+				"auth": {
+					"type": "inherit",
+					"inherit": {}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"CarlitosBala\",\r\n    \"password\": \"probandoeltp\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/authenticate/sign-in"
+			},
+			"response": []
+		},
+		{
+			"name": "Realizar un prompt al servicio LLM",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJDYXJsaXRvc0JhbGEiLCJhdXRoIjoiUklERVIiLCJleHAiOjE3NjQwNzkzMzIsImlhdCI6MTc2Mzk5MjkzMn0.XWw3j-9E6mN6VT2LFvd46vAjGAAmGvkfMC-LJOsrAZgOTKxdlN29mblUO8b61DW75SpYfMUoV9aCSdMy6jb5EQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"message\": \"Quiero saber cuanto gaste desde el 10 de noviembre de 2025 hasta el 24 de noviembre de 2025\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/chat"
+			},
+			"response": []
+		},
+		{
+			"name": "Registrar un nuevo metodo de acceso",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"RiderProMax\",\r\n    \"password\": \"probandoeltp\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/authenticate/sign-up"
 			},
 			"response": []
 		}

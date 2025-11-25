@@ -40,12 +40,19 @@ public class AccountService {
         if(req.getType() != AccountType.BASIC && req.getType() != AccountType.PREMIUM){
             throw  new IllegalArgumentException("El campo type es obligatorio");
         }
+        if(req.getAuthMethodId() == null){
+            throw new IllegalArgumentException("El campo authMethodId es obligatorio");
+        }
+        if(accountRepository.findByAuthMethodId(req.getAuthMethodId()).isPresent()){
+            throw new IllegalArgumentException("Ya existe una cuenta registrada con este metodo de acceso");
+        }
 
         ac.setActive(true);
         ac.setType(req.getType());
         ac.setCredits(0.00);
         ac.setPaymentMethodId(req.getPaymentMethodId());
         ac.setCreatedAt(new Date());
+        ac.setAuthMethodId(req.getAuthMethodId());
         accountRepository.save(ac);
         return accountMapper.convertFromEntity(ac);
     }
@@ -129,6 +136,11 @@ public class AccountService {
 
     public AccountResponseDTO findById(Long id) {
         Account ac = accountRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
+        return accountMapper.convertFromEntity(ac);
+    }
+
+    public AccountResponseDTO findByAuthMethodId(Long id) {
+        Account ac = accountRepository.findByAuthMethodId(id).orElseThrow(() -> new IllegalArgumentException("No existe una cuenta con este identificador"));
         return accountMapper.convertFromEntity(ac);
     }
 

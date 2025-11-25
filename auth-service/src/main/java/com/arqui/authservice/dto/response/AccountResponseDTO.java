@@ -1,6 +1,6 @@
-package com.arqui.accountservice.dto.request;
+package com.arqui.authservice.dto.response;
 
-import com.arqui.accountservice.entity.AccountType;
+import com.arqui.authservice.entity.AccountType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +12,9 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 @Setter
-public class AccountRequestDTO {
+public class AccountResponseDTO {
+    private Long id;
+    private Date createdAt;
     private AccountType type;
-    private Long paymentMethodId;
-    private Long authMethodId;
+    private Double credits;
 }

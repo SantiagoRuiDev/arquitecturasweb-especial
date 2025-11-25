@@ -8,11 +8,13 @@ import java.util.stream.Collectors;
 import com.arqui.travelservice.dto.PauseDTO;
 import com.arqui.travelservice.dto.response.TravelResponseDTO;
 import com.arqui.travelservice.dto.request.TravelRequestDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TravelMapper {
 
     // Convertir entidad a DTO
-    public static TravelResponseDTO toDTO(Travel travel) {
+    public TravelResponseDTO toDTO(Travel travel) {
         TravelResponseDTO dto = new TravelResponseDTO();
         dto.setId(travel.getId());
         dto.setAccountId(travel.getAccountId());

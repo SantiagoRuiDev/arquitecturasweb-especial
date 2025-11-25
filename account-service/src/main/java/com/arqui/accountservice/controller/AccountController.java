@@ -43,6 +43,12 @@ public class AccountController {
         return ResponseEntity.ok().body(res);
     }
 
+    @GetMapping("/search-by-auth-method/{id}")
+    public ResponseEntity<AccountResponseDTO> findByAuthMethod(@PathVariable Long id) {
+        AccountResponseDTO res = accountService.findByAuthMethodId(id);
+        return ResponseEntity.ok().body(res);
+    }
+
     @GetMapping("")
     public ResponseEntity<List<AccountResponseDTO>> findAll(@RequestParam Optional<AccountType> type) {
         List<AccountResponseDTO> res = accountService.findAll(type);

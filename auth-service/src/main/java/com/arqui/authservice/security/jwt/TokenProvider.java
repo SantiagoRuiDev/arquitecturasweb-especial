@@ -40,7 +40,7 @@ public class TokenProvider {
         this.tokenValidityInMilliseconds = 1000 * 86400; // valido por 1 dia.
     }
 
-    public String createToken( Authentication authentication ) {
+    public String createToken( Authentication authentication, Long accountId ) {
         String authorities = authentication.getAuthorities().stream().map( GrantedAuthority::getAuthority ).collect( Collectors.joining(",") );
 
         long now = ( new Date() ).getTime();
@@ -50,6 +50,7 @@ public class TokenProvider {
                 .builder()
                 .subject( authentication.getName() )
                 .claim( AUTHORITIES_KEY, authorities )
+                .claim("accountId", accountId) // <- aquí agregamos el accountId
                 .signWith( key )
                 .expiration(validity)
                 .issuedAt( new Date() )

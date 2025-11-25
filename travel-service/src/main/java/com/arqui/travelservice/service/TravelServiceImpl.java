@@ -29,13 +29,20 @@ public class TravelServiceImpl implements TravelService {
     private final AccountClient accountClient;
     private final ScooterClient scooterClient;
     private final RateClient rateClient;
+    private final TravelMapper travelMapper;
 
-    public TravelServiceImpl(TravelRepository travelRepository, StationClient stationClient, AccountClient accountClient, ScooterClient scooterClient, RateClient rateClient) {
+    public TravelServiceImpl(TravelRepository travelRepository, StationClient stationClient, AccountClient accountClient, ScooterClient scooterClient, RateClient rateClient, TravelMapper travelMapper) {
         this.travelRepository = travelRepository;
         this.stationClient = stationClient;
         this.accountClient = accountClient;
         this.scooterClient = scooterClient;
         this.rateClient = rateClient;
+        this.travelMapper = travelMapper;
+    }
+
+    // Obtener el total gastado y la cantidad de viajes en un periodo
+    public AccountBalanceResponseDTO getTravelBalanceByAccount(LocalDateTime fromDate, LocalDateTime toDate, Long accountId) {
+        return travelRepository.getTravelBalanceByAccount(fromDate, toDate, accountId);
     }
 
     // Calcular costo estimado de viaje
@@ -128,7 +135,7 @@ public class TravelServiceImpl implements TravelService {
 
         travel.setStatus(TravelStatus.STARTED);
         scooterClient.update(travel.getScooterId(), dto);
-        return TravelMapper.toDTO(travelRepository.save(travel));
+        return travelMapper.toDTO(travelRepository.save(travel));
     }
 
     // Pausa el travel
@@ -144,7 +151,7 @@ public class TravelServiceImpl implements TravelService {
         travel.getPauses().add(pause);
         travelRepository.save(travel);
 
-        return TravelMapper.toDTO(travel);
+        return travelMapper.toDTO(travel);
     }
 
     // Finaliza una pausa
@@ -178,7 +185,7 @@ public class TravelServiceImpl implements TravelService {
         travelWithPause.setStatus(TravelStatus.RESUMED);
         
         travelRepository.save(travelWithPause);
-        return TravelMapper.toDTO(travelWithPause);
+        return travelMapper.toDTO(travelWithPause);
     }
 
     // Terminar el travel
@@ -219,26 +226,18 @@ public class TravelServiceImpl implements TravelService {
         scooterClient.update(travel.getScooterId(), new ScooterStatusRequestDTO(SkateboardStatus.AT_STATION));
 
         Travel saved = travelRepository.save(travel);
-        return TravelMapper.toDTO(saved);
+        return travelMapper.toDTO(saved);
     }
 
     // Obtener un viaje por su ID
     public TravelResponseDTO getTravelById(String id) {
         return travelRepository.findById(id)
-                .map(TravelMapper::toDTO) // Mapear a DTO
+                .map(travelMapper::toDTO) // Mapear a DTO
                 .orElseThrow(() -> new RuntimeException("La id proporcionada no corresponde a ningún viaje existente"));
     }
 
     @Override
     public List<TravelResponseDTO> getAllTravels() {
-        return travelRepository.findAll().stream().map(t -> {
-            TravelResponseDTO dto = new TravelResponseDTO();
-            dto.setId(t.getId());
-            dto.setStartTime(t.getStartTime());
-            dto.setEndTime(t.getEndTime());
-            dto.setDistanceKm(t.getDistanceKm());
-            dto.setCost(t.getCost());
-            return dto;
-        }).toList();
+        return travelRepository.findAll().stream().map(travelMapper::toDTO).toList();
     }
 }

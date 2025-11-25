@@ -2,6 +2,7 @@ package com.arqui.chatservice.configuration;
 
 import com.arqui.chatservice.tool.ChatTool;
 import com.arqui.chatservice.tool.TravelPriceTool;
+import com.arqui.chatservice.tool.TravelStatisticTool;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -18,7 +19,7 @@ public class ToolRegistry {
     private final ObjectMapper mapper = new ObjectMapper();
 
     private final List<ChatTool> tools = List.of(
-            new TravelPriceTool()
+            new TravelPriceTool(), new TravelStatisticTool()
     );
 
     // Devuelve el JSON que necesita la petición HTTP que enviamos a Groq.

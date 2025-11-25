@@ -1,5 +1,6 @@
 package com.arqui.travelservice.controller;
 
+import com.arqui.travelservice.dto.response.AccountBalanceResponseDTO;
 import com.arqui.travelservice.dto.response.EstimatedTravelResponseDTO;
 import com.arqui.travelservice.dto.response.UserScooterUsageDTO;
 import com.arqui.travelservice.entity.AccountType;
@@ -26,6 +27,11 @@ public class TravelController {
         this.travelService = travelService;
     }
 
+    // Consultar el gasto de una cuenta en un rango
+    @GetMapping("/balance/{accountId}/{fromDate}/{toDate}")
+    public AccountBalanceResponseDTO getEstimatedTravelPrice(@PathVariable LocalDateTime fromDate, @PathVariable LocalDateTime toDate, @PathVariable Long accountId) {
+        return travelService.getTravelBalanceByAccount(fromDate, toDate, accountId);
+    }
     // Consultar el precio estimado de un viaje
     @GetMapping("/estimate/{startStation}/{endStation}")
     public EstimatedTravelResponseDTO getEstimatedTravelPrice(@PathVariable Long startStation, @PathVariable Long endStation) {

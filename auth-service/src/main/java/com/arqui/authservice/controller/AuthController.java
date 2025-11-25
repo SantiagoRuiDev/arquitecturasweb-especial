@@ -2,6 +2,7 @@ package com.arqui.authservice.controller;
 
 import com.arqui.authservice.dto.request.LoginRequestDTO;
 import com.arqui.authservice.dto.response.LoginResponseDTO;
+import com.arqui.authservice.dto.response.RegisterResponseDTO;
 import com.arqui.authservice.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +26,10 @@ public class AuthController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<LoginResponseDTO> register(@RequestBody LoginRequestDTO req) {
+    public ResponseEntity<RegisterResponseDTO> register(@RequestBody LoginRequestDTO req) {
 
-        String token = authService.register(req.getUsername(), req.getPassword());
+        String res = authService.register(req.getUsername(), req.getPassword());
 
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        return ResponseEntity.ok(new RegisterResponseDTO(res));
     }
 }
